@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "954963702884",
+    "project_id": "mr-2895b",
+    "storage_bucket": "mr-2895b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954963702884:android:f4c1958ec2339fdc9a9b71",
+        "android_client_info": {
+          "package_name": "com.tripndream.mangareviews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954963702884-r1o4a810t76e3mjbl4596hsf754tbng2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQCpSw72qCX-xcWWNzovCKMZeP46FGfd4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954963702884-r1o4a810t76e3mjbl4596hsf754tbng2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

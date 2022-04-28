@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Manga Reviews</string>
+    <string name="todoText">TODO</string>
+    <string name="correoText">Correo</string>
+    <string name="textPasswd">Contraseña</string>
+    <string name="textLogin">Iniciar sesión</string>
+    <string name="caseText">o bien</string>
+    <string name="continuar_con_googleTexdt">Continuar con Google</string>
+    <string name="recuperar_contrase_aText">Recuperar contraseña</string>
+    <string name="registrarseText">Registrarse</string>
+    <string name="textRegistrarse">Registrarse</string>
+    <string name="confirmar_contrase_aText">Confirmar contraseña</string>
+    <string name="no_telef_nicoText">No. Telefónico</string>
+    <string name="apellidosText">Apellidos</string>
+    <string name="nombreText">Nombre</string>
+    <string name="textButtonRecovery">Recuperar cuenta</string>
+    <string name="textRecoveryDescription">Si el correo especificado es correcto recibirás instrucciones para recuperar tu cuenta</string>
+    <string name="action_settings">Settings</string>
+    <string name="textEntradas_recientes">Entradas recientes</string>
+    <string name="relleno">TextView</string>
+    <string name="textEditar">Editar</string>
+    <string name="textEliminar">Eliminar</string>
+    <string name="textDescripcion">Descripción</string>
+    <string name="textReview">Review</string>
+    <string name="textCategoria">Categoría:</string>
+    <string name="escritaPor">Escrita por:</string>
+    <string name="misreviews">Mis Reviews</string>
+    <string name="agregarReview">Agregar Review</string>
+    <string name="textGuardar">Guardar</string>
+    <string name="textCancelar">Cancelar</string>
+    <string name="textGuardar_cambios">Guardar cambios</string>
+    <string name="textCambiar_imagen">Cambiar imagen</string>
+    <string name="textNombreEdit">Nombre:</string>
+    <string name="textPrivada">Privada</string>
+    <string name="textPp_blica">Pública</string>
+</resources>
