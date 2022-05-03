@@ -1,4 +1,4 @@
-package com.tripndream.mangareviews;
+package com.tripndream.comeback;
 
 import android.Manifest;
 import android.app.Activity;
@@ -41,7 +41,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.tripndream.mangareviews.utils.WebService;
+import com.tripndream.comeback.utils.WebService;
 
 import org.json.JSONException;
 import org.json.JSONObject;

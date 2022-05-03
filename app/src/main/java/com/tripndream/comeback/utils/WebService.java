@@ -1,4 +1,4 @@
-package com.tripndream.mangareviews.utils;
+package com.tripndream.comeback.utils;
 
 public class WebService {
     public static final String HOST = "192.168.100.209";

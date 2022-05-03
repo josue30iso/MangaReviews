@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tripndream.mangareviews">
+    package="com.tripndream.comeback">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -15,16 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MangaReviews"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.tripndream.mangareviews.AgregarReviewActivity"></activity>
-        <activity android:name="com.tripndream.mangareviews.EditReviewActivity" />
-        <activity android:name="com.tripndream.mangareviews.MisReviewsActivity" />
-        <activity android:name="com.tripndream.mangareviews.ReviewActivity" />
-        <activity android:name="com.tripndream.mangareviews.InicioActivity" />
-        <activity android:name="com.tripndream.mangareviews.MainActivity" />
-        <activity android:name="com.tripndream.mangareviews.RegistroActivity" />
-        <activity android:name="com.tripndream.mangareviews.RecoveryActivity" />
+        <activity android:name="com.tripndream.comeback.AgregarReviewActivity"></activity>
+        <activity android:name="com.tripndream.comeback.EditReviewActivity" />
+        <activity android:name="com.tripndream.comeback.MisReviewsActivity" />
+        <activity android:name="com.tripndream.comeback.ReviewActivity" />
+        <activity android:name="com.tripndream.comeback.InicioActivity" />
+        <activity android:name="com.tripndream.comeback.MainActivity" />
+        <activity android:name="com.tripndream.comeback.RegistroActivity" />
+        <activity android:name="com.tripndream.comeback.RecoveryActivity" />
         <activity
-            android:name="com.tripndream.mangareviews.SplashScreen"
+            android:name="com.tripndream.comeback.SplashScreen"
             android:theme="@style/splashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

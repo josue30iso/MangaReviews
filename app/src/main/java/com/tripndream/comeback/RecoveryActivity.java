@@ -1,4 +1,4 @@
-package com.tripndream.mangareviews;
+package com.tripndream.comeback;
 
 import android.content.Intent;
 import android.os.Bundle;

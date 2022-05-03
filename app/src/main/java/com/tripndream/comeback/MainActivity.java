@@ -1,4 +1,4 @@
-package com.tripndream.mangareviews;
+package com.tripndream.comeback;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.tripndream.mangareviews.utils.WebService;
+import com.tripndream.comeback.utils.WebService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -167,9 +167,11 @@ public class MainActivity extends AppCompatActivity {
                     if (success) {
 
                         String id = response.getString("id");
+                        Boolean esAdmin = 1 == Integer.parseInt(response.getString("esAdmin"));
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString("session", correo);
                         editor.putString("logedID", id);
+                        editor.putBoolean("esAdmin", esAdmin);
                         editor.commit();
                         updateUI();
 

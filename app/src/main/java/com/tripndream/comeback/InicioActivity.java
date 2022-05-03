@@ -1,4 +1,4 @@
-package com.tripndream.mangareviews;
+package com.tripndream.comeback;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -27,7 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.tripndream.mangareviews.utils.WebService;
+import com.tripndream.comeback.utils.WebService;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.tripndream.mangareviews;
+package com.tripndream.comeback;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
