@@ -1,4 +1,4 @@
-package com.tripndream.comeback;
+package com.tripndream.hopeapp;
 
 public class Review {
 

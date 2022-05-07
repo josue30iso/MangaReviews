@@ -1,4 +1,4 @@
-package com.tripndream.comeback;
+package com.tripndream.hopeapp;
 
 import android.Manifest;
 import android.app.Activity;
@@ -42,7 +42,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.tripndream.comeback.utils.WebService;
+import com.tripndream.hopeapp.utils.WebService;
 
 import org.json.JSONException;
 import org.json.JSONObject;

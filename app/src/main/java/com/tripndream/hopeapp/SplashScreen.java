@@ -1,4 +1,4 @@
-package com.tripndream.comeback;
+package com.tripndream.hopeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 

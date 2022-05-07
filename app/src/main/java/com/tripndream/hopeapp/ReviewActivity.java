@@ -1,4 +1,4 @@
-package com.tripndream.comeback;
+package com.tripndream.hopeapp;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -32,7 +32,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.tripndream.comeback.utils.WebService;
+import com.tripndream.hopeapp.utils.WebService;
 
 import org.json.JSONException;
 import org.json.JSONObject;

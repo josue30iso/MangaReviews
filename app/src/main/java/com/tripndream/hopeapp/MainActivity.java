@@ -1,4 +1,4 @@
-package com.tripndream.comeback;
+package com.tripndream.hopeapp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.tripndream.comeback.utils.WebService;
+import com.tripndream.hopeapp.utils.WebService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
