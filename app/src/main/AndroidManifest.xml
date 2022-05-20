@@ -15,16 +15,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MangaReviews"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.tripndream.comeback.AgregarReviewActivity"></activity>
-        <activity android:name="com.tripndream.comeback.EditReviewActivity" />
-        <activity android:name="com.tripndream.comeback.MisReviewsActivity" />
-        <activity android:name="com.tripndream.comeback.ReviewActivity" />
-        <activity android:name="com.tripndream.comeback.InicioActivity" />
-        <activity android:name="com.tripndream.comeback.MainActivity" />
-        <activity android:name="com.tripndream.comeback.RegistroActivity" />
-        <activity android:name="com.tripndream.comeback.RecoveryActivity" />
         <activity
-            android:name="com.tripndream.comeback.SplashScreen"
+            android:name=".Trofeos"
+            android:exported="false" />
+        <activity
+            android:name=".MainMenu"
+            android:exported="false" />
+        <activity android:name=".AgregarReviewActivity" />
+        <activity android:name=".EditReviewActivity" />
+        <activity android:name=".MisReviewsActivity" />
+        <activity android:name=".ReviewActivity" />
+        <activity android:name=".InicioActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".RegistroActivity" />
+        <activity android:name=".RecoveryActivity" />
+        <activity
+            android:name=".SplashScreen"
             android:theme="@style/splashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

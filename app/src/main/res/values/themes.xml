@@ -14,7 +14,6 @@
         <!-- Customize your theme here. -->
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
-        <item name="android:textColorSecondary">#CFFAE2</item>
         <item name="android:listDivider">@color/white</item>
     </style>
     <style name="splashScreenTheme" parent="Theme.MangaReviews">

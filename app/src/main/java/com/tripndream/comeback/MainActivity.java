@@ -142,8 +142,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void login() {
-
-        RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
+        finish();
+        /*RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
 
         correo = etCorreoLogin.getText().toString().trim();
         String passwd = etPasswdLogin.getText().toString().trim();
@@ -191,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
-
+        */
     }
 
     private void registroBD(GoogleSignInAccount account) {

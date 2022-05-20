@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/menu"
+    tools:context="com.tripndream.comeback.MainMenu">
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnReportar"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/reportar" />
+
+        <TextView
+            android:id="@+id/tvReportar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik"
+            android:text="Reportar"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#673AB7" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="290dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout5"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2">
+
+        <ImageButton
+            android:id="@+id/btnEnHogar"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/enhogar" />
+
+        <TextView
+            android:id="@+id/tvEnHogar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik"
+            android:text="En su hogar"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#673AB7" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="140dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout4">
+
+        <ImageButton
+            android:id="@+id/btnNuevoHogar"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/nuevos_hogares" />
+
+        <TextView
+            android:id="@+id/tvNuevoHogar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik"
+            android:gravity="center"
+            android:text="Nuevos Hogares"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#673AB7" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="230dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnTrofeos"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/trofeos" />
+
+        <TextView
+            android:id="@+id/tvTrofeos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik"
+            android:text="Trofeos"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#673AB7" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="300dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnPerdidos"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/perdidos" />
+
+        <TextView
+            android:id="@+id/tvPerdidos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik"
+            android:text="Perdidos"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#673AB7" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:fontFamily="@font/rubik"
+        android:text="¡Hola Usuario!"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textColor="#E91E63"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnCerrarSesion"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#C4ECFF"
+        android:text="Cerrar Sesión"
+        android:textColor="#E91E63"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

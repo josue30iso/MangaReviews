@@ -33,12 +33,6 @@ public class ReviewHolder extends RecyclerView.ViewHolder {
 
         super(itemView);
 
-        ivImagenReviewInicio = itemView.findViewById(R.id.ivImagenRecetaInicio);
-
-        tvNombreReviewInicio = itemView.findViewById(R.id.tvNombreRecetaInicio);
-        tvAutorReviewInicio = itemView.findViewById(R.id.tvAutorRecetaInicio);
-        tvFechaReviewInicio = itemView.findViewById(R.id.tvFechaRecetaInicio);
-
         this.onRecetaClickListener = onRecetaClickListener;
 
         itemView.setOnClickListener(new View.OnClickListener() {

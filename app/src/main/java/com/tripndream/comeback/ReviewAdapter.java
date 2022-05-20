@@ -30,7 +30,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewHolder> {
     @NonNull
     @Override
     public ReviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.receta_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dog_card_row, parent, false);
         return new ReviewHolder(view, onRecetaClickListener);
     }
 
