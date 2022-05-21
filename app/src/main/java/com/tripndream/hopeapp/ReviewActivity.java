@@ -85,7 +85,7 @@ public class ReviewActivity extends AppCompatActivity {
         sp = getSharedPreferences("emailUserSession", Context.MODE_PRIVATE);
 
         btnInicio = findViewById(R.id.btnInicio);
-        btnMisRecetas = findViewById(R.id.btnMisReviews);
+        btnMisRecetas = findViewById(R.id.btnGuardados);
         btnLogout = findViewById(R.id.btnLogout);
 
         toolbar = findViewById(R.id.mytoolbar);
@@ -121,7 +121,7 @@ public class ReviewActivity extends AppCompatActivity {
         tvNombre.setText(intent.getStringExtra("key_texto_nombre_receta"));
 
         Resources res = getResources();
-        String s[] = res.getStringArray(R.array.categories);
+        String s[] = res.getStringArray(R.array.zonas);
         String categoria = s[intent.getIntExtra("key_id_categoria",0)];
         tvCategoria.setText(categoria);
 
@@ -206,7 +206,7 @@ public class ReviewActivity extends AppCompatActivity {
 
         JSONObject data = new JSONObject( map );
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_REVIEW_DELETE, data, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_PUB_DELETE, data, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -273,7 +273,7 @@ public class ReviewActivity extends AppCompatActivity {
             tvReview.setText(data.getStringExtra("key_edit_preparacion"));
 
             Resources res = getResources();
-            String s[] = res.getStringArray(R.array.categories);
+            String s[] = res.getStringArray(R.array.zonas);
             String categoria = s[data.getIntExtra("key_id_categoria",0)];
             tvCategoria.setText(categoria);
 

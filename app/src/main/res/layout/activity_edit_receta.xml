@@ -10,13 +10,11 @@
         android:id="@+id/scrollView4"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,8 +22,8 @@
 
             <ImageView
                 android:id="@+id/ivEditAlimento"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="227dp"
+                android:layout_height="199dp"
                 android:layout_marginTop="16dp"
                 android:contentDescription="@string/todoText"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -145,7 +143,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:labelFor="@id/etReview"
-                    android:text="@string/textReview"
+                    android:text="Ultimo vistazo"
                     android:textStyle="bold|italic"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -178,7 +176,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:labelFor="@id/etCategoria"
-                android:text="@string/textCategoria"
+                android:text="Zona: "
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etNombre" />
@@ -190,7 +188,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:entries="@array/editCategories"
+                android:entries="@array/editZonas"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView16"
                 app:layout_constraintTop_toBottomOf="@+id/etNombre" />
@@ -198,14 +196,52 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <Button
+        android:id="@+id/btnEditCancelar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/textCancelar"
+        android:textColor="@color/MREnd"
+        android:theme="@style/buttons"
+        app:layout_constraintBottom_toTopOf="@+id/appBarLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnEditGuardar" />
+
+    <Button
+        android:id="@+id/btnEditGuardar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/textGuardar"
+        android:textColor="@color/MREnd"
+        android:theme="@style/buttons"
+        app:layout_constraintBottom_toTopOf="@+id/appBarLayout"
+        app:layout_constraintEnd_toStartOf="@+id/btnEditCancelar"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/btnEditGuardar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -216,7 +252,7 @@
                 android:id="@+id/mytoolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/MRPink"
+                android:background="@color/MRLightPink"
                 android:elevation="15dp"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
@@ -228,26 +264,39 @@
                 android:id="@+id/btnLogout"
                 android:layout_width="40dp"
                 android:layout_height="35dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="24dp"
                 android:contentDescription="@string/todoText"
                 android:elevation="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/mytoolbar"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.545"
-                app:srcCompat="@drawable/cerrarsesion" />
+                app:srcCompat="@drawable/cerrarsesion"
+                app:tint="@color/MRSuperLightPink" />
 
             <ImageView
-                android:id="@+id/btnMisReviews"
+                android:id="@+id/btnGuardados"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="24dp"
                 android:contentDescription="@string/todoText"
                 android:elevation="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnLogout"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/misreviews" />
+                app:srcCompat="@drawable/misguardados" />
+
+            <ImageView
+                android:id="@+id/btnMiPerfil"
+                android:layout_width="51dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="78dp"
+                android:contentDescription="@string/todoText"
+                android:elevation="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnGuardados"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_profile_white" />
 
             <ImageView
                 android:id="@+id/btnInicio"
@@ -257,51 +306,14 @@
                 android:elevation="15dp"
                 android:foregroundTintMode="add"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnLogout"
+                app:layout_constraintStart_toEndOf="@+id/btnMiPerfil"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/logo_azul" />
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/ic_action_name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <RadioGroup
-        android:id="@+id/radioGroup2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/btnEditGuardar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <Button
-        android:id="@+id/btnEditGuardar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/textGuardar"
-        android:textColor="@color/MREnd"
-        android:theme="@style/buttons"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnEditCancelar"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnEditCancelar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/textCancelar"
-        android:textColor="@color/MREnd"
-        android:theme="@style/buttons"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnEditGuardar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

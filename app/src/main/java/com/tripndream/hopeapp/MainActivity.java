@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -35,17 +37,16 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private static final int LOGIN_REQUEST_CODE = 101;
-    private static final String KEY_FIREBASE_USER = "key_firebase_user";
     private static final String KEY_EMAIL_USER = "key_email_user";
+
+    private ConstraintLayout consInicio;
+    private ConstraintLayout consLogin;
 
     private EditText etCorreoLogin, etPasswdLogin;
     private TextView btnRegistro;
     private Button btnLoginNormal;
-
-    private GoogleSignInOptions gso;
-
-    private FirebaseAuth fba;
-    private FirebaseUser user;
+    private Button btnViewLogin;
+    private ImageButton btnViewInicio;
 
     private SharedPreferences sp;
     private String correo;
@@ -55,25 +56,12 @@ public class MainActivity extends AppCompatActivity {
 
         super.onStart();
 
-        FirebaseUser currentUser = fba.getCurrentUser();
-
         String emailUser = sp.getString("session", "");
-
-        if (currentUser != null) {
-            updateUI(currentUser);
-        }
 
         if (!emailUser.equals("")) {
             updateUI();
         }
 
-    }
-
-    private void updateUI(FirebaseUser currentUser) {
-        Intent intent = new Intent(this, InicioActivity.class);
-        intent.putExtra(KEY_FIREBASE_USER, user);
-        startActivity(intent);
-        finish();
     }
 
     private void updateUI() {
@@ -100,25 +88,15 @@ public class MainActivity extends AppCompatActivity {
 
         btnRegistro = findViewById(R.id.btnRegistro);
         btnLoginNormal = findViewById(R.id.btnLoginNormal);
+        btnViewLogin = findViewById(R.id.btmViewLogin);
+        btnViewInicio = findViewById(R.id.ibReturnMain);
 
-        gso = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        fba = FirebaseAuth.getInstance();
-        user = fba.getCurrentUser();
+        consInicio = findViewById(R.id.consInicio);
+        consLogin = findViewById(R.id.consLogin);
 
         sp = getSharedPreferences("emailUserSession", Context.MODE_PRIVATE);
 
-        if (user != null) {
-            updateUI(user);
-        } else {
-            configClickListener();
-        }
-
-
+        configClickListener();
 
     }
 
@@ -136,6 +114,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 login();
+            }
+        });
+
+        btnViewLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                consInicio.setVisibility(View.GONE);
+                consLogin.setVisibility(View.VISIBLE);
+            }
+        });
+
+        btnViewInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                consLogin.setVisibility(View.GONE);
+                consInicio.setVisibility(View.VISIBLE);
             }
         });
 
@@ -191,56 +185,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
-
-    }
-
-    private void registroBD(GoogleSignInAccount account) {
-
-        RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
-
-        Map map = new HashMap();
-
-        map.put("id_agrega", account.getId());
-        map.put("nombre_agrega", account.getDisplayName());
-        map.put("correo_agrega", account.getEmail());
-        map.put("celular_agrega", "1111111111");
-        map.put("password_agrega", account.getFamilyName());
-
-        JSONObject data = new JSONObject( map );
-        Log.i("MainActivity", data.toString());
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_USER_REGISTER, data, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                try {
-
-                    boolean success = response.getBoolean("success");
-                    String mensaje = response.getString("message");
-
-                    if (success) {
-
-                        Toast.makeText(MainActivity.this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        Toast.makeText(MainActivity.this, "¡Bienvenido!", Toast.LENGTH_SHORT).show();
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Este correo electronico ya existe", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
-
 
     }
 

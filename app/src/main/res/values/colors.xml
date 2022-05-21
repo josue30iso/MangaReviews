@@ -7,8 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="MRPink">#67AABC</color>
-    <color name="MREnd">#ACEDFF</color>
+    <color name="MRPink">#2f4b63</color>
+    <color name="MREnd">#A8D8FF</color>
     <color name="MRLightPink">#87B2BD</color>
     <color name="MRSuperLightPink">#C4E2EA</color>
 </resources>

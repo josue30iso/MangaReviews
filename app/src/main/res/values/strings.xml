@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Hope App</string>
     <string name="todoText">TODO</string>
-    <string name="correoText">Correo</string>
+    <string name="correoText">Email</string>
     <string name="textPasswd">Contraseña</string>
     <string name="textLogin">Iniciar sesión</string>
     <string name="caseText">o bien</string>
@@ -10,9 +10,9 @@
     <string name="registrarseText">Registrarse</string>
     <string name="textRegistrarse">Registrarse</string>
     <string name="confirmar_contrase_aText">Confirmar contraseña</string>
-    <string name="no_telef_nicoText">No. Telefónico</string>
+    <string name="nomUsuarioText">Usuario</string>
     <string name="apellidosText">Apellidos</string>
-    <string name="nombreText">Nombre</string>
+    <string name="nombreText">Nombre Completo</string>
     <string name="textButtonRecovery">Recuperar cuenta</string>
     <string name="textRecoveryDescription">Si el correo especificado es correcto recibirás instrucciones para recuperar tu cuenta</string>
     <string name="action_settings">Settings</string>
@@ -33,4 +33,6 @@
     <string name="textNombreEdit">Nombre:</string>
     <string name="textPrivada">Privada</string>
     <string name="textPp_blica">Pública</string>
+    <string name="login">Login</string>
+    <string name="todo">TODO</string>
 </resources>

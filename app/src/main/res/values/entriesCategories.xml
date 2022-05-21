@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="categories">
+    <string-array name="zonas">
         <item>Todas</item>
-        <item>Romance</item>
-        <item>Drama</item>
-        <item>Mecha</item>
-        <item>+18</item>
-        <item>Shonen</item>
     </string-array>
-    <string-array name="editCategories">
-        <item>Seleccione categoria</item>
-        <item>Romance</item>
-        <item>Drama</item>
-        <item>Mecha</item>
-        <item>+18</item>
-        <item>Shonen</item>
+    <string-array name="editZonas">
+        <item>Seleccione zona...</item>
     </string-array>
 </resources>

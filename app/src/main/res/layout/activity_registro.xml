@@ -13,7 +13,7 @@
         android:layout_height="60dp"
         android:layout_marginBottom="64dp"
         android:text="@string/textRegistrarse"
-        android:textColor="#000000"
+        android:textColor="@color/MRLightPink"
         android:textSize="12sp"
         app:backgroundTint="@color/MREnd"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,7 +63,7 @@
                 android:layout_marginTop="16dp"
                 android:labelFor="@id/etConfirmarPasswdRegistro"
                 android:text="@string/confirmar_contrase_aText"
-                android:textColor="#000000"
+                android:textColor="@color/MRLightPink"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +78,7 @@
                 android:autofillHints=""
                 android:ems="10"
                 android:inputType="textPassword"
-                android:textColor="#000000"
+                android:textColor="@color/MRLightPink"
                 android:textColorHighlight="#8E6A4C"
                 android:textColorLink="#FFFFFF"
                 android:textSize="15sp"
@@ -96,12 +96,11 @@
                 android:autofillHints=""
                 android:ems="10"
                 android:inputType="textPassword"
-                android:textColor="#000000"
+                android:textColor="@color/MRLightPink"
                 android:textColorHighlight="#8E6A4C"
                 android:textColorLink="#FFFFFF"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -113,22 +112,22 @@
                 android:layout_marginTop="16dp"
                 android:labelFor="@id/etPasswdRegistro"
                 android:text="@string/textPasswd"
-                android:textColor="#000000"
+                android:textColor="@color/MRLightPink"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etCelularRegistro" />
+                app:layout_constraintTop_toBottomOf="@+id/etCorreoRegistro" />
 
             <EditText
-                android:id="@+id/etCelularRegistro"
+                android:id="@+id/etNombreUsuario"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:autofillHints=""
                 android:ems="10"
-                android:inputType="phone"
-                android:textColor="#000000"
+                android:inputType="textPersonName"
+                android:textColor="@color/MRLightPink"
                 android:textColorHighlight="#8E6A4C"
                 android:textColorLink="#FFFFFF"
                 android:textSize="15sp"
@@ -141,14 +140,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:labelFor="@id/etCelularRegistro"
-                android:text="@string/no_telef_nicoText"
-                android:textColor="#000000"
+                android:layout_marginTop="32dp"
+                android:labelFor="@id/etNombreUsuario"
+                android:text="@string/nomUsuarioText"
+                android:textColor="@color/MRLightPink"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etCorreoRegistro" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/etCorreoRegistro"
@@ -159,28 +158,13 @@
                 android:autofillHints=""
                 android:ems="10"
                 android:inputType="textEmailAddress"
-                android:textColor="#000000"
+                android:textColor="@color/MRLightPink"
                 android:textColorHighlight="#8E6A4C"
                 android:textColorLink="#FFFFFF"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:labelFor="@id/etCorreoRegistro"
-                android:text="@string/correoText"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etNombreRegistro" />
 
             <EditText
                 android:id="@+id/etNombreRegistro"
@@ -191,28 +175,41 @@
                 android:autofillHints=""
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:textColor="#000000"
+                android:textColor="@color/MRLightPink"
                 android:textColorHighlight="#8E6A4C"
                 android:textColorLink="#FFFFFF"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:labelFor="@id/etCorreoRegistro"
+                android:text="@string/correoText"
+                android:textColor="@color/MRLightPink"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etNombreRegistro" />
 
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:labelFor="@id/etNombreRegistro"
                 android:text="@string/nombreText"
-                android:textColor="#000000"
+                android:textColor="@color/MRLightPink"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/etNombreUsuario" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

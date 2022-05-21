@@ -89,7 +89,7 @@ public class MisReviewsActivity extends AppCompatActivity implements ReviewAdapt
 
         JSONObject data = new JSONObject( map );
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_REVIEW_LISTBYUSER, data, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_PUB_LISTBYUSER, data, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -166,7 +166,7 @@ public class MisReviewsActivity extends AppCompatActivity implements ReviewAdapt
         storageRef = FirebaseStorage.getInstance().getReference();
 
         btnInicio = findViewById(R.id.btnInicio);
-        btnMisRecetas = findViewById(R.id.btnMisReviews);
+        btnMisRecetas = findViewById(R.id.btnGuardados);
         btnAgregarRecetaMisRecetas = findViewById(R.id.btnAgregarRecetaMisRecetas);
         btnLogout = findViewById(R.id.btnLogout);
 

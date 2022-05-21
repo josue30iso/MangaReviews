@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MisReviewsActivity"
-    android:background="@color/MRPink">
+    android:background="@color/MRPink"
+    tools:context=".MisReviewsActivity">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -42,10 +42,9 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -56,7 +55,7 @@
                 android:id="@+id/mytoolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/MRPink"
+                android:background="@color/MRLightPink"
                 android:elevation="15dp"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
@@ -68,42 +67,54 @@
                 android:id="@+id/btnLogout"
                 android:layout_width="40dp"
                 android:layout_height="35dp"
-                android:layout_marginEnd="8dp"
-                android:clickable="true"
+                android:layout_marginEnd="24dp"
                 android:contentDescription="@string/todoText"
                 android:elevation="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/mytoolbar"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.545"
-                app:srcCompat="@drawable/cerrarsesion" />
+                app:srcCompat="@drawable/cerrarsesion"
+                app:tint="@color/MRSuperLightPink" />
 
             <ImageView
-                android:id="@+id/btnMisReviews"
+                android:id="@+id/btnGuardados"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="16dp"
-                android:clickable="true"
+                android:layout_marginStart="24dp"
+                android:contentDescription="@string/todoText"
+                android:elevation="15dp"
+                app:tint="@color/MRPink"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/misguardados" />
+
+            <ImageView
+                android:id="@+id/btnMiPerfil"
+                android:layout_width="51dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="78dp"
                 android:contentDescription="@string/todoText"
                 android:elevation="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnLogout"
+                app:layout_constraintStart_toEndOf="@+id/btnGuardados"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/misreviews"
-                app:tint="@color/design_default_color_error" />
+                app:srcCompat="@drawable/ic_profile_white" />
 
             <ImageView
                 android:id="@+id/btnInicio"
                 android:layout_width="82dp"
                 android:layout_height="54dp"
-                android:clickable="true"
                 android:contentDescription="@string/todoText"
                 android:elevation="15dp"
                 android:foregroundTintMode="add"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnLogout"
+                app:layout_constraintStart_toEndOf="@+id/btnMiPerfil"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/logo_azul" />
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/ic_action_name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -116,11 +127,11 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/agregarReview"
+        android:text="Publicar nuevo..."
         android:textColor="#000000"
         android:textSize="12sp"
         app:backgroundTint="@color/MREnd"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/appBarLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -130,9 +141,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/misreviews"
+        android:text="MIs publicaciones"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -99,7 +99,7 @@ public class EditReviewActivity extends AppCompatActivity {
         storageRef = FirebaseStorage.getInstance().getReference();
 
         btnInicio = findViewById(R.id.btnInicio);
-        btnMisReviews = findViewById(R.id.btnMisReviews);
+        btnMisReviews = findViewById(R.id.btnGuardados);
         btnLogout = findViewById(R.id.btnLogout);
 
         toolbar = findViewById(R.id.mytoolbar);
@@ -239,7 +239,7 @@ public class EditReviewActivity extends AppCompatActivity {
 
         JSONObject data = new JSONObject( map );
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_REVIEW_EDIT, data, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_PUB_EDIT, data, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 

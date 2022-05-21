@@ -29,9 +29,9 @@ import java.util.UUID;
 
 public class RegistroActivity extends AppCompatActivity {
 
-    private EditText etNombre, etCorreo, etCelular, etPasswd, etConfirmarPasswd;
+    private EditText etNombre, etCorreo, etNombreUsuario, etPasswd, etConfirmarPasswd;
     private Button btnAccionRegistro;
-    private String nombre, correo, celular, passwd, passwdConf;
+    private String nombre, correo, nombreUsuario, passwd, passwdConf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         etNombre = findViewById(R.id.etNombreRegistro);
         etCorreo = findViewById(R.id.etCorreoRegistro);
-        etCelular = findViewById(R.id.etCelularRegistro);
+        etNombreUsuario = findViewById(R.id.etNombreUsuario);
         etPasswd = findViewById(R.id.etPasswdRegistro);
         etConfirmarPasswd = findViewById(R.id.etConfirmarPasswdRegistro);
 
@@ -80,7 +80,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         nombre = etNombre.getText().toString().trim();
         correo = etCorreo.getText().toString().trim();
-        celular = etCelular.getText().toString().trim();
+        nombreUsuario = etNombreUsuario.getText().toString().trim();
         passwd = etPasswd.getText().toString().trim();
         passwdConf = etConfirmarPasswd.getText().toString().trim();
 
@@ -137,7 +137,7 @@ public class RegistroActivity extends AppCompatActivity {
         map.put("id_agrega", UUID.randomUUID().toString().replaceAll("-", ""));
         map.put("nombre_agrega", nombre);
         map.put("correo_agrega", correo);
-        map.put("celular_agrega", celular);
+        map.put("nombreUsuario_agrega", nombreUsuario);
         map.put("password_agrega", passwd);
 
         return map;
@@ -146,7 +146,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     private boolean camposNoVacios() {
 
-        if (!(nombre.equals("") && correo.equals("") && celular.equals("") && passwd.equals("") && passwdConf.equals(""))) {
+        if (!(nombre.equals("") && correo.equals("") && nombreUsuario.equals("") && passwd.equals("") && passwdConf.equals(""))) {
             if (passwd.equals(passwdConf)) {
                 return true;
             } else {
