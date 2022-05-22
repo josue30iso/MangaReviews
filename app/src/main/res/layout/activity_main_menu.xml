@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rubik"
-            android:text="Reportar"
+            android:text="Reportes"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="#673AB7" />
     </LinearLayout>
