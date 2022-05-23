@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="razas">
+        <item>Labrador</item>
+        <item>Schnauzer</item>
+        <item>Silky</item>
+        <item>Pastor Alemán</item>
+        <item>Poodle</item>
+        <item>Yorkshire</item>
+    </string-array>
+    <string-array name="tipoReporte">
+        <item>Perdido</item>
+        <item>Refugiado</item>
+        <item>Avistado</item>
+    </string-array>
+</resources>

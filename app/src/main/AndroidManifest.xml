@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MangaReviews"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Formulario"
+            android:exported="false" />
+        <activity
             android:name=".Trofeos"
             android:exported="false" />
         <activity

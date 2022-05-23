@@ -14,7 +14,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:backgroundTint="@color/design_default_color_error"
-        android:entries="@array/categories"
+        android:entries="@array/razas"
         android:spinnerMode="dropdown"
         android:theme="@style/Spinner"
         app:layout_constraintEnd_toEndOf="parent"

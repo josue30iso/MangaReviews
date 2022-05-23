@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".Trofeos">
 
     <LinearLayout
@@ -41,13 +42,13 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="100dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -55,23 +56,26 @@
                     android:id="@+id/textView18"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
                     android:gravity="center"
-                    android:text="Trofeo 1" />
+                    android:text="Buscaperros"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/t1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     app:srcCompat="@drawable/trofeosc" />
 
             </LinearLayout>
 
             <Space
-                android:layout_width="80dp"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content" />
 
             <LinearLayout
-                android:layout_width="100dp"
+                android:layout_width="170dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -79,13 +83,16 @@
                     android:id="@+id/textView19"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
                     android:gravity="center"
-                    android:text="Trofeo 2" />
+                    android:text="Refugiadog"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/t2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     app:srcCompat="@drawable/trofeosc" />
 
             </LinearLayout>
@@ -99,7 +106,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="100dp"
+                android:layout_width="170dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -107,24 +114,27 @@
                     android:id="@+id/textView20"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
                     android:gravity="center"
-                    android:text="Trofeo 3" />
+                    android:text="Altruista"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/t3"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     app:srcCompat="@drawable/trofeosc" />
 
             </LinearLayout>
 
             <Space
-                android:layout_width="80dp"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <LinearLayout
-                android:layout_width="100dp"
+                android:layout_width="170dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -132,13 +142,17 @@
                     android:id="@+id/textView21"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
                     android:gravity="center"
-                    android:text="Trofeo 4" />
+                    android:includeFontPadding="false"
+                    android:text="Hospedero perruno"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:id="@+id/t4"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     app:srcCompat="@drawable/trofeosc" />
 
             </LinearLayout>
@@ -152,7 +166,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="100dp"
+                android:layout_width="170dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -160,24 +174,27 @@
                     android:id="@+id/textView22"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
                     android:gravity="center"
-                    android:text="Trofeo 5" />
+                    android:text="Héroe perruno"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/imageView7"
+                    android:id="@+id/t5"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     app:srcCompat="@drawable/trofeosc" />
 
             </LinearLayout>
 
             <Space
-                android:layout_width="80dp"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <LinearLayout
-                android:layout_width="100dp"
+                android:layout_width="170dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -185,13 +202,16 @@
                     android:id="@+id/textView23"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
                     android:gravity="center"
-                    android:text="Trofeo 6" />
+                    android:text="Holidog Inn"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/imageView8"
+                    android:id="@+id/t6"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     app:srcCompat="@drawable/trofeosc" />
 
             </LinearLayout>

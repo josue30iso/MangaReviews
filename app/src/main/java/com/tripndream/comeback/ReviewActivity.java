@@ -121,7 +121,7 @@ public class ReviewActivity extends AppCompatActivity {
         tvNombre.setText(intent.getStringExtra("key_texto_nombre_receta"));
 
         Resources res = getResources();
-        String s[] = res.getStringArray(R.array.categories);
+        String s[] = res.getStringArray(R.array.razas);
         String categoria = s[intent.getIntExtra("key_id_categoria",0)];
         tvCategoria.setText(categoria);
 
@@ -273,7 +273,7 @@ public class ReviewActivity extends AppCompatActivity {
             tvReview.setText(data.getStringExtra("key_edit_preparacion"));
 
             Resources res = getResources();
-            String s[] = res.getStringArray(R.array.categories);
+            String s[] = res.getStringArray(R.array.razas);
             String categoria = s[data.getIntExtra("key_id_categoria",0)];
             tvCategoria.setText(categoria);
 

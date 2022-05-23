@@ -15,15 +15,22 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         setContentView(R.layout.activity_main_menu);
 
         btnTrofeos = findViewById(R.id.btnTrofeos);
+        btnReportar = findViewById(R.id.btnReportar);
 
         btnTrofeos.setOnClickListener(this);
+        btnReportar.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
+        Intent intent;
         switch(view.getId()) {
             case R.id.btnTrofeos:
-                Intent intent = new Intent(this, Trofeos.class);
+                intent = new Intent(this, Trofeos.class);
+                startActivity(intent);
+                break;
+            case R.id.btnReportar:
+                intent = new Intent(this, Formulario.class);
                 startActivity(intent);
                 break;
         }
