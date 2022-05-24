@@ -13,4 +13,24 @@
         <item>Refugiado</item>
         <item>Avistado</item>
     </string-array>
+    <string-array name="razasFiltro">
+        <item>Todas</item>
+        <item>Labrador</item>
+        <item>Schnauzer</item>
+        <item>Silky</item>
+        <item>Pastor Alemán</item>
+        <item>Poodle</item>
+        <item>Yorkshire</item>
+    </string-array>
+    <string-array name="colonias">
+        <item>Costa Verde</item>
+        <item>Reforma</item>
+        <item>Costa de Oro</item>
+    </string-array>
+    <string-array name="coloniasFiltro">
+        <item>Cualquiera</item>
+        <item>Costa Verde</item>
+        <item>Reforma</item>
+        <item>Costa de Oro</item>
+    </string-array>
 </resources>

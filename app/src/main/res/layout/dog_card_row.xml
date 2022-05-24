@@ -9,7 +9,7 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/tvFecha2"
+        android:id="@+id/tvFecha"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -21,7 +21,7 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ivImagenRecetaInicio"
+        app:layout_constraintStart_toEndOf="@+id/ivFotoPerro"
         app:layout_constraintTop_toBottomOf="@+id/tvDescripcion" />
 
     <TextView
@@ -37,8 +37,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ivImagenRecetaInicio"
-        app:layout_constraintTop_toBottomOf="@+id/tvFecha2" />
+        app:layout_constraintStart_toEndOf="@+id/ivFotoPerro"
+        app:layout_constraintTop_toBottomOf="@+id/tvFecha" />
 
     <TextView
         android:id="@+id/tvDescripcion"
@@ -53,7 +53,7 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ivImagenRecetaInicio"
+        app:layout_constraintStart_toEndOf="@+id/ivFotoPerro"
         app:layout_constraintTop_toBottomOf="@+id/tvGenero" />
 
     <TextView
@@ -69,7 +69,7 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ivImagenRecetaInicio"
+        app:layout_constraintStart_toEndOf="@+id/ivFotoPerro"
         app:layout_constraintTop_toBottomOf="@+id/tvRaza" />
 
     <TextView
@@ -85,11 +85,11 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ivImagenRecetaInicio"
+        app:layout_constraintStart_toEndOf="@+id/ivFotoPerro"
         app:layout_constraintTop_toBottomOf="@+id/tvNombre" />
 
     <ImageView
-        android:id="@+id/ivImagenRecetaInicio"
+        android:id="@+id/ivFotoPerro"
         android:layout_width="120dp"
         android:layout_height="140dp"
         android:contentDescription="@string/todoText"
@@ -111,7 +111,7 @@
         android:textSize="20sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivImagenRecetaInicio"
+        app:layout_constraintStart_toEndOf="@+id/ivFotoPerro"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

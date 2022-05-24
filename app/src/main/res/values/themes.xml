@@ -53,5 +53,11 @@
     <style name="buttons" parent="Theme.MangaReviews">
         <item name="colorOnPrimary">@color/MRSuperLightPink</item>
     </style>
+    <style name="Theme.MangaReviews.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.MangaReviews.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.MangaReviews.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
