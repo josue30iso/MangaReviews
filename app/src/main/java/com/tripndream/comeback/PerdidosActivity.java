@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
-public class Perdidos extends AppCompatActivity implements ReporteAdapter.OnReporteClickListener{
+public class PerdidosActivity extends AppCompatActivity implements ReporteAdapter.OnReporteClickListener{
     public ArrayList<Reporte> data;
     private RecyclerView rvPerdidos;
     private ReporteAdapter adapter;
@@ -21,9 +21,7 @@ public class Perdidos extends AppCompatActivity implements ReporteAdapter.OnRepo
 
         data = new ArrayList<>();
         adapter = new ReporteAdapter(data, this);
-
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-
         rvPerdidos = findViewById(R.id.rvPerdidos);
         rvPerdidos.setAdapter(adapter);
         rvPerdidos.setLayoutManager(linearLayoutManager);

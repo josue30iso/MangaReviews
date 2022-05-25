@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PerdidosActivity">
+    tools:context=".NuevoHogarActivity">
 
     <FrameLayout
-        android:id="@+id/frameLayout2"
+        android:id="@+id/frameLayout4"
         android:layout_width="0dp"
-        android:layout_height="90dp"
-        android:background="@drawable/bg2"
+        android:layout_height="110dp"
+        android:background="@drawable/bg3"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,31 +23,31 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/textView42"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/rubik"
                 android:gravity="center"
-                android:text="Perdidos"
+                android:text="Nuevo Hogar"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="#70671B" />
 
             <TextView
-                android:id="@+id/textView35"
+                android:id="@+id/textView43"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/rubik"
                 android:gravity="center"
                 android:paddingLeft="60dp"
                 android:paddingRight="60dp"
-                android:text="Aquí están todos los perritos perdidos, ¡Ayúdalos a regresar a su casa!"
+                android:text="Aquí están todos los perritos que no encontraron su camino a casa, pero sí encontraron un nuevo hogar"
                 android:textColor="@color/black" />
         </LinearLayout>
 
     </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout6"
+        android:id="@+id/linearLayout8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -55,7 +55,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout4">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,45 +66,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView36"
+                android:id="@+id/textView44"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/rubik"
                 android:text="Raza:" />
 
             <Spinner
-                android:id="@+id/spFiltroRaza"
+                android:id="@+id/spFiltroRazaNuevoH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/razasFiltro" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView37"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/rubik"
-                android:text="Perdido en:" />
-
-            <Spinner
-                android:id="@+id/spFiltroPerdido"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/coloniasFiltro" />
-        </LinearLayout>
-
-        <Switch
-            android:id="@+id/swFiltroRecompensa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Con recompensa" />
 
     </LinearLayout>
 
@@ -117,10 +90,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPerdidos"
+            android:id="@+id/rvNuevoHogar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </ScrollView>

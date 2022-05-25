@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tripndream.comeback" >
+    package="com.tripndream.comeback">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,9 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MangaReviews"
-        android:usesCleartextTraffic="true" >
+        android:usesCleartextTraffic="true">
         <activity
-            android:name=".Perdidos"
+            android:name=".ReportesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NuevoHogarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EnSuHogarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PerdidosActivity"
             android:exported="false"
             android:label="@string/title_activity_perdidos"
             android:theme="@style/Theme.MangaReviews.NoActionBar" />
@@ -39,7 +48,7 @@
         <activity android:name=".RecoveryActivity" />
         <activity
             android:name=".SplashScreen"
-            android:theme="@style/splashScreenTheme" >
+            android:theme="@style/splashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
