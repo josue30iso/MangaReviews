@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/MRPink"
-    tools:context=".AgregarReviewActivity">
+    tools:context=".AgregarPubActivity">
 
     <ScrollView
         android:id="@+id/scrollView4"
@@ -23,9 +23,9 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/ivAgregaReceta"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:id="@+id/ivAgregaPublicacion"
+                android:layout_width="250dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="16dp"
                 android:contentDescription="@string/todoText"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -46,10 +46,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivAgregaReceta" />
+                app:layout_constraintTop_toBottomOf="@+id/ivAgregaPublicacion" />
 
             <EditText
-                android:id="@+id/etAgregaNombre"
+                android:id="@+id/etAgregaNombreDesa"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:labelFor="@id/etAgregaNombre"
+                android:labelFor="@id/etAgregaNombreDesa"
                 android:text="@string/textNombreEdit"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintStart_toStartOf="parent"
@@ -174,14 +174,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:labelFor="@id/etCategoria"
+                android:labelFor="@id/etZonaPub"
                 android:text="Zona: "
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etAgregaNombre" />
+                app:layout_constraintTop_toBottomOf="@+id/etAgregaNombreDesa" />
 
             <Spinner
-                android:id="@+id/spnAgregaCategoria"
+                android:id="@+id/spnAgregaZona"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -190,7 +190,7 @@
                 android:entries="@array/editZonas"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView16"
-                app:layout_constraintTop_toBottomOf="@+id/etAgregaNombre" />
+                app:layout_constraintTop_toBottomOf="@+id/etAgregaNombreDesa" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

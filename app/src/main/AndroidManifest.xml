@@ -15,10 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HopeApp"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.tripndream.hopeapp.AgregarReviewActivity"></activity>
-        <activity android:name="com.tripndream.hopeapp.EditReviewActivity" />
-        <activity android:name="com.tripndream.hopeapp.MisReviewsActivity" />
-        <activity android:name="com.tripndream.hopeapp.ReviewActivity" />
+        <activity android:name="com.tripndream.hopeapp.AgregarPubActivity"></activity>
+        <activity android:name="com.tripndream.hopeapp.EditPubActivity" />
+        <activity android:name="com.tripndream.hopeapp.MisPubActivity" />
+        <activity android:name="com.tripndream.hopeapp.PubActivity" />
         <activity android:name="com.tripndream.hopeapp.InicioActivity" />
         <activity android:name="com.tripndream.hopeapp.MainActivity" />
         <activity android:name="com.tripndream.hopeapp.RegistroActivity" />

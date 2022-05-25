@@ -38,28 +38,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InicioActivity extends AppCompatActivity implements ReviewAdapter.OnRecetaClickListener {
+public class InicioActivity extends AppCompatActivity implements PubAdapter.OnPubClickListener {
 
-    private static final String KEY_TEXTO_NOMBRE = "key_texto_nombre_receta";
-    private static final String KEY_TEXTO_DESCRIPCION = "key_texto_descripcion_receta";
+    private static final String KEY_TEXTO_NOMBRE = "key_texto_nombre_desa";
+    private static final String KEY_TEXTO_DESCRIPCION = "key_texto_descripcion";
     private static final String KEY_URL_FOTO = "key_url_foto";
-    private static final String KEY_ID_CATEGORIA = "key_id_categoria";
-    private static final String KEY_TEXTO_REVIEW = "key_texto_ingredientes_receta";
+    private static final String KEY_ID_ZONA = "key_id_zona";
+    private static final String KEY_TEXTO_REVIEW = "key_texto_ultima";
     private static final String KEY_TEXTO_NOMBRE_AUTOR = "key_texto_nombre_autor";
     private static final String KEY_ID_USUARIO = "key_id_usuario";
-    private static final String KEY_ID_REV = "key_id_receta";
+    private static final String KEY_ID_ULTIMA = "key_id_ultima";
     private static final String KEY_GUARDADOS = "key_guardados";
 
     private Toolbar toolbar;
     private ImageView btnInicio, btnGuardados, btnMiPerfil, btnLogout;
     private Spinner spinnerFiltro;
 
-    private RecyclerView rvRecetas;
-    private ArrayList<Review> datos;
+    private RecyclerView rvPublicaciones;
+    private ArrayList<Publicacion> datos;
 
     private ArrayAdapter<String> adapterSp;
     private List<Integer> sIds;
-    private ReviewAdapter adapter;
+    private PubAdapter adapter;
     private LinearLayoutManager llm;
     private int posSpinner = 0;
 
@@ -91,7 +91,7 @@ public class InicioActivity extends AppCompatActivity implements ReviewAdapter.O
         btnGuardados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(InicioActivity.this, MisReviewsActivity.class);
+                Intent intent = new Intent(InicioActivity.this, MisPubActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(KEY_GUARDADOS, true);
                 startActivity(intent);
@@ -101,7 +101,7 @@ public class InicioActivity extends AppCompatActivity implements ReviewAdapter.O
         btnMiPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(InicioActivity.this, MisReviewsActivity.class);
+                Intent intent = new Intent(InicioActivity.this, MisPubActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -126,15 +126,15 @@ public class InicioActivity extends AppCompatActivity implements ReviewAdapter.O
 
         spinnerFiltro = findViewById(R.id.spinnerFiltro);
 
-        rvRecetas = findViewById(R.id.rvRecetas);
+        rvPublicaciones = findViewById(R.id.rvPublicaciones);
 
-        datos = new ArrayList<Review>();
+        datos = new ArrayList<Publicacion>();
 
-        adapter = new ReviewAdapter(datos, this);
+        adapter = new PubAdapter(datos, this, Integer.parseInt(sp.getString("logedID", "")));
         llm = new LinearLayoutManager(getApplicationContext());
 
-        rvRecetas.setAdapter(adapter);
-        rvRecetas.setLayoutManager(llm);
+        rvPublicaciones.setAdapter(adapter);
+        rvPublicaciones.setLayoutManager(llm);
 
         /***************************** TEST RV ***********************************//*
         adapter.add(new Receta(1, "Jorge",2, "Cosa", "Asumakna", "2020-01-01","https://i0.wp.com/goula.lat/wp-content/uploads/2019/12/hamburguesa-beyond-meat-scaled-e1577396155298.jpg", 1));
@@ -166,6 +166,7 @@ public class InicioActivity extends AppCompatActivity implements ReviewAdapter.O
 
                         ArrayList<String> arraySpinner = new ArrayList<>();
                         sIds = new ArrayList<>();
+                        arraySpinner.add("Todas...");
 
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject zonaObj = data.getJSONObject(i);
@@ -206,7 +207,8 @@ public class InicioActivity extends AppCompatActivity implements ReviewAdapter.O
         RequestQueue rq = Volley.newRequestQueue(getApplicationContext(), new HurlStack());
 
         Map map = new HashMap();
-        map.put("idCategoria", i);
+        map.put("idZona", i);
+        map.put("idUsuario", sp.getString("logedID", ""));
 
         JSONObject data = new JSONObject( map );
 
@@ -217,7 +219,6 @@ public class InicioActivity extends AppCompatActivity implements ReviewAdapter.O
                 try {
 
                     boolean success = response.getBoolean("success");
-                    String mensaje = response.getString("message");
 
                     adapter.clear();
                     datos.clear();
@@ -228,37 +229,34 @@ public class InicioActivity extends AppCompatActivity implements ReviewAdapter.O
 
                         for (int i = 0; i < data.length(); i++) {
 
-                            JSONObject recetaObj = data.getJSONObject(i);
+                            JSONObject pubObj = data.getJSONObject(i);
 
-                            //StorageReference imgRef = storageRef.child(recetaObj.getString("foto"));
-                            //imgRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                //@Override
-                                //public void onSuccess(Uri uri) {
-                                    //String url = uri.toString();
+                            Publicacion publicacion = null;
+                            try {
+                                publicacion = new Publicacion(
+                                        pubObj.getInt("id"),
+                                        pubObj.getInt("idUsuario"),
+                                        pubObj.getString("nombreUsuario"),
+                                        pubObj.getInt("idZona"),
+                                        pubObj.getString("nombreZona"),
+                                        pubObj.getString("nombreDesaparecido"),
+                                        pubObj.getString("descripcion"),
+                                        pubObj.getString("ultimoVistazo"),
+                                        pubObj.getString("fechaRegistro"),
+                                        pubObj.getString("foto"),
+                                        pubObj.getInt("validada"),
+                                        1 == pubObj.getInt("guardado")
+                                );
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
-                                    Review review = null;
-                                    try {
-                                        review = new Review(
-                                                recetaObj.getInt("id"),
-                                                recetaObj.getString("idUsuario"),
-                                                recetaObj.getString("nombreUsuario"),
-                                                recetaObj.getInt("idCategoria"),
-                                                recetaObj.getString("titulo"),
-                                                recetaObj.getString("descripcion"),
-                                                recetaObj.getString("fechaRegistro"),
-                                                recetaObj.getString("foto"),
-                                                recetaObj.getString("review")
-                                        );
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
 
-                                    adapter.add(review);
-                                    datos.add(review);
 
-                                //}
-                            //});
+                            adapter.add(publicacion);
+                            datos.add(publicacion);
 
+                            adapter.notifyDataSetChanged();
                         }
 
                     } else {
@@ -320,24 +318,23 @@ public class InicioActivity extends AppCompatActivity implements ReviewAdapter.O
     }
 
     @Override
-    public void onRecetaClickListener(int position) {
+    public void onPubClickListener(int position) {
 
-        Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+        Intent intent = new Intent(getApplicationContext(), PubActivity.class);
 
-        Review receta = datos.get(position);
+        Publicacion publicacion = datos.get(position);
 
-        intent.putExtra(KEY_TEXTO_NOMBRE, receta.getTitulo());
-        intent.putExtra(KEY_ID_CATEGORIA, receta.getIdCategoria());
-        intent.putExtra(KEY_TEXTO_NOMBRE_AUTOR, receta.getNombreUsuario());
-        intent.putExtra(KEY_URL_FOTO, receta.getImagen());
-        intent.putExtra(KEY_TEXTO_REVIEW, receta.getReview());
-        intent.putExtra(KEY_TEXTO_DESCRIPCION, receta.getDescripcion());
-        intent.putExtra(KEY_ID_USUARIO, receta.getIdUsuario());
-        intent.putExtra(KEY_ID_REV, receta.getId());
+        intent.putExtra(KEY_TEXTO_NOMBRE, publicacion.getNombreDesaparecido());
+        intent.putExtra(KEY_ID_ZONA, publicacion.getNombreZona());
+        intent.putExtra(KEY_TEXTO_NOMBRE_AUTOR, publicacion.getNombreUsuario());
+        intent.putExtra(KEY_URL_FOTO, publicacion.getFoto());
+        intent.putExtra(KEY_TEXTO_REVIEW, publicacion.getUltimoVistazo());
+        intent.putExtra(KEY_TEXTO_DESCRIPCION, publicacion.getDescripcion());
+        intent.putExtra(KEY_ID_USUARIO, publicacion.getIdUsuario());
+        intent.putExtra(KEY_ID_ULTIMA, publicacion.getId());
 
         noClone = true;
         startActivity(intent);
-
 
     }
 

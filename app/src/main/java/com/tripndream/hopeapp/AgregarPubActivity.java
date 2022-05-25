@@ -15,8 +15,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,12 +37,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.tripndream.hopeapp.utils.WebService;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,45 +47,53 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class AgregarReviewActivity extends AppCompatActivity {
+public class AgregarPubActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 301;
     private static final int GET_IMAGE_CODE = 202;
+    private static final String KEY_GUARDADOS = "key_guardados";
 
-    private ImageView btnInicio, btnMisReviews, btnLogout;
+    private ImageView btnInicio, btnGuardados, btnMiPerfil, btnLogout;
 
-    private ImageView ivAgregaReceta;
-    private Bitmap imgReview;
-    private String imgReviewB64;
+    private ImageView ivAgregaPub;
+    private Bitmap imgPub;
+    private String imgPubB64;
     private Button btnAgregaImagen, btnAgregaGuardar, btnAgregaCancelar;
-    private EditText etAgregaNombre, etAgregaDescripcion, etAgregaReview;
-    private Spinner spnAgregaCategoria;
+    private EditText etAgregaNombre, etAgregaPubb, etAgregaPub;
+    private Spinner spnAgregaZona;
 
     private Intent intent;
+    private ArrayAdapter<String> adapterSp;
 
-    private FirebaseAuth fba;
-    private FirebaseUser user;
     private SharedPreferences sp;
     private Uri Image = null;
-    StorageReference storageRef;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_agregar_receta);
+        setContentView(R.layout.activity_agregar_pub);
 
+        configToolbar();
         configMaterials();
         configClickListeners();
-
     }
 
-    private void configClickListeners() {
+    private void configToolbar() {
+        btnInicio = findViewById(R.id.btnInicio);
+        btnGuardados = findViewById(R.id.btnGuardados);
+        btnMiPerfil = findViewById(R.id.btnMiPerfil);
+        btnLogout = findViewById(R.id.btnLogout);
+
+        toolbar = findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+        setTitle(null);
+
         btnInicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,11 +101,22 @@ public class AgregarReviewActivity extends AppCompatActivity {
             }
         });
 
-
-        btnMisReviews.setOnClickListener(new View.OnClickListener() {
+        btnGuardados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUIMisReviews();
+                Intent intent = new Intent(AgregarPubActivity.this, MisPubActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(KEY_GUARDADOS, true);
+                startActivity(intent);
+            }
+        });
+
+        btnMiPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AgregarPubActivity.this, MisPubActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
@@ -110,11 +126,13 @@ public class AgregarReviewActivity extends AppCompatActivity {
                 confirmarLogout();
             }
         });
+    }
 
+    private void configClickListeners() {
         btnAgregaImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkPermissionES(AgregarReviewActivity.this)) {
+                if(checkPermissionES(AgregarPubActivity.this)) {
                     cambiarImagen();
                 }
             }
@@ -144,27 +162,27 @@ public class AgregarReviewActivity extends AppCompatActivity {
 
             if (data != null) {
 
-                imgReview = null;
+                imgPub = null;
                 InputStream inputStream;
 
                 try {
 
                     Image = data.getData();
 
-                    if (imgReview != null) {
-                        imgReview.recycle();
+                    if (imgPub != null) {
+                        imgPub.recycle();
                     }
 
                     inputStream = getContentResolver().openInputStream(data.getData());
-                    imgReview = BitmapFactory.decodeStream(inputStream);
+                    imgPub = BitmapFactory.decodeStream(inputStream);
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    imgReview.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+                    imgPub.compress(Bitmap.CompressFormat.JPEG, 15, baos);
                     byte[] imageBytes = baos.toByteArray();
-                    imgReviewB64 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                    imgPubB64 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
                     inputStream.close();
-                    ivAgregaReceta.setImageBitmap(imgReview);
+                    ivAgregaPub.setImageBitmap(imgPub);
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -179,27 +197,27 @@ public class AgregarReviewActivity extends AppCompatActivity {
     }
 
     String nombre, usuario, descripcion, review;
-    int idCategoria;
+    int idZona;
     private void guardar() {
 
         nombre = etAgregaNombre.getText().toString().trim();
-        descripcion = etAgregaDescripcion.getText().toString().trim();
-        review = etAgregaReview.getText().toString().trim();
+        descripcion = etAgregaPubb.getText().toString().trim();
+        review = etAgregaPub.getText().toString().trim();
         usuario = sp.getString("logedID", "");
 
-        idCategoria = spnAgregaCategoria.getSelectedItemPosition();
+        idZona = spnAgregaZona.getSelectedItemPosition();
 
-        if (!(nombre.equals("") || descripcion.equals("") || review.equals("") || idCategoria == 0)) {
+        if (!(nombre.equals("") || descripcion.equals("") || review.equals("") || idZona == 0)) {
 
-            agregaReceta(usuario, nombre, descripcion, review, idCategoria, imgReviewB64);
+            agregaPublicacion(usuario, nombre, descripcion, review, idZona, imgPubB64);
 
         } else {
-            Toast.makeText(AgregarReviewActivity.this, "Especifique todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AgregarPubActivity.this, "Especifique todos los campos", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private void agregaReceta(String usuario, String nombre, String review, String preparacion, int idCategoria, String imagen) {
+    private void agregaPublicacion(String usuario, String nombreDesaparecido, String ultimoVistazo, String descripcion, int idZona, String imagen) {
 
         RequestQueue rq = Volley.newRequestQueue(getApplicationContext(), new HurlStack());
         UUID uuid = UUID.randomUUID();
@@ -207,10 +225,10 @@ public class AgregarReviewActivity extends AppCompatActivity {
         Map map = new HashMap();
 
         map.put("id_usuario", usuario);
-        map.put("id_categoria", idCategoria);
-        map.put("titulo", nombre);
-        map.put("descripcion", preparacion);
-        map.put("review", review);
+        map.put("id_zona", idZona);
+        map.put("nombreDesaparecido", nombreDesaparecido);
+        map.put("descripcion", descripcion);
+        map.put("ultimoVistazo", ultimoVistazo);
         map.put("foto", imagen);
         map.put("guid", uuid.toString());
 
@@ -224,18 +242,17 @@ public class AgregarReviewActivity extends AppCompatActivity {
 
                     boolean success = response.getBoolean("success");
                     String mensaje = response.getString("message");
-                    Log.i("ImgSubida", String.valueOf(response));
 
                     if (success) {
 
                         Intent intent = new Intent();
-                        Toast.makeText(AgregarReviewActivity.this, "Review publicada. Espere un momento...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AgregarPubActivity.this, "Subida exitosa. Un administrador validará su publicacion...", Toast.LENGTH_LONG).show();
                         setResult(RESULT_OK, intent);
                         finish();
 
                     } else {
                         if (!mensaje.equals("Bypass")) {
-                            Toast.makeText(AgregarReviewActivity.this, "Ha ocurrido un error: " + mensaje, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AgregarPubActivity.this, "Ha ocurrido un error: " + mensaje, Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -247,7 +264,7 @@ public class AgregarReviewActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(AgregarReviewActivity.this, "Ha ocurrido un error2: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(AgregarPubActivity.this, "Ha ocurrido un error2: " + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -293,7 +310,7 @@ public class AgregarReviewActivity extends AppCompatActivity {
         intent.putExtra("return_home", true);
         setResult(Activity.RESULT_CANCELED, intent);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Intent intent1 = new Intent(AgregarReviewActivity.this, MisReviewsActivity.class);
+        Intent intent1 = new Intent(AgregarPubActivity.this, MisPubActivity.class);
         intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent1);
         finish();
@@ -301,7 +318,7 @@ public class AgregarReviewActivity extends AppCompatActivity {
 
     private void confirmarLogout() {
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(AgregarReviewActivity.this, R.style.AlertDialogStyle);
+        AlertDialog.Builder alert = new AlertDialog.Builder(AgregarPubActivity.this, R.style.AlertDialogStyle);
         alert.setTitle(Html.fromHtml("<font color='#E77FB3'>Está a punto de cerrar sesión</font>"))
                 .setMessage(Html.fromHtml("<font color='#E77FB3'>¿Realmente deseas cerrar sesión?</font>"))
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -372,25 +389,69 @@ public class AgregarReviewActivity extends AppCompatActivity {
     }
 
     private void configMaterials() {
-        sp = getSharedPreferences("emailUserSession", Context.MODE_PRIVATE);
+        sp = getSharedPreferences("emailUserSession", Context.MODE_PRIVATE);;
 
-        storageRef = FirebaseStorage.getInstance().getReference();
-        btnInicio = findViewById(R.id.btnInicio);
-        btnMisReviews = findViewById(R.id.btnGuardados);
-        btnLogout = findViewById(R.id.btnLogout);
-
-        toolbar = findViewById(R.id.mytoolbar);
-        setSupportActionBar(toolbar);
-        setTitle(null);
-
-        ivAgregaReceta = findViewById(R.id.ivAgregaReceta);
+        ivAgregaPub = findViewById(R.id.ivAgregaPublicacion);
         btnAgregaImagen = findViewById(R.id.btnAgregaImagen);
-        etAgregaNombre = findViewById(R.id.etAgregaNombre);
-        etAgregaDescripcion = findViewById(R.id.etAgregaDescripcion);
-        etAgregaReview = findViewById(R.id.etAgregaReview);
-        spnAgregaCategoria = findViewById(R.id.spnAgregaCategoria);
+        etAgregaNombre = findViewById(R.id.etAgregaNombreDesa);
+        etAgregaPubb = findViewById(R.id.etAgregaDescripcion);
+        etAgregaPub = findViewById(R.id.etAgregaReview);
+        spnAgregaZona = findViewById(R.id.spnAgregaZona);
         btnAgregaGuardar = findViewById(R.id.btnAgregaGuardar);
         btnAgregaCancelar = findViewById(R.id.btnAgregaCancelar);
+
+        llenarSpinner();
+    }
+
+    private void llenarSpinner() {
+
+        RequestQueue rq = Volley.newRequestQueue(getApplicationContext(), new HurlStack());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_PUB_LISTALLZONES, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+
+                    boolean success = response.getBoolean("success");
+                    String mensaje = response.getString("message");
+
+                    if (success) {
+                        JSONArray data = response.getJSONArray("data");
+
+                        ArrayList<String> arraySpinner = new ArrayList<>();
+                        arraySpinner.add("Todas...");
+
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject zonaObj = data.getJSONObject(i);
+                            try {
+                                arraySpinner.add(zonaObj.getString("nombre"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        adapterSp = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, arraySpinner);
+                        adapterSp.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+
+                        spnAgregaZona.setAdapter(adapterSp);
+                    } else {
+                        Toast.makeText(AgregarPubActivity.this, "Sin resultados.", Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AgregarPubActivity.this, "Ha ocurrido un error: " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
 
     }
 }

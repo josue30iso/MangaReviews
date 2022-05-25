@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Hope App</string>
     <string name="todoText">TODO</string>
-    <string name="correoText">Email</string>
+    <string name="correoText">Email / Username</string>
     <string name="textPasswd">Contraseña</string>
     <string name="textLogin">Iniciar sesión</string>
     <string name="caseText">o bien</string>
@@ -21,9 +21,9 @@
     <string name="textEditar">Editar</string>
     <string name="textEliminar">Eliminar</string>
     <string name="textDescripcion">Descripción</string>
-    <string name="textReview">Review</string>
-    <string name="textCategoria">Categoría:</string>
-    <string name="escritaPor">Escrita por:</string>
+    <string name="textUltimoVistazo">Ultimo Vistazo</string>
+    <string name="textZona">Zona:</string>
+    <string name="escritaPor">Autor:</string>
     <string name="misreviews">Mis Reviews</string>
     <string name="agregarReview">Agregar Review</string>
     <string name="textGuardar">Guardar</string>

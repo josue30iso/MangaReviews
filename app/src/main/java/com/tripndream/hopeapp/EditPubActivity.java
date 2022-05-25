@@ -17,6 +17,7 @@ import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,12 +39,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.tripndream.hopeapp.utils.WebService;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,98 +49,56 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditReviewActivity extends AppCompatActivity {
+public class EditPubActivity extends AppCompatActivity {
 
     private static final int GET_IMAGE_CODE = 201;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 301;
+    private static final String KEY_GUARDADOS = "key_guardados";
 
     private Toolbar toolbar;
-    private ImageView btnInicio, btnMisReviews, btnMiPerfil, btnLogout;
+    private ImageView btnInicio, btnGuardados, btnMiPerfil, btnLogout;
 
     private SharedPreferences sp;
-
-    private FirebaseAuth fba;
-    private FirebaseUser user;
 
     private Bitmap imgReview = null;
     private String imgReviewB64 = null;
 
-    private ImageView ivReview;
+    private ImageView ivPublicacion;
     private Button btnCambiarImagen, btnEditGuardar, btnEditCancelar;
-    private EditText etNombre, etDescripcion, etReview;
+    private EditText etNombre, etDescripcion, etUltimoVistazo;
 
-    private Spinner editCategoria;
+    private Spinner spinnerEditZona;
 
     private Intent intent;
     private Uri selectedImage = null;
+    private ArrayAdapter<String> adapterSp;
 
-    public int idReceta;
-
-    StorageReference storageRef;
+    public int idPublicacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_receta);
+        setContentView(R.layout.activity_edit_pub);
 
+        configToolbar();
         configMaterials();
 
     }
 
-    private void configMaterials() {
-
-        sp = getSharedPreferences("emailUserSession", Context.MODE_PRIVATE);
-        storageRef = FirebaseStorage.getInstance().getReference();
-
+    private void configToolbar() {
         btnInicio = findViewById(R.id.btnInicio);
-        btnMisReviews = findViewById(R.id.btnGuardados);
+        btnGuardados = findViewById(R.id.btnGuardados);
+        btnMiPerfil = findViewById(R.id.btnMiPerfil);
         btnLogout = findViewById(R.id.btnLogout);
 
         toolbar = findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
         setTitle(null);
-
-        ivReview = findViewById(R.id.ivEditAlimento);
-
-        btnCambiarImagen = findViewById(R.id.btnCambiarImagen);
-        btnEditCancelar = findViewById(R.id.btnEditCancelar);
-        btnEditGuardar = findViewById(R.id.btnEditGuardar);
-
-        etDescripcion = findViewById(R.id.etDescripcion);
-        etNombre = findViewById(R.id.etNombre);
-        etReview = findViewById(R.id.etReview);
-
-        editCategoria = findViewById(R.id.spinnerEditCategoria);
-
-        configIntent();
-        configClickListeners();
-
-    }
-
-    private void configIntent() {
-
-        intent = getIntent();
-
-        idReceta = intent.getIntExtra("key_id_receta",-1);
-
-        imgReviewB64 = intent.getStringExtra("key_url_foto");
-
-        byte[] imageBytes = Base64.decode(imgReviewB64, Base64.DEFAULT);
-        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        ivReview.setImageBitmap(decodedImage);
-
-        etNombre.setText(intent.getStringExtra("key_nombre"));
-        editCategoria.setSelection(intent.getIntExtra("key_id_categoria", 0));
-        etDescripcion.setText(intent.getStringExtra("key_ingredientes"));
-        etReview.setText(intent.getStringExtra("key_preparacion"));
-
-    }
-
-    private void configClickListeners() {
 
         btnInicio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,11 +107,20 @@ public class EditReviewActivity extends AppCompatActivity {
             }
         });
 
-
-        btnMisReviews.setOnClickListener(new View.OnClickListener() {
+        btnGuardados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EditReviewActivity.this, MisReviewsActivity.class);
+                Intent intent = new Intent(EditPubActivity.this, MisPubActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(KEY_GUARDADOS, true);
+                startActivity(intent);
+            }
+        });
+
+        btnMiPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditPubActivity.this, MisPubActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -168,10 +133,117 @@ public class EditReviewActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void configMaterials() {
+
+        sp = getSharedPreferences("emailUserSession", Context.MODE_PRIVATE);
+
+        ivPublicacion = findViewById(R.id.ivFotoDesaparecidoEdit);
+
+        btnCambiarImagen = findViewById(R.id.btnCambiarImagen);
+        btnEditCancelar = findViewById(R.id.btnEditEliminarE);
+        btnEditGuardar = findViewById(R.id.btnEditGuardarE);
+
+        etDescripcion = findViewById(R.id.etDescripcionE);
+        etNombre = findViewById(R.id.etNombreDesaparecidoE);
+        etUltimoVistazo = findViewById(R.id.etUltimoVistazoE);
+
+        spinnerEditZona = findViewById(R.id.spinnerEditZona);
+
+        llenarSpinner();
+
+        configIntent();
+
+        configClickListeners();
+        Log.i("ASUMAKINA", "Cabron");
+    }
+
+    private void llenarSpinner() {
+        try {
+
+            RequestQueue rq = Volley.newRequestQueue(getApplicationContext(), new HurlStack());
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_PUB_LISTALLZONES, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    try {
+
+                        boolean success = response.getBoolean("success");
+                        String mensaje = response.getString("message");
+
+                        if (success) {
+                            JSONArray data = response.getJSONArray("data");
+
+                            ArrayList<String> arraySpinner = new ArrayList<>();
+                            arraySpinner.add("Seleccione zona...");
+
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject zonaObj = data.getJSONObject(i);
+                                try {
+                                    arraySpinner.add(zonaObj.getString("nombre"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            adapterSp = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, arraySpinner);
+                            adapterSp.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+
+                            spinnerEditZona.setAdapter(adapterSp);
+                        } else {
+                            Toast.makeText(EditPubActivity.this, "Sin resultados.", Toast.LENGTH_LONG).show();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(EditPubActivity.this, "Ha ocurrido un error: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+            rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
+
+        } catch (Exception e) {
+            Log.i("ASUMAKINA", e.getMessage());
+        }
+    }
+
+    private void configIntent() {
+        try {
+            intent = getIntent();
+            if (intent != null) {
+                idPublicacion = intent.getIntExtra("key_id_pub",-1);
+
+                imgReviewB64 = intent.getStringExtra("key_url_foto");
+
+                byte[] imageBytes = Base64.decode(imgReviewB64, Base64.DEFAULT);
+                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                ivPublicacion.setImageBitmap(decodedImage);
+
+                etNombre.setText(intent.getStringExtra("key_texto_nombre_desa"));
+                //spinnerEditZona.setSelection(intent.getIntExtra("key_id_zona", 0));
+
+                etDescripcion.setText(intent.getStringExtra("key_texto_descripcion"));
+                etUltimoVistazo.setText(intent.getStringExtra("key_texto_ultima"));
+            }
+        } catch (Exception e) {
+            Log.i("ASUMAKINA", e.getMessage());
+        }
+    }
+
+    private void configClickListeners() {
+
         btnCambiarImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkPermissionES(EditReviewActivity.this)) {
+                if(checkPermissionES(EditPubActivity.this)) {
                     cambiarImagen();
                 }
             }
@@ -190,51 +262,53 @@ public class EditReviewActivity extends AppCompatActivity {
                 guardar();
             }
         });
-
     }
 
     String nombre;
     String descripcion;
-    String review;
-    int idCategoria;
+    String ultimoVistazo;
+    int idZona;
     private void guardar() {
 
         nombre = etNombre.getText().toString().trim();
         descripcion = etDescripcion.getText().toString().trim();
-        review = etReview.getText().toString().trim();
+        ultimoVistazo = etUltimoVistazo.getText().toString().trim();
 
-        idCategoria = editCategoria.getSelectedItemPosition();
+        idZona = spinnerEditZona.getSelectedItemPosition();
 
-        if (!(nombre.equals("") || descripcion.equals("") || review.equals("") || idCategoria == 0)) {
+        if (!(nombre.equals("") || descripcion.equals("") || ultimoVistazo.equals("") || idZona == 0)) {
 
-            sendImgToServer();
+            send();
 
         } else {
-            Toast.makeText(EditReviewActivity.this, "Especifique todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditPubActivity.this, "Especifique todos los campos", Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private Boolean uploadFlag = false;
 
-    private void sendImgToServer() {
+    private void send() {
 
-        String name = String.valueOf(idReceta);
-        Log.i("ImgSubida", "Name: " + name);
-        editRecipe(nombre, descripcion, review, idCategoria, imgReviewB64);
+        editPublicacion(nombre, descripcion, ultimoVistazo, idZona, imgReviewB64);
 
     }
 
-    private void editRecipe(String nombre, String review, String preparacion, int idCategoria, String foto) {
+    private void editPublicacion(String nombreDesaparecido, String ultimoVistazo, String descripcion, int idZona, String foto) {
 
         RequestQueue rq = Volley.newRequestQueue(getApplicationContext(), new HurlStack());
 
+        this.nombre = nombreDesaparecido;
+        this.descripcion = descripcion;
+        this.ultimoVistazo = ultimoVistazo;
+        this.idZona = idZona;
+
         Map map = new HashMap();
-        map.put("id", idReceta);
-        map.put("id_categoria", String.valueOf(idCategoria));
-        map.put("titulo", nombre);
-        map.put("descripcion", preparacion);
-        map.put("review", review);
+        map.put("id", idPublicacion);
+        map.put("id_zona", String.valueOf(idZona));
+        map.put("nombreDesaparecido", nombreDesaparecido);
+        map.put("descripcion", descripcion);
+        map.put("ultimoVistazo", ultimoVistazo);
         map.put("foto", foto);
 
         JSONObject data = new JSONObject( map );
@@ -252,16 +326,17 @@ public class EditReviewActivity extends AppCompatActivity {
                     if (success) {
 
                         Intent intent = new Intent();
-                        intent.putExtra("key_edit_imagen", imgReview);
-                        intent.putExtra("key_edit_nombre", nombre);
-                        intent.putExtra("key_edit_ingredientes", review);
-                        intent.putExtra("key_edit_preparacion", preparacion);
-                        intent.putExtra("key_edit_id_categoria", idCategoria);
+                        intent.putExtra("key_edit_imagen", imgReviewB64);
+                        intent.putExtra("key_edit_nombre", nombreDesaparecido);
+                        intent.putExtra("key_edit_descripcion", descripcion);
+                        intent.putExtra("key_edit_ultima", ultimoVistazo);
+                        intent.putExtra("key_edit_id_zona", spinnerEditZona.getSelectedItemPosition());
+                        intent.putExtra("key_edit_zona", spinnerEditZona.getSelectedItem().toString());
                         setResult(RESULT_OK, intent);
                         finish();
 
                     } else {
-                        Toast.makeText(EditReviewActivity.this, "Ha ocurrido un error: " + mensaje, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditPubActivity.this, "Ha ocurrido un error: " + mensaje, Toast.LENGTH_LONG).show();
                     }
 
                 } catch (JSONException e) {
@@ -272,7 +347,7 @@ public class EditReviewActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(EditReviewActivity.this, "Ha ocurrido un error2: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(EditPubActivity.this, "Ha ocurrido un error2: " + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -290,7 +365,7 @@ public class EditReviewActivity extends AppCompatActivity {
 
     private void confirmarLogout() {
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(EditReviewActivity.this, R.style.AlertDialogStyle);
+        AlertDialog.Builder alert = new AlertDialog.Builder(EditPubActivity.this, R.style.AlertDialogStyle);
         alert.setTitle(Html.fromHtml("<font color='#E77FB3'>Está a punto de cerrar sesión</font>"))
                 .setMessage(Html.fromHtml("<font color='#E77FB3'>¿Realmente deseas cerrar sesión?</font>"))
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -359,10 +434,10 @@ public class EditReviewActivity extends AppCompatActivity {
                     inputStream = getContentResolver().openInputStream(data.getData());
                     imgReview = BitmapFactory.decodeStream(inputStream);
                     inputStream.close();
-                    ivReview.setImageBitmap(imgReview);
+                    ivPublicacion.setImageBitmap(imgReview);
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    imgReview.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+                    imgReview.compress(Bitmap.CompressFormat.JPEG, 15, baos);
                     byte[] imageBytes = baos.toByteArray();
                     imgReviewB64 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
@@ -431,7 +506,7 @@ public class EditReviewActivity extends AppCompatActivity {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     return;
                 } else {
-                    Toast.makeText(EditReviewActivity.this, "Acceso denegado",
+                    Toast.makeText(EditPubActivity.this, "Acceso denegado",
                             Toast.LENGTH_SHORT).show();
                 }
                 break;
