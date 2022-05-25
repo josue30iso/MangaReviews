@@ -11,10 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:background="@color/MRSuperLightPink"
         android:entries="@array/zonas"
+        android:minHeight="48dp"
         android:spinnerMode="dropdown"
         android:theme="@style/Spinner"
         app:layout_constraintEnd_toEndOf="parent"
@@ -120,6 +121,7 @@
                 android:contentDescription="@string/todoText"
                 android:elevation="15dp"
                 android:foregroundTintMode="add"
+                app:tint="#2f4b63"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnLogout"
                 app:layout_constraintStart_toEndOf="@+id/btnMiPerfil"
@@ -136,13 +138,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:elegantTextHeight="false"
         android:text="FIltro Zona"
         android:textAllCaps="false"
         android:textColor="@color/MRSuperLightPink"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnMostrarPendientes"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="Mostrar Pendientes"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -156,7 +156,6 @@ public class EditPubActivity extends AppCompatActivity {
         configIntent();
 
         configClickListeners();
-        Log.i("ASUMAKINA", "Cabron");
     }
 
     private void llenarSpinner() {

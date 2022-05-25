@@ -10,6 +10,8 @@ public class WebService {
     public static final String URL_PUB_LISTBYUSER = "http://"+HOST+"/haweb/api/public/publicaciones/listByUser";
     public static final String URL_PUB_DELETE = "http://"+HOST+"/haweb/api/public/publicaciones/delete";
     public static final String URL_PUB_LISTBYCAT = "http://"+HOST+"/haweb/api/public/publicaciones/listCat";
+    public static final String URL_PUB_COMENTS = "http://"+HOST+"/haweb/api/public/publicaciones/obtenerComentarios";
+    public static final String URL_PUB_SAVE_COMENTS = "http://"+HOST+"/haweb/api/public/publicaciones/guardarComentario";
     public static final String URL_PUB_VALIDAR = "http://"+HOST+"/haweb/api/public/publicaciones/validaPublicacion";
     /***************************************** ZONAS ***************************************************/
     public static final String URL_PUB_LISTALLZONES = "http://"+HOST+"/haweb/api/public/categorias/listar";

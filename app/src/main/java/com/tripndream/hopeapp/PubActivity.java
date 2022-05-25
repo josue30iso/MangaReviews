@@ -11,29 +11,36 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Html;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.tripndream.hopeapp.utils.WebService;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,15 +62,27 @@ public class PubActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ImageView btnInicio, btnGuardados, btnMiPerfil, btnLogout;
 
+    private LinearLayout llValidado, llEnEspera;
+    private ConstraintLayout clEstatusValidado;
+
     private ImageView ivPub;
-    private Button btnEditar, btnEliminar;
+    private Button btnEditar, btnEliminar, btnComentar, btnValidarPub;
     private TextView tvNombre, tvZona, tvAutor, tvDescripcion, tvUltimoVistazo;
+
+    private EditText etComentario;
+
+    private RecyclerView rvComentarios;
+    private ArrayList<Comentario> datos;
+    private CommentsAdapter adapter;
+    private LinearLayoutManager llm;
 
     private SharedPreferences sp;
 
     private Intent intent;
 
     public int idPublicacion;
+    private boolean validada;
+    private boolean esAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +98,7 @@ public class PubActivity extends AppCompatActivity {
     }
 
     private void configToolbar() {
+
         btnInicio = findViewById(R.id.btnInicio);
         btnGuardados = findViewById(R.id.btnGuardados);
         btnMiPerfil = findViewById(R.id.btnMiPerfil);
@@ -125,11 +145,13 @@ public class PubActivity extends AppCompatActivity {
     private void configMaterials() {
 
         sp = getSharedPreferences("emailUserSession", Context.MODE_PRIVATE);
+        esAdmin = sp.getBoolean("esAdmin", false);
 
         ivPub = findViewById(R.id.ivFotoDesaparecido);
 
         btnEditar = findViewById(R.id.btnEditGuardar);
         btnEliminar = findViewById(R.id.btnEditEliminar);
+        btnValidarPub = findViewById(R.id.btnValidarPub);
 
         tvNombre = findViewById(R.id.etNombreDesaparecido);
         tvZona = findViewById(R.id.etZonaPub);
@@ -137,8 +159,86 @@ public class PubActivity extends AppCompatActivity {
         tvDescripcion = findViewById(R.id.etDescripcion);
         tvUltimoVistazo = findViewById(R.id.etUltimoVistazo);
 
+        etComentario = findViewById(R.id.etComent);
+        btnComentar = findViewById(R.id.btnPubComentario);
+
+        rvComentarios = findViewById(R.id.rvComentarios);
+        datos = new ArrayList<Comentario>();
+
+        adapter = new CommentsAdapter(datos, Integer.parseInt(sp.getString("logedID", "")));
+        llm = new LinearLayoutManager(getApplicationContext());
+
+        rvComentarios.setAdapter(adapter);
+        rvComentarios.setLayoutManager(llm);
+
+        llEnEspera = findViewById(R.id.llEnEspera);
+        llValidado = findViewById(R.id.llValidado);
+        clEstatusValidado = findViewById(R.id.clEstatusValidado);
+
         configIntent();
         configClickListeners();
+
+        if (esAdmin && !validada) {
+            btnValidarPub.setVisibility(View.VISIBLE);
+            btnValidarPub.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    validarPublicacion();
+                }
+            });
+        } else {
+            btnValidarPub.setVisibility(View.GONE);
+        }
+
+        if (validada) {
+            listarComentarios();
+        } else {
+            etComentario.setVisibility(View.GONE);
+            btnComentar.setVisibility(View.GONE);
+        }
+    }
+
+    private void validarPublicacion() {
+
+        RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
+
+        Map map = new HashMap();
+        map.put("id", String.valueOf(idPublicacion));
+
+        JSONObject data = new JSONObject( map );
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_PUB_VALIDAR, data, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+
+                    boolean success = response.getBoolean("success");
+                    String mensaje = response.getString("message");
+
+                    if (success) {
+
+                        Toast.makeText(PubActivity.this, "Validacion exitosa", Toast.LENGTH_SHORT).show();
+                        llEnEspera.setVisibility(View.GONE);
+                        llValidado.setVisibility(View.VISIBLE);
+
+                    } else {
+                        Toast.makeText(PubActivity.this, "Ha ocurrido un error: " + mensaje, Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(PubActivity.this, "Ha ocurrido un error2: " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
 
     }
 
@@ -167,7 +267,14 @@ public class PubActivity extends AppCompatActivity {
 
         String idUsuario = String.valueOf(intent.getIntExtra("key_id_usuario", -1));
 
-        if (!idUsuario.equals(sp.getString("logedID", ""))) {
+        validada = 1 == intent.getIntExtra("key_id_validada", 0);
+        if (validada) {
+            llEnEspera.setVisibility(View.GONE);
+            llValidado.setVisibility(View.VISIBLE);
+        }
+
+        if (!idUsuario.equals(sp.getString("logedID", "")) && !esAdmin) {
+            clEstatusValidado.setVisibility(View.GONE);
             btnEditar.setVisibility(View.GONE);
             btnEliminar.setVisibility(View.GONE);
         }
@@ -201,6 +308,63 @@ public class PubActivity extends AppCompatActivity {
                 editar();
             }
         });
+        
+        btnComentar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guardarComentario();
+            }
+        });
+
+    }
+
+    private void guardarComentario() {
+
+        String mensaje = etComentario.getText().toString().trim();
+        if (mensaje.equals("")) {
+            Toast.makeText(PubActivity.this, "Debes ingresar tu comentario", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        RequestQueue rq = Volley.newRequestQueue(getApplicationContext(), new HurlStack());
+
+        Map map = new HashMap();
+        map.put("idPublicacion", String.valueOf(idPublicacion));
+        map.put("idUsuario", sp.getString("logedID", ""));
+        map.put("mensaje", mensaje);
+
+        JSONObject data = new JSONObject( map );
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_PUB_SAVE_COMENTS, data, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+
+                    boolean success = response.getBoolean("success");
+                    String mensaje = response.getString("message");
+
+                    if (success) {
+                        datos.clear();
+                        listarComentarios();
+
+                    } else {
+                        Toast.makeText(PubActivity.this, "Hubo un error: " + mensaje, Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(PubActivity.this, "Peticion incorrecta: " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
 
     }
 
@@ -221,7 +385,6 @@ public class PubActivity extends AppCompatActivity {
 
                     boolean success = response.getBoolean("success");
                     String mensaje = response.getString("message");
-                    Log.i("RecetaActivity", String.valueOf(response));
 
                     if (success) {
 
@@ -245,7 +408,6 @@ public class PubActivity extends AppCompatActivity {
         });
 
         rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
-
 
     }
 
@@ -338,6 +500,78 @@ public class PubActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+
+    }
+
+    private void listarComentarios() {
+
+        RequestQueue rq = Volley.newRequestQueue(getApplicationContext(), new HurlStack());
+
+        Map map = new HashMap();
+        map.put("idPublicacion", String.valueOf(idPublicacion));
+
+        JSONObject data = new JSONObject( map );
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_PUB_COMENTS, data, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+
+                    boolean success = response.getBoolean("success");
+                    String mensaje = response.getString("message");
+
+                    if (success) {
+
+                        adapter.clear();
+                        datos.clear();
+
+                        JSONArray data = response.getJSONArray("data");
+
+                        for (int i = 0; i < data.length(); i++) {
+
+                            JSONObject comentObj = data.getJSONObject(i);
+
+                            Comentario comentario = null;
+                            try {
+                                comentario = new Comentario(
+                                        comentObj.getInt("id"),
+                                        comentObj.getInt("idUsuario"),
+                                        comentObj.getInt("idUsuarioPublicacion"),
+                                        comentObj.getString("nombreUsuario"),
+                                        comentObj.getInt("idPublicacion"),
+                                        comentObj.getString("mensaje"),
+                                        comentObj.getString("fechaRegistro")
+                                );
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            adapter.add(comentario);
+                            datos.add(comentario);
+
+                            adapter.notifyDataSetChanged();
+                        }
+
+                    } else {
+                        if (!mensaje.equals("Sin informacion")) {
+                            Toast.makeText(PubActivity.this, "No se pudieon recuperar los comentarios: " + mensaje, Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(PubActivity.this, "Peticion incorrecta: " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
 
     }
 

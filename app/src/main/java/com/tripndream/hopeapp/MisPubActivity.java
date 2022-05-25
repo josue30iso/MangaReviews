@@ -39,8 +39,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MisPubActivity extends AppCompatActivity implements PubAdapter.OnPubClickListener {
+
     private static final int KEY_AGREGAR_PUB = 401;
-    private static final String KEY_VALIDADA = "key_validada";
+    private static final String KEY_ID_VALIDADA = "key_id_validada";
     private Toolbar toolbar;
     private ImageView btnInicio, btnGuardados, btnMiPerfil, btnLogout;
     private TextView tvTitulo;
@@ -306,7 +307,7 @@ public class MisPubActivity extends AppCompatActivity implements PubAdapter.OnPu
         intent.putExtra(KEY_TEXTO_DESCRIPCION, publicacion.getDescripcion());
         intent.putExtra(KEY_ID_USUARIO, publicacion.getIdUsuario());
         intent.putExtra(KEY_ID_PUBLICACION, publicacion.getId());
-        intent.putExtra(KEY_VALIDADA, publicacion.getValidada());
+        intent.putExtra(KEY_ID_VALIDADA, publicacion.getValidada());
 
         startActivity(intent);
 

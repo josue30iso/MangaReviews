@@ -10,6 +10,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ import java.util.Map;
 public class InicioActivity extends AppCompatActivity implements PubAdapter.OnPubClickListener {
 
     private static final String KEY_TEXTO_NOMBRE = "key_texto_nombre_desa";
+    private static final String KEY_ID_PUBLICACION  = "key_id_pub";
     private static final String KEY_TEXTO_DESCRIPCION = "key_texto_descripcion";
     private static final String KEY_URL_FOTO = "key_url_foto";
     private static final String KEY_ID_ZONA = "key_id_zona";
@@ -49,23 +51,27 @@ public class InicioActivity extends AppCompatActivity implements PubAdapter.OnPu
     private static final String KEY_ID_USUARIO = "key_id_usuario";
     private static final String KEY_ID_ULTIMA = "key_id_ultima";
     private static final String KEY_GUARDADOS = "key_guardados";
+    private static final String KEY_ID_VALIDADA = "key_id_validada";
+    private static final String KEY_NOMBRE_ZONA = "key_nombre_zona";
 
     private Toolbar toolbar;
     private ImageView btnInicio, btnGuardados, btnMiPerfil, btnLogout;
+
+    Button btnMostrarPendientes;
+
     private Spinner spinnerFiltro;
+    private ArrayAdapter<String> adapterSp;
+    private List<Integer> sIds;
+    private int posSpinner = 0;
 
     private RecyclerView rvPublicaciones;
     private ArrayList<Publicacion> datos;
-
-    private ArrayAdapter<String> adapterSp;
-    private List<Integer> sIds;
     private PubAdapter adapter;
     private LinearLayoutManager llm;
-    private int posSpinner = 0;
 
     private SharedPreferences sp;
 
-    private Boolean noClone = false;
+    private Boolean noClone = false, muestraPendientes = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +129,7 @@ public class InicioActivity extends AppCompatActivity implements PubAdapter.OnPu
 
     private void configMaterials() {
         sp = getSharedPreferences("emailUserSession", Context.MODE_PRIVATE);
+        Boolean esAdmin = sp.getBoolean("esAdmin", false);
 
         spinnerFiltro = findViewById(R.id.spinnerFiltro);
 
@@ -136,16 +143,23 @@ public class InicioActivity extends AppCompatActivity implements PubAdapter.OnPu
         rvPublicaciones.setAdapter(adapter);
         rvPublicaciones.setLayoutManager(llm);
 
-        /***************************** TEST RV ***********************************//*
-        adapter.add(new Receta(1, "Jorge",2, "Cosa", "Asumakna", "2020-01-01","https://i0.wp.com/goula.lat/wp-content/uploads/2019/12/hamburguesa-beyond-meat-scaled-e1577396155298.jpg", 1));
-        adapter.add(new Receta(2, "Capo",2, "Cosa", "Asumakna", "2020-01-01","https://i0.wp.com/goula.lat/wp-content/uploads/2019/12/hamburguesa-beyond-meat-scaled-e1577396155298.jpg", 1));
-        adapter.add(new Receta(2, "Children",2, "Cosa", "Asumakna", "2020-01-01","https://i0.wp.com/goula.lat/wp-content/uploads/2019/12/hamburguesa-beyond-meat-scaled-e1577396155298.jpg", 1));
-        adapter.add(new Receta(2, "Ese",2, "Cosa", "Asumakna", "2020-01-01","https://i0.wp.com/goula.lat/wp-content/uploads/2019/12/hamburguesa-beyond-meat-scaled-e1577396155298.jpg", 1));
-        *//***********************************************************************/
+        btnMostrarPendientes = findViewById(R.id.btnMostrarPendientes);
+
+        if (!esAdmin) {
+            btnMostrarPendientes.setVisibility(View.GONE);
+        } else {
+            btnMostrarPendientes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    muestraPendientes = !muestraPendientes;
+                    btnMostrarPendientes.setText(muestraPendientes ? "Mostrar Validadas" : "Mostrar Pendientes");
+                    listaPorZona(posSpinner, muestraPendientes);
+                }
+            });
+        }
 
         llenarSpinner();
         configClickListeners();
-
     }
 
     private void llenarSpinner() {
@@ -202,13 +216,14 @@ public class InicioActivity extends AppCompatActivity implements PubAdapter.OnPu
 
     }
 
-    private void listaPorZona(int i) {
+    private void listaPorZona(int i, Boolean muestraPendientes) {
 
         RequestQueue rq = Volley.newRequestQueue(getApplicationContext(), new HurlStack());
 
         Map map = new HashMap();
         map.put("idZona", i);
         map.put("idUsuario", sp.getString("logedID", ""));
+        map.put("mostrarPendientes", muestraPendientes);
 
         JSONObject data = new JSONObject( map );
 
@@ -251,8 +266,6 @@ public class InicioActivity extends AppCompatActivity implements PubAdapter.OnPu
                                 e.printStackTrace();
                             }
 
-
-
                             adapter.add(publicacion);
                             datos.add(publicacion);
 
@@ -283,7 +296,7 @@ public class InicioActivity extends AppCompatActivity implements PubAdapter.OnPu
 
         spinnerFiltro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                listaPorZona(i);
+                listaPorZona(i, muestraPendientes);
                 posSpinner = i;
             }
 
@@ -324,14 +337,17 @@ public class InicioActivity extends AppCompatActivity implements PubAdapter.OnPu
 
         Publicacion publicacion = datos.get(position);
 
+        intent.putExtra(KEY_ID_PUBLICACION, publicacion.getId());
         intent.putExtra(KEY_TEXTO_NOMBRE, publicacion.getNombreDesaparecido());
-        intent.putExtra(KEY_ID_ZONA, publicacion.getNombreZona());
+        intent.putExtra(KEY_ID_ZONA, publicacion.getIdZona());
+        intent.putExtra(KEY_NOMBRE_ZONA, publicacion.getNombreZona());
         intent.putExtra(KEY_TEXTO_NOMBRE_AUTOR, publicacion.getNombreUsuario());
         intent.putExtra(KEY_URL_FOTO, publicacion.getFoto());
         intent.putExtra(KEY_TEXTO_REVIEW, publicacion.getUltimoVistazo());
         intent.putExtra(KEY_TEXTO_DESCRIPCION, publicacion.getDescripcion());
         intent.putExtra(KEY_ID_USUARIO, publicacion.getIdUsuario());
         intent.putExtra(KEY_ID_ULTIMA, publicacion.getId());
+        intent.putExtra(KEY_ID_VALIDADA, publicacion.getValidada());
 
         noClone = true;
         startActivity(intent);
@@ -347,7 +363,7 @@ public class InicioActivity extends AppCompatActivity implements PubAdapter.OnPu
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (noClone) listaPorZona(posSpinner);
+        if (noClone) listaPorZona(posSpinner, muestraPendientes);
         super.onResume();
     }
 
