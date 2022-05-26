@@ -13,6 +13,7 @@ public class WebService {
     public static final String URL_PUB_COMENTS = "http://"+HOST+"/haweb/api/public/publicaciones/obtenerComentarios";
     public static final String URL_PUB_SAVE_COMENTS = "http://"+HOST+"/haweb/api/public/publicaciones/guardarComentario";
     public static final String URL_PUB_VALIDAR = "http://"+HOST+"/haweb/api/public/publicaciones/validaPublicacion";
+    public static final String URL_PUB_RECHAZAR = "http://"+HOST+"/haweb/api/public/publicaciones/rechazarPublicacion";
     /***************************************** ZONAS ***************************************************/
     public static final String URL_PUB_LISTALLZONES = "http://"+HOST+"/haweb/api/public/categorias/listar";
     /*************************************** USUARIOS **************************************************/

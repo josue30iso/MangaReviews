@@ -62,11 +62,11 @@ public class PubActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ImageView btnInicio, btnGuardados, btnMiPerfil, btnLogout;
 
-    private LinearLayout llValidado, llEnEspera;
+    private LinearLayout llValidado, llEnEspera, llRechazado;
     private ConstraintLayout clEstatusValidado;
 
     private ImageView ivPub;
-    private Button btnEditar, btnEliminar, btnComentar, btnValidarPub;
+    private Button btnEditar, btnEliminar, btnComentar, btnValidarPub, btnRechazarPub;
     private TextView tvNombre, tvZona, tvAutor, tvDescripcion, tvUltimoVistazo;
 
     private EditText etComentario;
@@ -81,7 +81,7 @@ public class PubActivity extends AppCompatActivity {
     private Intent intent;
 
     public int idPublicacion;
-    private boolean validada;
+    private int validada;
     private boolean esAdmin;
 
     @Override
@@ -152,6 +152,7 @@ public class PubActivity extends AppCompatActivity {
         btnEditar = findViewById(R.id.btnEditGuardar);
         btnEliminar = findViewById(R.id.btnEditEliminar);
         btnValidarPub = findViewById(R.id.btnValidarPub);
+        btnRechazarPub = findViewById(R.id.btnRechazarPub);
 
         tvNombre = findViewById(R.id.etNombreDesaparecido);
         tvZona = findViewById(R.id.etZonaPub);
@@ -173,12 +174,13 @@ public class PubActivity extends AppCompatActivity {
 
         llEnEspera = findViewById(R.id.llEnEspera);
         llValidado = findViewById(R.id.llValidado);
+        llRechazado = findViewById(R.id.llRechazado);
         clEstatusValidado = findViewById(R.id.clEstatusValidado);
 
         configIntent();
         configClickListeners();
 
-        if (esAdmin && !validada) {
+        if (esAdmin && validada == 0) {
             btnValidarPub.setVisibility(View.VISIBLE);
             btnValidarPub.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -186,16 +188,67 @@ public class PubActivity extends AppCompatActivity {
                     validarPublicacion();
                 }
             });
+            btnRechazarPub.setVisibility(View.VISIBLE);
+            btnRechazarPub.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        rechazarPublicacion();
+                }
+            });
         } else {
             btnValidarPub.setVisibility(View.GONE);
+            btnRechazarPub.setVisibility(View.GONE);
         }
 
-        if (validada) {
+        if (validada == 1) {
             listarComentarios();
         } else {
             etComentario.setVisibility(View.GONE);
             btnComentar.setVisibility(View.GONE);
         }
+    }
+
+    private void rechazarPublicacion() {
+        RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
+
+        Map map = new HashMap();
+        map.put("id", String.valueOf(idPublicacion));
+
+        JSONObject data = new JSONObject( map );
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_PUB_RECHAZAR, data, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+
+                    boolean success = response.getBoolean("success");
+                    String mensaje = response.getString("message");
+
+                    if (success) {
+
+                        Toast.makeText(PubActivity.this, "Se ha rechazado la publicacion", Toast.LENGTH_SHORT).show();
+                        llEnEspera.setVisibility(View.GONE);
+                        llRechazado.setVisibility(View.VISIBLE);
+
+                    } else {
+                        Toast.makeText(PubActivity.this, "Ha ocurrido un error: " + mensaje, Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(PubActivity.this, "Ha ocurrido un error2: " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
+
     }
 
     private void validarPublicacion() {
@@ -267,10 +320,13 @@ public class PubActivity extends AppCompatActivity {
 
         String idUsuario = String.valueOf(intent.getIntExtra("key_id_usuario", -1));
 
-        validada = 1 == intent.getIntExtra("key_id_validada", 0);
-        if (validada) {
+        validada = intent.getIntExtra("key_id_validada", 0);
+        if (validada == 1) {
             llEnEspera.setVisibility(View.GONE);
             llValidado.setVisibility(View.VISIBLE);
+        } else if (validada == 2) {
+            llEnEspera.setVisibility(View.GONE);
+            llRechazado.setVisibility(View.VISIBLE);
         }
 
         if (!idUsuario.equals(sp.getString("logedID", "")) && !esAdmin) {
@@ -345,6 +401,8 @@ public class PubActivity extends AppCompatActivity {
                     String mensaje = response.getString("message");
 
                     if (success) {
+
+                        etComentario.setText("");
                         datos.clear();
                         listarComentarios();
 

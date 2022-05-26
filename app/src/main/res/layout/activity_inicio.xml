@@ -140,7 +140,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:elegantTextHeight="false"
-        android:text="FIltro Zona"
+        android:text="Filtro Ciudad"
         android:textAllCaps="false"
         android:textColor="@color/MRSuperLightPink"
         android:textStyle="bold"

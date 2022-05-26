@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -233,6 +234,7 @@ public class AgregarPubActivity extends AppCompatActivity {
         map.put("guid", uuid.toString());
 
         JSONObject data = new JSONObject( map );
+        Log.i("ASUMAKINA", data.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_PUB_ADD, data, new Response.Listener<JSONObject>() {
             @Override
