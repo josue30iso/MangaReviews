@@ -8,7 +8,6 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -39,7 +38,6 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
     private ImageView ivNuevoReporte;
 
     private Spinner spFiltroRaza, spFiltroPerdido, spFiltroTipo;
-    private ArrayAdapter<CharSequence> adapterSp;
     public OkHttpClient client;
     private SharedPreferences sp;
     private Reporte reporteMain;
@@ -56,6 +54,14 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
 
         ivNuevoReporte = findViewById(R.id.ivNuevoReporte);
         ivNuevoReporte.setOnClickListener(this);
+
+        data = new ArrayList<>();
+        adapter = new ReporteAdapter(data, this);
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        rvReportes = findViewById(R.id.rvReportes);
+        rvReportes.setAdapter(adapter);
+        rvReportes.setLayoutManager(linearLayoutManager);
+
         client = new OkHttpClient();
 
         spFiltroRaza = findViewById(R.id.spFiltroRazaReportes);
@@ -65,13 +71,6 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
         spFiltroRaza.setOnItemSelectedListener(this);
         spFiltroPerdido.setOnItemSelectedListener(this);
         spFiltroTipo.setOnItemSelectedListener(this);
-
-        data = new ArrayList<>();
-        adapter = new ReporteAdapter(data, this);
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        rvReportes = findViewById(R.id.rvReportes);
-        rvReportes.setAdapter(adapter);
-        rvReportes.setLayoutManager(linearLayoutManager);
 
         sp = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
     }
@@ -85,12 +84,6 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
                 .add("tieneRecompensa", "-1")
                 .add("estatus", String.valueOf(spFiltroTipo.getSelectedItemPosition()))
                 .build();
-
-        Log.i("ASUMAKINA", sp.getString("id", "-1"));
-        Log.i("ASUMAKINA", String.valueOf(spFiltroRaza.getSelectedItemPosition()));
-        Log.i("ASUMAKINA", String.valueOf(spFiltroPerdido.getSelectedItemPosition()));
-        Log.i("ASUMAKINA", "-1");
-        Log.i("ASUMAKINA", String.valueOf(spFiltroTipo.getSelectedItemPosition()));
 
         Request request = new Request.Builder()
                 .url(WebService.URL_PUB_LIST)
