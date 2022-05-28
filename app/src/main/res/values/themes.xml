@@ -43,15 +43,15 @@
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">#ff9900</item>
+        <item name="android:textColor">#1A3A68</item>
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/MRPink</item>
+        <item name="android:textColor">#1A3A68</item>
     </style>
 
     <style name="buttons" parent="Theme.MangaReviews">
-        <item name="colorOnPrimary">@color/MRSuperLightPink</item>
+        <item name="colorOnPrimary">#1A3A68</item>
     </style>
     <style name="Theme.MangaReviews.NoActionBar">
         <item name="windowActionBar">false</item>

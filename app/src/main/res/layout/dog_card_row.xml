@@ -54,10 +54,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ivFotoPerro"
-        app:layout_constraintTop_toBottomOf="@+id/tvGenero" />
+        app:layout_constraintTop_toBottomOf="@+id/tvColonia" />
 
     <TextView
-        android:id="@+id/tvGenero"
+        android:id="@+id/tvColonia"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"

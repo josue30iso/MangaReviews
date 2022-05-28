@@ -2,14 +2,14 @@ package com.tripndream.comeback;
 
 public class Reporte {
     private int id;
-    private String imagen, nombre, raza, genero, descripcion, fecha, celular;
+    private String imagen, nombre, raza, colonia, descripcion, fecha, celular;
 
-    public Reporte( int id, String imagen, String nombre, String raza, String genero, String descripcion, String fecha, String celular) {
+    public Reporte( int id, String imagen, String nombre, String raza, String colonia, String descripcion, String fecha, String celular) {
         this.id = id;
         this.imagen = imagen;
         this.nombre = nombre;
         this.raza = raza;
-        this.genero = genero;
+        this.colonia = colonia;
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.celular = celular;
@@ -47,12 +47,12 @@ public class Reporte {
         this.raza = raza;
     }
 
-    public String getGenero() {
-        return genero;
+    public String getColonia() {
+        return colonia;
     }
 
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void setColonia(String colonia) {
+        this.colonia = colonia;
     }
 
     public String getDescripcion() {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="razas">
+        <item>Seleccione raza...</item>
         <item>Labrador</item>
         <item>Schnauzer</item>
         <item>Silky</item>
@@ -9,9 +10,11 @@
         <item>Yorkshire</item>
     </string-array>
     <string-array name="tipoReporte">
+        <item>Cualquiera</item>
         <item>Perdido</item>
-        <item>Refugiado</item>
+        <item>Encontrado</item>
         <item>Avistado</item>
+        <item>Refugiado</item>
     </string-array>
     <string-array name="razasFiltro">
         <item>Todas</item>
@@ -23,14 +26,19 @@
         <item>Yorkshire</item>
     </string-array>
     <string-array name="colonias">
-        <item>Costa Verde</item>
-        <item>Reforma</item>
-        <item>Costa de Oro</item>
+        <item>Seleccione colonia...</item>
     </string-array>
     <string-array name="coloniasFiltro">
         <item>Cualquiera</item>
-        <item>Costa Verde</item>
-        <item>Reforma</item>
-        <item>Costa de Oro</item>
+        <item>10 de Febrero</item>
+        <item>16 de Febrero</item>
+        <item>2 Caminos</item>
+        <item>21 de Abril</item>
+        <item>8 de Marzo</item>
+        <item>9 de Marzo</item>
+        <item>Adalberto Tejeda</item>
+        <item>Adolfo López Mateos</item>
+        <item>Adolfo Ruiz Cortines</item>
+        <item>Adolfo Ruiz Cortines Ipe</item>
     </string-array>
 </resources>

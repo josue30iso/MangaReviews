@@ -4,16 +4,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
-import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ReporteAdapter extends RecyclerView.Adapter<ReporteViewHolder> {
 
@@ -40,7 +37,7 @@ public class ReporteAdapter extends RecyclerView.Adapter<ReporteViewHolder> {
         holder.ivFotoPerro.setImageBitmap(decodedImage);
         holder.tvNombre.setText(data.get(position).getNombre());
         holder.tvRaza.setText(data.get(position).getRaza());
-        holder.tvGenero.setText(data.get(position).getGenero());
+        holder.tvColonia.setText(data.get(position).getColonia());
         holder.tvDescripcion.setText(data.get(position).getDescripcion());
         holder.tvFecha.setText(data.get(position).getFecha());
         holder.tvCelular.setText(data.get(position).getCelular());
@@ -50,6 +47,17 @@ public class ReporteAdapter extends RecyclerView.Adapter<ReporteViewHolder> {
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void clear() {
+        data.clear();
+        notifyDataSetChanged();
+    }
+
+    public void add(Reporte reporte) {
+
+        data.add(reporte);
+
     }
 
     public interface OnReporteClickListener{

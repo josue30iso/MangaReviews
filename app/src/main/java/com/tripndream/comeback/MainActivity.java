@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,39 +12,31 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.tripndream.comeback.utils.WebService;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int LOGIN_REQUEST_CODE = 101;
-    private static final String KEY_FIREBASE_USER = "key_firebase_user";
     private static final String KEY_EMAIL_USER = "key_email_user";
+    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+    public OkHttpClient client;
 
     private EditText etCorreoLogin, etPasswdLogin;
     private TextView btnRegistro;
     private Button btnLoginNormal;
-
-    private GoogleSignInOptions gso;
-
-    private FirebaseAuth fba;
-    private FirebaseUser user;
 
     private SharedPreferences sp;
     private String correo;
@@ -55,13 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onStart();
 
-        FirebaseUser currentUser = fba.getCurrentUser();
-
         String emailUser = sp.getString("session", "");
-
-        if (currentUser != null) {
-            updateUI(currentUser);
-        }
 
         if (!emailUser.equals("")) {
             updateUI();
@@ -69,15 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void updateUI(FirebaseUser currentUser) {
-        Intent intent = new Intent(this, InicioActivity.class);
-        intent.putExtra(KEY_FIREBASE_USER, user);
-        startActivity(intent);
-        finish();
-    }
-
     private void updateUI() {
-        Intent intent = new Intent(this, InicioActivity.class);
+        Intent intent = new Intent(this, MainMenu.class);
         intent.putExtra(KEY_EMAIL_USER, correo);
         startActivity(intent);
         finish();
@@ -97,28 +75,14 @@ public class MainActivity extends AppCompatActivity {
 
         etCorreoLogin = findViewById(R.id.etCorreoLogin);
         etPasswdLogin = findViewById(R.id.etPasswdLogin);
+        client = new OkHttpClient();
 
         btnRegistro = findViewById(R.id.btnRegistro);
         btnLoginNormal = findViewById(R.id.btnLoginNormal);
 
-        gso = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+        sp = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
 
-        fba = FirebaseAuth.getInstance();
-        user = fba.getCurrentUser();
-
-        sp = getSharedPreferences("emailUserSession", Context.MODE_PRIVATE);
-
-        if (user != null) {
-            updateUI(user);
-        } else {
-            configClickListener();
-        }
-
-
+        configClickListener();
 
     }
 
@@ -142,107 +106,68 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void login() {
-        Intent intent = new Intent(this, MainMenu.class);
-        startActivity(intent);
-        finish();
-        /*RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
 
         correo = etCorreoLogin.getText().toString().trim();
         String passwd = etPasswdLogin.getText().toString().trim();
 
-        Map map = new HashMap();
-        map.put("correo", correo);
-        map.put("password", passwd);
+        if (correo.equals("") || passwd.equals("")) {
+            Toast.makeText(MainActivity.this, "Rellene todos los campos", Toast.LENGTH_SHORT).show();
+        }
 
-        JSONObject data = new JSONObject( map );
+        RequestBody formBody = new FormBody.Builder()
+                .add("correo", correo)
+                .add("password", passwd)
+                .build();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_USER_LOGIN, data, new Response.Listener<JSONObject>() {
+        Request request = new Request.Builder()
+                .url(WebService.URL_USER_LOGIN)
+                .post(formBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response responseHTTP) throws IOException {
 
                 try {
 
+                    if (!responseHTTP.isSuccessful()) throw new IOException("Repuesta inesperada " + responseHTTP);
+
+                    JSONObject response = new JSONObject(responseHTTP.body().string());
+
                     boolean success = response.getBoolean("success");
                     String mensaje = response.getString("message");
-                    Toast.makeText(MainActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+
+                    MainActivity.this.runOnUiThread(() -> Toast.makeText(MainActivity.this, mensaje, Toast.LENGTH_SHORT).show());
 
                     if (success) {
 
                         String id = response.getString("id");
-                        Boolean esAdmin = 1 == Integer.parseInt(response.getString("esAdmin"));
+                        String nombre = response.getString("nombre");
+                        String perrosRescatados = response.getString("perrosRescatados");
+                        String nEncontrados = response.getString("nEncontrados");
+
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString("session", correo);
-                        editor.putString("logedID", id);
-                        editor.putBoolean("esAdmin", esAdmin);
+                        editor.putString("id", id);
+                        editor.putString("nombre", nombre);
+                        editor.putString("perrosRescatados", perrosRescatados);
+                        editor.putString("nEncontrados", nEncontrados);
                         editor.commit();
                         updateUI();
 
                     }
 
-
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Ha ocurrido un error: " + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
         });
-
-        rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
-        */
-    }
-
-    private void registroBD(GoogleSignInAccount account) {
-
-        RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
-
-        Map map = new HashMap();
-
-        map.put("id_agrega", account.getId());
-        map.put("nombre_agrega", account.getDisplayName());
-        map.put("correo_agrega", account.getEmail());
-        map.put("celular_agrega", "1111111111");
-        map.put("password_agrega", account.getFamilyName());
-
-        JSONObject data = new JSONObject( map );
-        Log.i("MainActivity", data.toString());
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, WebService.URL_USER_REGISTER, data, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                try {
-
-                    boolean success = response.getBoolean("success");
-                    String mensaje = response.getString("message");
-
-                    if (success) {
-
-                        Toast.makeText(MainActivity.this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        Toast.makeText(MainActivity.this, "¡Bienvenido!", Toast.LENGTH_SHORT).show();
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Este correo electronico ya existe", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
-
 
     }
 

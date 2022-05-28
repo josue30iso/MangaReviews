@@ -2,7 +2,6 @@ package com.tripndream.comeback;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,28 +9,26 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.tripndream.comeback.utils.WebService;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class RegistroActivity extends AppCompatActivity {
 
     private EditText etNombre, etCorreo, etCelular, etPasswd, etConfirmarPasswd;
     private Button btnAccionRegistro;
     private String nombre, correo, celular, passwd, passwdConf;
+    public OkHttpClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +55,7 @@ public class RegistroActivity extends AppCompatActivity {
         etCelular = findViewById(R.id.etCelularRegistro);
         etPasswd = findViewById(R.id.etPasswdRegistro);
         etConfirmarPasswd = findViewById(R.id.etConfirmarPasswdRegistro);
+        client = new OkHttpClient();
 
         btnAccionRegistro = findViewById(R.id.btnAccionRegistrarse);
 
@@ -86,61 +84,57 @@ public class RegistroActivity extends AppCompatActivity {
 
         if (camposNoVacios()) {
 
-            RequestQueue rq = Volley.newRequestQueue(getApplicationContext(), new HurlStack());
+            RequestBody formBody = new FormBody.Builder()
+                    .add("nombre_agrega", nombre)
+                    .add("correo_agrega", correo)
+                    .add("celular_agrega", celular)
+                    .add("password_agrega", passwd)
+                    .build();
 
-            JSONObject data = new JSONObject( construirMapa() );
-            Log.i("RegistroActivity", data.toString());
+            Request request = new Request.Builder()
+                    .url(WebService.URL_USER_REGISTER)
+                    .post(formBody)
+                    .build();
 
-            JsonObjectRequest jsonObjectRequest = (JsonObjectRequest) new JsonObjectRequest(Request.Method.POST, WebService.URL_USER_REGISTER, data, new Response.Listener<JSONObject>() {
+            client.newCall(request).enqueue(new Callback() {
+
                 @Override
-                public void onResponse(JSONObject response) {
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response responseHTTP) throws IOException {
 
                     try {
+
+                        if (!responseHTTP.isSuccessful()) throw new IOException("Repuesta inesperada " + responseHTTP);
+
+                        JSONObject response = new JSONObject(responseHTTP.body().string());
 
                         boolean success = response.getBoolean("success");
                         String mensaje = response.getString("message");
 
                         if (success) {
 
-                            Toast.makeText(RegistroActivity.this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
+                            RegistroActivity.this.runOnUiThread(() -> Toast.makeText(RegistroActivity.this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show());
+
                             updateUI();
 
                         } else {
-                            Toast.makeText(RegistroActivity.this, "Ha ocurrido un error: " + mensaje, Toast.LENGTH_SHORT).show();
+                            RegistroActivity.this.runOnUiThread(() -> Toast.makeText(RegistroActivity.this,"Ha ocurrido un error: " + mensaje, Toast.LENGTH_SHORT).show());
                         }
 
-
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(RegistroActivity.this, "Ha ocurrido un error2: " + error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            }).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS*4,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-            rq.add(jsonObjectRequest).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));;
+            });
 
         } else {
             Toast.makeText(RegistroActivity.this, "Rellene todos los campos. Las contraseñas deben coincidir.", Toast.LENGTH_SHORT).show();
         }
-
-    }
-
-    private Map construirMapa() {
-
-        Map map = new HashMap();
-        map.put("id_agrega", UUID.randomUUID().toString().replaceAll("-", ""));
-        map.put("nombre_agrega", nombre);
-        map.put("correo_agrega", correo);
-        map.put("celular_agrega", celular);
-        map.put("password_agrega", passwd);
-
-        return map;
 
     }
 

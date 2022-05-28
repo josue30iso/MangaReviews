@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ReporteViewHolder extends RecyclerView.ViewHolder{
     public ImageView ivFotoPerro;
-    public TextView tvNombre, tvRaza, tvGenero, tvDescripcion, tvFecha, tvCelular;
+    public TextView tvNombre, tvRaza, tvColonia, tvDescripcion, tvFecha, tvCelular;
     private ReporteAdapter.OnReporteClickListener onReporteClickListener;
 
     public ReporteViewHolder(@NonNull View itemView, ReporteAdapter.OnReporteClickListener onReporteClickListener) {
@@ -17,7 +17,7 @@ public class ReporteViewHolder extends RecyclerView.ViewHolder{
         ivFotoPerro = itemView.findViewById(R.id.ivFotoPerro);
         tvNombre = itemView.findViewById(R.id.tvNombre);
         tvRaza = itemView.findViewById(R.id.tvRaza);
-        tvGenero = itemView.findViewById(R.id.tvGenero);
+        tvColonia = itemView.findViewById(R.id.tvColonia);
         tvDescripcion = itemView.findViewById(R.id.tvDescripcion);
         tvFecha = itemView.findViewById(R.id.tvFecha);
         tvCelular = itemView.findViewById(R.id.tvCelular);

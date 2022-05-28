@@ -41,11 +41,6 @@
         <activity
             android:name=".MainMenu"
             android:exported="false" />
-        <activity android:name=".AgregarReviewActivity" />
-        <activity android:name=".EditReviewActivity" />
-        <activity android:name=".MisReviewsActivity" />
-        <activity android:name=".ReviewActivity" />
-        <activity android:name=".InicioActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".RecoveryActivity" />
