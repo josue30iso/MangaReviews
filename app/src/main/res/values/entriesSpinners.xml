@@ -9,6 +9,13 @@
         <item>Poodle</item>
         <item>Yorkshire</item>
     </string-array>
+    <string-array name="reporte">
+        <item>Seleccione tipo...</item>
+        <item>Perdido</item>
+        <item>Encontrado</item>
+        <item>Avistado</item>
+        <item>Refugiado</item>
+    </string-array>
     <string-array name="tipoReporte">
         <item>Cualquiera</item>
         <item>Perdido</item>
@@ -27,6 +34,16 @@
     </string-array>
     <string-array name="colonias">
         <item>Seleccione colonia...</item>
+        <item>10 de Febrero</item>
+        <item>16 de Febrero</item>
+        <item>2 Caminos</item>
+        <item>21 de Abril</item>
+        <item>8 de Marzo</item>
+        <item>9 de Marzo</item>
+        <item>Adalberto Tejeda</item>
+        <item>Adolfo López Mateos</item>
+        <item>Adolfo Ruiz Cortines</item>
+        <item>Adolfo Ruiz Cortines Ipe</item>
     </string-array>
     <string-array name="coloniasFiltro">
         <item>Cualquiera</item>

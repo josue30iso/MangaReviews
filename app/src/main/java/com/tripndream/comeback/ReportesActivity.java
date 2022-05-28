@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +31,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ReportesActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, ReporteAdapter.OnReporteClickListener{
+
+    private final int KEY_AGREGAR_REPORTE = 666;
 
     public ArrayList<Reporte> data;
     private RecyclerView rvReportes;
@@ -146,7 +149,7 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
         switch(view.getId()) {
             case R.id.ivNuevoReporte:
                 intent = new Intent(this, Formulario.class);
-                startActivity(intent);
+                startActivityForResult(intent, KEY_AGREGAR_REPORTE);
                 break;
         }
     }
@@ -159,5 +162,17 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         return;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == KEY_AGREGAR_REPORTE){
+            spFiltroPerdido.setSelection(0);
+            spFiltroRaza.setSelection(0);
+            spFiltroTipo.setSelection(0);
+            consumePerros();
+        }
     }
 }
