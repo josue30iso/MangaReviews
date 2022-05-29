@@ -249,12 +249,14 @@ public class Formulario extends AppCompatActivity {
 
     private void guardarFormulario() {
 
-        RequestBody formBody = modoEdicion ? obtenerRequestAgregar() : obtenerRequestEdit();
+        RequestBody formBody = modoEdicion ? obtenerRequestEdit() : obtenerRequestAgregar();
         if (formBody == null) {
             Toast.makeText(Formulario.this, "Debes llenar todos los campos y subir una imagen", Toast.LENGTH_LONG).show();
             return;
         }
 
+
+        Log.i("MODO EDICION", ""+modoEdicion);
         String webService = modoEdicion ? WebService.URL_PUB_EDIT : WebService.URL_PUB_ADD;
 
         Request request = new Request.Builder()
@@ -304,6 +306,7 @@ public class Formulario extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String ultimaVista = sdf.format(new Date(cvUltimaVista.getDate()));
 
+
         if (!nombrePerro.equals("") && !descripcion.equals("") && !contacto.equals("") && !raza.equals("0") && !estatusTipoReporte.equals("0") && !colonia.equals("0") && !ultimaVista.equals("") && !imgPerroB64.equals("")) {
 
             rb = new FormBody.Builder()
@@ -340,6 +343,17 @@ public class Formulario extends AppCompatActivity {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String ultimaVista = sdf.format(new Date(cvUltimaVista.getDate()));
+
+        Log.i("image", imgPerroB64.substring(0,10));
+        Log.i("Nombre", nombrePerro);
+        Log.i("descripcion", descripcion);
+        Log.i("contacto", contacto);
+        Log.i("recompensa", recompensa);
+        Log.i("raza", raza);
+        Log.i("estatusTipoReporte", estatusTipoReporte);
+        Log.i("colonia", raza);
+        Log.i("ultimaVista", ultimaVista);
+        Log.i("id", ""+reporte.getId());
 
         if (!nombrePerro.equals("") && !descripcion.equals("") && !contacto.equals("") && !raza.equals("0") && !estatusTipoReporte.equals("0") && !colonia.equals("0") && !ultimaVista.equals("") && !imgPerroB64.equals("")) {
 
@@ -379,7 +393,25 @@ public class Formulario extends AppCompatActivity {
 
     private void setearDatosFormulario() {
 
+        try {
+            etNombrePerro.setText(reporte.getNombre());
+            etDescripcionReporte.setText(reporte.getDescripcion());
+            etTelefonoReporte.setText(reporte.getCelular());
+            etRecompensa.setText(String.valueOf(reporte.getRecompensa()));
+            spRazaPerro.setSelection(reporte.getSpRaza());
+            spTipoReporte.setSelection(reporte.getEstatus());
+            spColonia.setSelection(reporte.getIdColonia());
 
+            String selectedDate = reporte.getFecha().split(" ")[0];
+            cvUltimaVista.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(selectedDate).getTime(), true, true);
+
+            imgPerroB64 = reporte.getImagen();
+            byte[] imageBytes = Base64.decode(imgPerroB64, Base64.DEFAULT);
+            imgPerro = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            ivPerroAgrega.setImageBitmap(imgPerro);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

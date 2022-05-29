@@ -39,12 +39,14 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
     private SharedPreferences sp;
     private Reporte reporteMain;
 
+    private static final String KEY_ID = "KEY_ID";
     private static final String KEY_IMAGEN = "KEY_IMAGEN";
     private static final String KEY_NOMBRE = "KEY_NOMBRE";
     private static final String KEY_RECOMPENSA = "KEY_RECOMPENSA";
     private static final String KEY_ESTATUS = "KEY_ESTATUS";
     private static final String KEY_ID_RAZA = "KEY_ID_RAZA";
     private static final String KEY_RAZA = "KEY_RAZA";
+    private static final String KEY_ID_COLONIA = "KEY_ID_COLONIA";
     private static final String KEY_COLONIA = "KEY_COLONIA";
     private static final String KEY_FECHA = "KEY_FECHA";
     private static final String KEY_NUMERO = "KEY_NUMERO";
@@ -145,13 +147,15 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
         Reporte reporte = data.get(position);
         Intent intent = new Intent(getApplicationContext(), DetalleActivity.class);
 
+        intent.putExtra(KEY_ID, reporte.getId());
         intent.putExtra(KEY_IMAGEN, reporte.getImagen());
         intent.putExtra(KEY_NOMBRE, reporte.getNombre());
         intent.putExtra(KEY_RECOMPENSA, reporte.getRecompensa());
         Log.i("Estatus", String.valueOf(reporte.getEstatus()));
-        intent.putExtra(KEY_ESTATUS, Integer.toString(reporte.getEstatus()));
+        intent.putExtra(KEY_ESTATUS, reporte.getEstatus());
         intent.putExtra(KEY_ID_RAZA, reporte.getSpRaza());
         intent.putExtra(KEY_RAZA, reporte.getRaza());
+        intent.putExtra(KEY_ID_COLONIA, reporte.getIdColonia());
         intent.putExtra(KEY_COLONIA, reporte.getColonia());
         intent.putExtra(KEY_FECHA, reporte.getFecha());
         intent.putExtra(KEY_NUMERO, reporte.getCelular());
