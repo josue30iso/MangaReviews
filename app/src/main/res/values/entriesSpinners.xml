@@ -18,9 +18,9 @@
     <string-array name="tipoReporte">
         <item>Cualquiera</item>
         <item>Perdido</item>
-        <item>Encontrado</item>
         <item>Avistado</item>
         <item>Refugiado</item>
+        <item>Encontrado</item>
     </string-array>
     <string-array name="razasFiltro">
         <item>Todas</item>

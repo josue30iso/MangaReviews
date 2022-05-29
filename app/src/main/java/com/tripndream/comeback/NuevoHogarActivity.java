@@ -1,9 +1,11 @@
 package com.tripndream.comeback;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -37,6 +39,18 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
     private SharedPreferences sp;
     private Reporte reporteMain;
 
+    private static final String KEY_IMAGEN = "KEY_IMAGEN";
+    private static final String KEY_NOMBRE = "KEY_NOMBRE";
+    private static final String KEY_RECOMPENSA = "KEY_RECOMPENSA";
+    private static final String KEY_ESTATUS = "KEY_ESTATUS";
+    private static final String KEY_ID_RAZA = "KEY_ID_RAZA";
+    private static final String KEY_RAZA = "KEY_RAZA";
+    private static final String KEY_COLONIA = "KEY_COLONIA";
+    private static final String KEY_FECHA = "KEY_FECHA";
+    private static final String KEY_NUMERO = "KEY_NUMERO";
+    private static final String KEY_DESCRIPCION = "KEY_DESCRIPCION";
+    private static final String KEY_USUARIO = "KEY_USUARIO";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +83,7 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
                 .add("raza", String.valueOf(spFiltroRaza.getSelectedItemPosition()))
                 .add("colonia", "-1")
                 .add("tieneRecompensa", "-1")
-                .add("estatus", "4")
+                .add("estatus", "3")
                 .build();
 
         Request request = new Request.Builder()
@@ -96,15 +110,17 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
                     try {
                         reporteMain = new Reporte(
                                 reporteObj.getInt("id"),
+                                reporteObj.getDouble("recompensa"),
                                 reporteObj.getString("idUsuario"),
                                 reporteObj.getInt("estatus"),
                                 reporteObj.getString("foto"),
                                 reporteObj.getString("titulo"),
+                                reporteObj.getInt("raza"),
                                 String.valueOf(spFiltroRaza.getItemAtPosition(reporteObj.getInt("raza"))),
                                 reporteObj.getInt("idColonia"),
                                 reporteObj.getString("nombreColonia"),
                                 reporteObj.getString("descripcion"),
-                                reporteObj.getString("fechaRegistro"),
+                                reporteObj.getString("ultimaVista"),
                                 reporteObj.getString("numeroContacto")
                         );
                     } catch (Exception e) {
@@ -126,7 +142,23 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
 
     @Override
     public void onReporteClickListener(int position) {
+        Reporte reporte = data.get(position);
+        Intent intent = new Intent(getApplicationContext(), DetalleActivity.class);
 
+        intent.putExtra(KEY_IMAGEN, reporte.getImagen());
+        intent.putExtra(KEY_NOMBRE, reporte.getNombre());
+        intent.putExtra(KEY_RECOMPENSA, reporte.getRecompensa());
+        Log.i("Estatus", String.valueOf(reporte.getEstatus()));
+        intent.putExtra(KEY_ESTATUS, Integer.toString(reporte.getEstatus()));
+        intent.putExtra(KEY_ID_RAZA, reporte.getSpRaza());
+        intent.putExtra(KEY_RAZA, reporte.getRaza());
+        intent.putExtra(KEY_COLONIA, reporte.getColonia());
+        intent.putExtra(KEY_FECHA, reporte.getFecha());
+        intent.putExtra(KEY_NUMERO, reporte.getCelular());
+        intent.putExtra(KEY_DESCRIPCION, reporte.getDescripcion());
+        intent.putExtra(KEY_USUARIO, reporte.getUsuario());
+
+        startActivity(intent);
     }
 
     @Override

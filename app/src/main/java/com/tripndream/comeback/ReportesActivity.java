@@ -47,7 +47,9 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
 
     private static final String KEY_IMAGEN = "KEY_IMAGEN";
     private static final String KEY_NOMBRE = "KEY_NOMBRE";
+    private static final String KEY_RECOMPENSA = "KEY_RECOMPENSA";
     private static final String KEY_ESTATUS = "KEY_ESTATUS";
+    private static final String KEY_ID_RAZA = "KEY_ID_RAZA";
     private static final String KEY_RAZA = "KEY_RAZA";
     private static final String KEY_COLONIA = "KEY_COLONIA";
     private static final String KEY_FECHA = "KEY_FECHA";
@@ -122,15 +124,17 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
                     try {
                         reporteMain = new Reporte(
                                 reporteObj.getInt("id"),
+                                reporteObj.getDouble("recompensa"),
                                 reporteObj.getString("idUsuario"),
                                 reporteObj.getInt("estatus"),
                                 reporteObj.getString("foto"),
                                 reporteObj.getString("titulo"),
+                                reporteObj.getInt("raza"),
                                 String.valueOf(spFiltroRaza.getItemAtPosition(reporteObj.getInt("raza"))),
                                 reporteObj.getInt("idColonia"),
                                 reporteObj.getString("nombreColonia"),
                                 reporteObj.getString("descripcion"),
-                                reporteObj.getString("fechaRegistro"),
+                                reporteObj.getString("ultimaVista"),
                                 reporteObj.getString("numeroContacto")
                         );
                     } catch (Exception e) {
@@ -157,8 +161,10 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
 
         intent.putExtra(KEY_IMAGEN, reporte.getImagen());
         intent.putExtra(KEY_NOMBRE, reporte.getNombre());
+        intent.putExtra(KEY_RECOMPENSA, reporte.getRecompensa());
         Log.i("Estatus", String.valueOf(reporte.getEstatus()));
         intent.putExtra(KEY_ESTATUS, Integer.toString(reporte.getEstatus()));
+        intent.putExtra(KEY_ID_RAZA, reporte.getSpRaza());
         intent.putExtra(KEY_RAZA, reporte.getRaza());
         intent.putExtra(KEY_COLONIA, reporte.getColonia());
         intent.putExtra(KEY_FECHA, reporte.getFecha());

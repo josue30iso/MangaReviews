@@ -1,21 +1,29 @@
 package com.tripndream.comeback;
 
-public class Reporte {
-    private int id, idColonia, estatus;
+import java.io.Serializable;
+
+public class Reporte implements Serializable {
+    private int id, spRaza, idColonia, estatus;
+    private double recompensa;
     private String usuario, imagen, nombre, raza, colonia, descripcion, fecha, celular;
 
-    public Reporte( int id, String usuario, int estatus, String imagen, String nombre, String raza, int idColonia, String colonia, String descripcion, String fecha, String celular) {
+    public Reporte(int id, double recompensa, String usuario, int estatus, String imagen, String nombre, int spRaza, String raza, int idColonia, String colonia, String descripcion, String ultimaVista, String celular) {
         this.id = id;
+        this.recompensa = recompensa;
         this.usuario = usuario;
         this.estatus = estatus;
         this.imagen = imagen;
         this.nombre = nombre;
+        this.spRaza = spRaza;
         this.raza = raza;
         this.idColonia = idColonia;
         this.colonia = colonia;
         this.descripcion = descripcion;
-        this.fecha = fecha;
+        this.fecha = ultimaVista;
         this.celular = celular;
+    }
+
+    public Reporte() {
     }
 
     public int getId() {
@@ -40,6 +48,14 @@ public class Reporte {
 
     public void setEstatus(int estatus) {
         this.estatus = estatus;
+    }
+
+    public int getSpRaza() {
+        return spRaza;
+    }
+
+    public void setSpRaza(int spRaza) {
+        this.spRaza = spRaza;
     }
 
     public String getImagen() {
@@ -104,5 +120,13 @@ public class Reporte {
 
     public void setCelular(String celular) {
         this.celular = celular;
+    }
+
+    public double getRecompensa() {
+        return recompensa;
+    }
+
+    public void setRecompensa(double recompensa) {
+        this.recompensa = recompensa;
     }
 }

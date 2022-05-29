@@ -42,7 +42,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,7 +56,6 @@ public class Formulario extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 301;
     private static final int GET_IMAGE_CODE = 202;
-    private static final String KEY_GUARDADOS = "key_guardados";
 
     private TextView tvFormularioNombre, tvFormularioRaza, tvFormularioColonia,
             tvFormularioDescripcion, tvFormularioFecha,
@@ -77,6 +75,10 @@ public class Formulario extends AppCompatActivity {
     public OkHttpClient client;
     private SharedPreferences sp;
     private Calendar currentTime;
+
+    private Boolean modoEdicion;
+    private Reporte reporte;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,18 +234,31 @@ public class Formulario extends AppCompatActivity {
 
         client = new OkHttpClient();
         sp = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+
+        intent = getIntent();
+        if (intent != null) {
+            modoEdicion = intent.getBooleanExtra("modo_edicion", false);
+            if (modoEdicion) {
+                reporte = (Reporte) intent.getSerializableExtra("reporte");
+                if (reporte != null) {
+                    setearDatosFormulario();
+                }
+            }
+        }
     }
 
     private void guardarFormulario() {
 
-        RequestBody formBody = obtenerRequest();
+        RequestBody formBody = modoEdicion ? obtenerRequestAgregar() : obtenerRequestEdit();
         if (formBody == null) {
             Toast.makeText(Formulario.this, "Debes llenar todos los campos y subir una imagen", Toast.LENGTH_LONG).show();
             return;
         }
 
+        String webService = modoEdicion ? WebService.URL_PUB_EDIT : WebService.URL_PUB_ADD;
+
         Request request = new Request.Builder()
-                .url(WebService.URL_PUB_ADD)
+                .url(webService)
                 .post(formBody)
                 .build();
 
@@ -257,12 +272,13 @@ public class Formulario extends AppCompatActivity {
             if (success) {
 
                 Intent intent = new Intent();
-                Toast.makeText(Formulario.this, "Se ha publicado tu huellita", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Formulario.this, modoEdicion ? "Se ha editado tu huellita" : "Se ha publicado tu huellita", Toast.LENGTH_SHORT).show();
+                if (modoEdicion) intent.putExtra("reporte", reporte);
                 setResult(RESULT_OK, intent);
                 finish();
 
             } else {
-                Log.e("Eror", String.valueOf(response));
+                Log.e("Error", String.valueOf(response));
                 Toast.makeText(Formulario.this, "Ha ocurrido un error: " + mensaje, Toast.LENGTH_LONG).show();
             }
 
@@ -272,7 +288,7 @@ public class Formulario extends AppCompatActivity {
 
     }
 
-    private RequestBody obtenerRequest() {
+    private RequestBody obtenerRequestAgregar() {
 
         RequestBody rb = null;
 
@@ -285,7 +301,7 @@ public class Formulario extends AppCompatActivity {
         String estatusTipoReporte = String.valueOf(spTipoReporte.getSelectedItemPosition());
         String colonia = String.valueOf(spColonia.getSelectedItemPosition());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String ultimaVista = sdf.format(new Date(cvUltimaVista.getDate()));
 
         if (!nombrePerro.equals("") && !descripcion.equals("") && !contacto.equals("") && !raza.equals("0") && !estatusTipoReporte.equals("0") && !colonia.equals("0") && !ultimaVista.equals("") && !imgPerroB64.equals("")) {
@@ -306,6 +322,64 @@ public class Formulario extends AppCompatActivity {
         }
 
         return rb;
+
+    }
+
+    private RequestBody obtenerRequestEdit() {
+
+        RequestBody rb = null;
+
+        String nombrePerro = etNombrePerro.getText().toString().trim();
+        String descripcion = etDescripcionReporte.getText().toString().trim();
+        String contacto = etTelefonoReporte.getText().toString().trim();
+        String recompensa = etRecompensa.getText().toString().trim();
+
+        String raza = String.valueOf(spRazaPerro.getSelectedItemPosition());
+        String estatusTipoReporte = String.valueOf(spTipoReporte.getSelectedItemPosition());
+        String colonia = String.valueOf(spColonia.getSelectedItemPosition());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String ultimaVista = sdf.format(new Date(cvUltimaVista.getDate()));
+
+        if (!nombrePerro.equals("") && !descripcion.equals("") && !contacto.equals("") && !raza.equals("0") && !estatusTipoReporte.equals("0") && !colonia.equals("0") && !ultimaVista.equals("") && !imgPerroB64.equals("")) {
+
+            rb = new FormBody.Builder()
+                    .add("foto", imgPerroB64)
+                    .add("id", String.valueOf(reporte.getId()))
+                    .add("titulo", nombrePerro)
+                    .add("raza", raza)
+                    .add("estatus", estatusTipoReporte)
+                    .add("id_colonia", colonia)
+                    .add("descripcion", descripcion)
+                    .add("numeroContacto", contacto)
+                    .add("recompensa", recompensa.equals("") ? "0.00" : recompensa)
+                    .add("ultimaVista", ultimaVista)
+                    .build();
+
+            reporte = new Reporte();
+            reporte.setImagen(imgPerroB64);
+            reporte.setId(reporte.getId());
+            reporte.setCelular(contacto);
+            reporte.setColonia(colonia);
+            reporte.setSpRaza(spRazaPerro.getSelectedItemPosition());
+            reporte.setRaza((String) spRazaPerro.getSelectedItem());
+            reporte.setFecha(ultimaVista);
+            reporte.setNombre(nombrePerro);
+            reporte.setEstatus(spTipoReporte.getSelectedItemPosition());
+            reporte.setDescripcion(descripcion);
+            reporte.setIdColonia(spColonia.getSelectedItemPosition());
+            reporte.setRecompensa(Double.valueOf(recompensa.equals("") ? "0.00" : recompensa));
+            reporte.setUsuario("");
+
+        }
+
+        return rb;
+
+    }
+
+    private void setearDatosFormulario() {
+
+
 
     }
 
