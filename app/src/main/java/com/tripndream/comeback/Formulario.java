@@ -306,23 +306,53 @@ public class Formulario extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String ultimaVista = sdf.format(new Date(cvUltimaVista.getDate()));
 
+        if ( !estatusTipoReporte.equals("0") ){
+            if ( ( estatusTipoReporte.equals("1") && (!nombrePerro.equals("") && !descripcion.equals("") && !contacto.equals("") && !raza.equals("0") && !colonia.equals("0") && !ultimaVista.equals("") && !imgPerroB64.equals("")))
+                    || ( estatusTipoReporte.equals("2") && (!descripcion.equals("") && !contacto.equals("") && !raza.equals("0") && !colonia.equals("0") && !ultimaVista.equals("") && !imgPerroB64.equals("")))
+                    || ( estatusTipoReporte.equals("3") && (!descripcion.equals("") && !contacto.equals("") && !raza.equals("0") && !colonia.equals("0") && !ultimaVista.equals("") && !imgPerroB64.equals("")))
+                ) {
+                rb = new FormBody.Builder()
+                        .add("foto", imgPerroB64)
+                        .add("id_usuario", sp.getString("id", "-1"))
+                        .add("titulo", nombrePerro)
+                        .add("raza", raza)
+                        .add("estatus", estatusTipoReporte)
+                        .add("id_colonia", colonia)
+                        .add("descripcion", descripcion)
+                        .add("numeroContacto", contacto)
+                        .add("recompensa", recompensa.equals("") ? "0.00" : recompensa)
+                        .add("ultimaVista", ultimaVista)
+                        .build();
 
-        if (!nombrePerro.equals("") && !descripcion.equals("") && !contacto.equals("") && !raza.equals("0") && !estatusTipoReporte.equals("0") && !colonia.equals("0") && !ultimaVista.equals("") && !imgPerroB64.equals("")) {
+            }
+            /*
+            switch (estatusTipoReporte){
+                case "1":
+                    if ( !nombrePerro.equals("") && !descripcion.equals("") && !contacto.equals("") && !raza.equals("0") && !colonia.equals("0") && !ultimaVista.equals("") && !imgPerroB64.equals("") ) {
+                        rb = new FormBody.Builder()
+                                .add("foto", imgPerroB64)
+                                .add("id_usuario", sp.getString("id", "-1"))
+                                .add("titulo", nombrePerro)
+                                .add("raza", raza)
+                                .add("estatus", estatusTipoReporte)
+                                .add("id_colonia", colonia)
+                                .add("descripcion", descripcion)
+                                .add("numeroContacto", contacto)
+                                .add("recompensa", recompensa.equals("") ? "0.00" : recompensa)
+                                .add("ultimaVista", ultimaVista)
+                                .build();
 
-            rb = new FormBody.Builder()
-                    .add("foto", imgPerroB64)
-                    .add("id_usuario", sp.getString("id", "-1"))
-                    .add("titulo", nombrePerro)
-                    .add("raza", raza)
-                    .add("estatus", estatusTipoReporte)
-                    .add("id_colonia", colonia)
-                    .add("descripcion", descripcion)
-                    .add("numeroContacto", contacto)
-                    .add("recompensa", recompensa.equals("") ? "0.00" : recompensa)
-                    .add("ultimaVista", ultimaVista)
-                    .build();
+                    }
+                    break;
+            }
+            */
+
 
         }
+
+
+
+
 
         return rb;
 

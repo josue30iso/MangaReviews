@@ -5,11 +5,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ReporteViewHolder extends RecyclerView.ViewHolder{
     public ImageView ivFotoPerro;
-    public TextView tvNombre, tvRaza, tvColonia, tvDescripcion, tvFecha, tvCelular;
+    public TextView tvNombre, tvRaza, tvColonia, tvDescripcion, tvFecha, tvCelular, tvRecompensa;
+    public ConstraintLayout bgCard;
     private ReporteAdapter.OnReporteClickListener onReporteClickListener;
 
     public ReporteViewHolder(@NonNull View itemView, ReporteAdapter.OnReporteClickListener onReporteClickListener) {
@@ -21,6 +23,8 @@ public class ReporteViewHolder extends RecyclerView.ViewHolder{
         tvDescripcion = itemView.findViewById(R.id.tvDescripcion);
         tvFecha = itemView.findViewById(R.id.tvFecha);
         tvCelular = itemView.findViewById(R.id.tvCelular);
+        tvRecompensa = itemView.findViewById(R.id.tvRecompensa);
+        bgCard = itemView.findViewById(R.id.bgCard);
 
         this.onReporteClickListener = onReporteClickListener;
         itemView.setOnClickListener(new View.OnClickListener(){
