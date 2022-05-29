@@ -12,9 +12,8 @@
     <string-array name="reporte">
         <item>Seleccione tipo...</item>
         <item>Perdido</item>
-        <item>Encontrado</item>
         <item>Avistado</item>
-        <item>Refugiado</item>
+        <item>En nuevo hogar</item>
     </string-array>
     <string-array name="tipoReporte">
         <item>Cualquiera</item>
