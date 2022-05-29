@@ -19,4 +19,7 @@ public class WebService {
     /*************************************** USUARIOS **************************************************/
     public static final String URL_USER_REGISTER = "http://"+HOST+"/haweb/api/public/usuarios/register";
     public static final String URL_USER_LOGIN = "http://"+HOST+"/haweb/api/public/usuarios/login";
+    public static final String URL_USER_RECOV = "http://"+HOST+"/haweb/api/public/usuarios/recovery";
+    public static final String URL_USER_VERIF = "http://"+HOST+"/haweb/api/public/usuarios/verificar";
+    public static final String URL_USER_CAMPAS = "http://"+HOST+"/haweb/api/public/usuarios/cambiarPasswd";
 }

@@ -11,6 +11,7 @@
         android:id="@+id/consInicio"
         android:layout_width="409dp"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +82,7 @@
         android:id="@+id/consLogin"
         android:layout_width="404dp"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,13 +94,13 @@
             android:layout_height="41dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
+            android:backgroundTint="@color/MRLightPink"
             android:contentDescription="TODO"
             android:src="?attr/homeAsUpIndicator"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
-            tools:src="?attr/homeAsUpIndicator"
-            android:backgroundTint="@color/MRLightPink"/>
+            tools:src="?attr/homeAsUpIndicator" />
 
         <TextView
             android:id="@+id/textView12"
@@ -143,6 +144,21 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etPasswdLogin" />
+
+        <Button
+            android:id="@+id/btnRecovery"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
+            android:text="@string/recuperar_contrase_aText"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:backgroundTint="@color/MREnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLoginNormal" />
 
         <TextView
             android:id="@+id/textView2"

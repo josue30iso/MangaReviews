@@ -181,7 +181,7 @@
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                app:layout_constraintTop_toBottomOf="@+id/tvE" />
 
             <TextView
                 android:id="@+id/textView8"
@@ -198,7 +198,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/etNombreRegistro" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/tvE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"

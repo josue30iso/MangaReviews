@@ -14,7 +14,7 @@
     <string name="apellidosText">Apellidos</string>
     <string name="nombreText">Nombre Completo</string>
     <string name="textButtonRecovery">Recuperar cuenta</string>
-    <string name="textRecoveryDescription">Si el correo especificado es correcto recibirás instrucciones para recuperar tu cuenta</string>
+    <string name="textRecoveryDescription">Si el correo especificado es correcto recibiar un codigo que deberas colocar aqui</string>
     <string name="action_settings">Settings</string>
     <string name="textEntradas_recientes">Entradas recientes</string>
     <string name="relleno">TextView</string>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,10 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.tripndream.hopeapp.utils.WebService;
 
 import org.json.JSONException;
@@ -46,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView btnRegistro;
     private Button btnLoginNormal;
     private Button btnViewLogin;
+    private Button btnRecovery;
     private ImageButton btnViewInicio;
 
     private SharedPreferences sp;
@@ -90,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         btnLoginNormal = findViewById(R.id.btnLoginNormal);
         btnViewLogin = findViewById(R.id.btmViewLogin);
         btnViewInicio = findViewById(R.id.ibReturnMain);
+        btnRecovery = findViewById(R.id.btnRecovery);
 
         consInicio = findViewById(R.id.consInicio);
         consLogin = findViewById(R.id.consLogin);
@@ -130,6 +127,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 consLogin.setVisibility(View.GONE);
                 consInicio.setVisibility(View.VISIBLE);
+            }
+        });
+
+        btnRecovery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RecoveryActivity.class);
+                startActivity(intent);
             }
         });
 
