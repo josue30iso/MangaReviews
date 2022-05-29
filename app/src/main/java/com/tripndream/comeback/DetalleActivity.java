@@ -29,7 +29,7 @@ public class DetalleActivity extends AppCompatActivity {
     private ImageView ivDetalleFoto;
     private TextView tvDetalleNombre, tvDetalleRaza, tvDetalleFecha,
             tvDetallePerdidoEn, tvDetalleTelefono, tvDetalleDescripcion,
-            tvTipoReporte, tvRecompensa;
+            tvTipoReporte, tvRecompensa, tvLabelRecompensa;
     private Button btnEditar, btnEliminar, btnEncontrado;
 
     private SharedPreferences sp;
@@ -53,20 +53,7 @@ public class DetalleActivity extends AppCompatActivity {
         reporte.setId(intent.getIntExtra("KEY_ID", -1));
 
         reporte.setEstatus(intent.getIntExtra("KEY_ESTATUS", -1));
-        switch (reporte.getEstatus()){
-            case 1:
-                tvTipoReporte.setText("Perdido");
-                break;
-            case 2:
-                tvTipoReporte.setText("En su hogar");
-                break;
-            case 3:
-                tvTipoReporte.setText("Nuevo hogar");
-                break;
-            case 4:
-                tvTipoReporte.setText("Encontrado");
-                break;
-        }
+
 
         ivDetalleFoto = findViewById(R.id.ivDetalleFoto);
         String fotoPerrito = intent.getStringExtra("KEY_IMAGEN");
@@ -87,7 +74,7 @@ public class DetalleActivity extends AppCompatActivity {
         tvDetalleFecha = findViewById(R.id.tvDetalleFecha);
         String fecha = intent.getStringExtra("KEY_FECHA").split(" ")[0];
         reporte.setFecha(fecha);
-        tvDetalleFecha.setText("Fecha de desaparecido: " + fecha);
+        tvDetalleFecha.setText(fecha);
 
         tvDetallePerdidoEn = findViewById(R.id.tvDetallePerdidoEn);
         reporte.setId(intent.getIntExtra("KEY_ID_COLONIA", -1));
@@ -96,11 +83,13 @@ public class DetalleActivity extends AppCompatActivity {
 
         tvDetalleTelefono = findViewById(R.id.tvDetalleTelefono);
         reporte.setCelular(intent.getStringExtra("KEY_NUMERO"));
-        tvDetalleTelefono.setText("Contacto: " + reporte.getCelular());
+        tvDetalleTelefono.setText(reporte.getCelular());
 
         tvDetalleDescripcion = findViewById(R.id.tvDetalleDescripcion);
         reporte.setDescripcion(intent.getStringExtra("KEY_DESCRIPCION"));
         tvDetalleDescripcion.setText(reporte.getDescripcion());
+
+        tvLabelRecompensa = findViewById(R.id.tvLabelRecompensa);
 
         tvRecompensa = findViewById(R.id.tvDetalleRecompensa);
         reporte.setRecompensa(intent.getDoubleExtra("KEY_RECOMPENSA", 0));
@@ -110,14 +99,43 @@ public class DetalleActivity extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btnEliminar);
         btnEncontrado = findViewById(R.id.btnEncontrado);
 
-        if(sp.getString("id", "-1").equals(intent.getStringExtra("KEY_USUARIO"))){
-            btnEditar.setVisibility(View.VISIBLE);
-            btnEliminar.setVisibility(View.VISIBLE);
-            btnEncontrado.setVisibility(View.VISIBLE);
+        if(reporte.getEstatus() == 1 || reporte.getEstatus() == 2 || reporte.getEstatus() == 3){
+            if(sp.getString("id", "-1").equals(intent.getStringExtra("KEY_USUARIO"))){
+                btnEditar.setVisibility(View.VISIBLE);
+                btnEliminar.setVisibility(View.VISIBLE);
+                btnEncontrado.setVisibility(View.VISIBLE);
 
-            btnEditar.setOnClickListener(v -> {
-                editar();
-            });
+                btnEditar.setOnClickListener(v -> {
+                    editar();
+                });
+            }
+        }
+
+        switch (reporte.getEstatus()){
+            case 1:
+                tvTipoReporte.setText("Perdido");
+                tvDetalleNombre.setVisibility(View.VISIBLE);
+                tvRecompensa.setVisibility(View.VISIBLE);
+                tvLabelRecompensa.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                tvTipoReporte.setText("Avistado");
+                tvDetalleNombre.setVisibility(View.GONE);
+                tvRecompensa.setVisibility(View.GONE);
+                tvLabelRecompensa.setVisibility(View.GONE);
+                break;
+            case 3:
+                tvTipoReporte.setText("Refugiado");
+                tvDetalleNombre.setVisibility(View.GONE);
+                tvRecompensa.setVisibility(View.GONE);
+                tvLabelRecompensa.setVisibility(View.GONE);
+                break;
+            case 4:
+                tvTipoReporte.setText("Encontrado");
+                tvDetalleNombre.setVisibility(View.VISIBLE);
+                tvRecompensa.setVisibility(View.GONE);
+                tvLabelRecompensa.setVisibility(View.GONE);
+                break;
         }
     }
 
