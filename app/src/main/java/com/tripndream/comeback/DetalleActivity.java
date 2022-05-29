@@ -99,36 +99,46 @@ public class DetalleActivity extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btnEliminar);
         btnEncontrado = findViewById(R.id.btnEncontrado);
 
-        if(reporte.getEstatus() == 1 || reporte.getEstatus() == 2 || reporte.getEstatus() == 3){
-            if(sp.getString("id", "-1").equals(intent.getStringExtra("KEY_USUARIO"))){
-                btnEditar.setVisibility(View.VISIBLE);
-                btnEliminar.setVisibility(View.VISIBLE);
-                btnEncontrado.setVisibility(View.VISIBLE);
-
-                btnEditar.setOnClickListener(v -> {
-                    editar();
-                });
-            }
-        }
-
         switch (reporte.getEstatus()){
             case 1:
                 tvTipoReporte.setText("Perdido");
                 tvDetalleNombre.setVisibility(View.VISIBLE);
                 tvRecompensa.setVisibility(View.VISIBLE);
                 tvLabelRecompensa.setVisibility(View.VISIBLE);
+                if(sp.getString("id", "-1").equals(intent.getStringExtra("KEY_USUARIO"))){
+                    btnEditar.setVisibility(View.VISIBLE);
+                    btnEliminar.setVisibility(View.VISIBLE);
+                    btnEncontrado.setVisibility(View.VISIBLE);
+                    btnEditar.setOnClickListener(v -> {
+                        editar();
+                    });
+                }
                 break;
             case 2:
                 tvTipoReporte.setText("Avistado");
                 tvDetalleNombre.setVisibility(View.GONE);
                 tvRecompensa.setVisibility(View.GONE);
                 tvLabelRecompensa.setVisibility(View.GONE);
+                if(sp.getString("id", "-1").equals(intent.getStringExtra("KEY_USUARIO"))){
+                    btnEditar.setVisibility(View.VISIBLE);
+                    btnEliminar.setVisibility(View.VISIBLE);
+                    btnEditar.setOnClickListener(v -> {
+                        editar();
+                    });
+                }
                 break;
             case 3:
                 tvTipoReporte.setText("Refugiado");
                 tvDetalleNombre.setVisibility(View.GONE);
                 tvRecompensa.setVisibility(View.GONE);
                 tvLabelRecompensa.setVisibility(View.GONE);
+                if(sp.getString("id", "-1").equals(intent.getStringExtra("KEY_USUARIO"))){
+                    btnEditar.setVisibility(View.VISIBLE);
+                    btnEliminar.setVisibility(View.VISIBLE);
+                    btnEditar.setOnClickListener(v -> {
+                        editar();
+                    });
+                }
                 break;
             case 4:
                 tvTipoReporte.setText("Encontrado");

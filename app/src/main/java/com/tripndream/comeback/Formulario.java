@@ -58,8 +58,8 @@ public class Formulario extends AppCompatActivity {
     private static final int GET_IMAGE_CODE = 202;
 
     private TextView tvFormularioNombre, tvFormularioRaza, tvFormularioColonia,
-            tvFormularioDescripcion, tvFormularioFecha,
-            tvFormularioNumero, tvFormularioRecompensa;
+            tvFormularioDescripcion, tvFormularioFecha, tvFormularioNumero,
+            tvFormularioRecompensa, tvLabelTipoReporte;
     private EditText etNombrePerro, etDescripcionReporte, etTelefonoReporte, etRecompensa;
     private Spinner spRazaPerro, spTipoReporte, spColonia;
     private CalendarView cvUltimaVista;
@@ -101,6 +101,7 @@ public class Formulario extends AppCompatActivity {
         etDescripcionReporte = findViewById(R.id.etDescripcionReporte);
         etTelefonoReporte = findViewById(R.id.etTelefonoReporte);
         etRecompensa = findViewById(R.id.etRecompensa);
+        tvLabelTipoReporte = findViewById(R.id.tvLabelTipoReporte);
 
         spRazaPerro = findViewById(R.id.spRazaPerro);
 
@@ -424,6 +425,8 @@ public class Formulario extends AppCompatActivity {
     private void setearDatosFormulario() {
 
         try {
+            tvLabelTipoReporte.setVisibility(View.GONE);
+            spTipoReporte.setVisibility(View.GONE);
             etNombrePerro.setText(reporte.getNombre());
             etDescripcionReporte.setText(reporte.getDescripcion());
             etTelefonoReporte.setText(reporte.getCelular());
