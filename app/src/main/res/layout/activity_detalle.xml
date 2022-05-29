@@ -29,7 +29,7 @@
                 android:id="@+id/tvTipoReporte"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Perdido"
+                android:text="Tipo"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="#70671B" />
 
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Hachi"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
                 android:id="@+id/tvDetalleRaza"
@@ -54,15 +54,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Husky"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/tvDetalleSexo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Macho"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black" />
 
@@ -106,31 +97,34 @@
                 android:textColor="@color/black" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btnEditar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#90CAF9"
                 android:text="Editar"
                 android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/btnEliminar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#F48FB1"
                 android:text="Eliminar"
                 android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/btnEncontrado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#A5D6A7"
                 android:text="Encontrado"
                 android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
         </LinearLayout>
     </ScrollView>

@@ -96,9 +96,12 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
                     try {
                         reporteMain = new Reporte(
                                 reporteObj.getInt("id"),
+                                reporteObj.getString("idUsuario"),
+                                reporteObj.getInt("estatus"),
                                 reporteObj.getString("foto"),
                                 reporteObj.getString("titulo"),
                                 String.valueOf(spFiltroRaza.getItemAtPosition(reporteObj.getInt("raza"))),
+                                reporteObj.getInt("idColonia"),
                                 reporteObj.getString("nombreColonia"),
                                 reporteObj.getString("descripcion"),
                                 reporteObj.getString("fechaRegistro"),

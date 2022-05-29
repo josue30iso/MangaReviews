@@ -1,14 +1,17 @@
 package com.tripndream.comeback;
 
 public class Reporte {
-    private int id;
-    private String imagen, nombre, raza, colonia, descripcion, fecha, celular;
+    private int id, idColonia, estatus;
+    private String usuario, imagen, nombre, raza, colonia, descripcion, fecha, celular;
 
-    public Reporte( int id, String imagen, String nombre, String raza, String colonia, String descripcion, String fecha, String celular) {
+    public Reporte( int id, String usuario, int estatus, String imagen, String nombre, String raza, int idColonia, String colonia, String descripcion, String fecha, String celular) {
         this.id = id;
+        this.usuario = usuario;
+        this.estatus = estatus;
         this.imagen = imagen;
         this.nombre = nombre;
         this.raza = raza;
+        this.idColonia = idColonia;
         this.colonia = colonia;
         this.descripcion = descripcion;
         this.fecha = fecha;
@@ -21,6 +24,22 @@ public class Reporte {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public int getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(int estatus) {
+        this.estatus = estatus;
     }
 
     public String getImagen() {
@@ -45,6 +64,14 @@ public class Reporte {
 
     public void setRaza(String raza) {
         this.raza = raza;
+    }
+
+    public int getIdColonia() {
+        return idColonia;
+    }
+
+    public void setIdColonia(int idColonia) {
+        this.idColonia = idColonia;
     }
 
     public String getColonia() {

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Html;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
@@ -143,6 +144,7 @@ public class Formulario extends AppCompatActivity {
                 finish();
 
             } else {
+                Log.e("Eror", String.valueOf(response));
                 Toast.makeText(Formulario.this, "Ha ocurrido un error: " + mensaje, Toast.LENGTH_LONG).show();
             }
 
