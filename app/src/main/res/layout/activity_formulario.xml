@@ -41,6 +41,22 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/rubik"
+                android:text="Tipo de reporte:" />
+
+            <Spinner
+                android:id="@+id/spTipoReporte"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="16dp"
+                android:entries="@array/reporte" />
+
             <ImageView
                 android:id="@+id/ivPerroAgrega"
                 android:layout_width="match_parent"
@@ -60,7 +76,7 @@
                 android:textSize="10sp" />
 
             <TextView
-                android:id="@+id/textView25"
+                android:id="@+id/tvFormularioNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/rubik"
@@ -76,7 +92,7 @@
                 android:minHeight="48dp" />
 
             <TextView
-                android:id="@+id/textView26"
+                android:id="@+id/tvFormularioRaza"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -88,27 +104,14 @@
                 android:layout_height="50dp"
                 android:entries="@array/razas" />
 
+
             <TextView
-                android:id="@+id/textView27"
+                android:id="@+id/tvFormularioColonia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/rubik"
-                android:text="Tipo de reporte:" />
-
-            <Spinner
-                android:id="@+id/spTipoReporte"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:entries="@array/reporte" />
-
-            <TextView
-                android:id="@+id/textView28"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/rubik"
-                android:text="Colonia:" />
+                android:text="Última vez visto en:" />
 
             <Spinner
                 android:id="@+id/spColonia"
@@ -117,7 +120,7 @@
                 android:entries="@array/colonias" />
 
             <TextView
-                android:id="@+id/textView30"
+                android:id="@+id/tvFormularioDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -132,7 +135,7 @@
                 android:inputType="textMultiLine" />
 
             <TextView
-                android:id="@+id/textView32"
+                android:id="@+id/tvFormularioFecha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -145,7 +148,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/textView33"
+                android:id="@+id/tvFormularioNumero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -160,7 +163,7 @@
                 android:inputType="phone" />
 
             <TextView
-                android:id="@+id/textView34"
+                android:id="@+id/tvFormularioRecompensa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

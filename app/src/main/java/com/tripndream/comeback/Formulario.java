@@ -16,12 +16,15 @@ import android.os.StrictMode;
 import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,6 +42,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,11 +59,15 @@ public class Formulario extends AppCompatActivity {
     private static final int GET_IMAGE_CODE = 202;
     private static final String KEY_GUARDADOS = "key_guardados";
 
+    private TextView tvFormularioNombre, tvFormularioRaza, tvFormularioColonia,
+            tvFormularioDescripcion, tvFormularioFecha,
+            tvFormularioNumero, tvFormularioRecompensa;
     private EditText etNombrePerro, etDescripcionReporte, etTelefonoReporte, etRecompensa;
     private Spinner spRazaPerro, spTipoReporte, spColonia;
     private CalendarView cvUltimaVista;
     private Button btnCambiarImagen;
     private ImageButton ibGuardarFormulario;
+    private int tipoReporte;
 
     private ImageView ivPerroAgrega;
     private Bitmap imgPerro;
@@ -68,6 +76,7 @@ public class Formulario extends AppCompatActivity {
 
     public OkHttpClient client;
     private SharedPreferences sp;
+    private Calendar currentTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,16 +88,125 @@ public class Formulario extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
+        tvFormularioNombre = findViewById(R.id.tvFormularioNombre);
+        tvFormularioRaza = findViewById(R.id.tvFormularioRaza);
+        tvFormularioColonia = findViewById(R.id.tvFormularioColonia);
+        tvFormularioDescripcion = findViewById(R.id.tvFormularioDescripcion);
+        tvFormularioFecha = findViewById(R.id.tvFormularioFecha);
+        tvFormularioNumero = findViewById(R.id.tvFormularioNumero);
+        tvFormularioRecompensa = findViewById(R.id.tvFormularioRecompensa);
         etNombrePerro = findViewById(R.id.etNombrePerro);
         etDescripcionReporte = findViewById(R.id.etDescripcionReporte);
         etTelefonoReporte = findViewById(R.id.etTelefonoReporte);
         etRecompensa = findViewById(R.id.etRecompensa);
 
         spRazaPerro = findViewById(R.id.spRazaPerro);
+
         spTipoReporte = findViewById(R.id.spTipoReporte);
+        spTipoReporte.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i("onItemSelected: ", String.valueOf(i));
+                switch (String.valueOf(i)){
+                    case "0":
+                        tipoReporte = 0;
+                        ivPerroAgrega.setVisibility(View.GONE);
+                        btnCambiarImagen.setVisibility(View.GONE);
+                        tvFormularioNombre.setVisibility(View.GONE);
+                        etNombrePerro.setVisibility(View.GONE);
+                        tvFormularioRaza.setVisibility(View.GONE);
+                        spRazaPerro.setVisibility(View.GONE);
+                        tvFormularioColonia.setVisibility(View.GONE);
+                        spColonia.setVisibility(View.GONE);
+                        tvFormularioDescripcion.setVisibility(View.GONE);
+                        etDescripcionReporte.setVisibility(View.GONE);
+                        tvFormularioFecha.setVisibility(View.GONE);
+                        cvUltimaVista.setVisibility(View.GONE);
+                        tvFormularioNumero.setVisibility(View.GONE);
+                        etTelefonoReporte.setVisibility(View.GONE);
+                        tvFormularioRecompensa.setVisibility(View.GONE);
+                        etRecompensa.setVisibility(View.GONE);
+                        ibGuardarFormulario.setVisibility(View.GONE);
+                        break;
+                    case "1":
+                        tipoReporte = 1;
+                        ivPerroAgrega.setVisibility(View.VISIBLE);
+                        btnCambiarImagen.setVisibility(View.VISIBLE);
+                        tvFormularioNombre.setVisibility(View.VISIBLE);
+                        etNombrePerro.setVisibility(View.VISIBLE);
+                        tvFormularioRaza.setVisibility(View.VISIBLE);
+                        spRazaPerro.setVisibility(View.VISIBLE);
+                        tvFormularioColonia.setText("Última vez visto en:");
+                        tvFormularioColonia.setVisibility(View.VISIBLE);
+                        spColonia.setVisibility(View.VISIBLE);
+                        tvFormularioDescripcion.setVisibility(View.VISIBLE);
+                        etDescripcionReporte.setVisibility(View.VISIBLE);
+                        tvFormularioFecha.setText("Última vez visto el :");
+                        tvFormularioFecha.setVisibility(View.VISIBLE);
+                        cvUltimaVista.setVisibility(View.VISIBLE);
+                        tvFormularioNumero.setVisibility(View.VISIBLE);
+                        etTelefonoReporte.setVisibility(View.VISIBLE);
+                        tvFormularioRecompensa.setVisibility(View.VISIBLE);
+                        etRecompensa.setVisibility(View.VISIBLE);
+                        ibGuardarFormulario.setVisibility(View.VISIBLE);
+                        break;
+                    case "2":
+                        tipoReporte = 2;
+                        ivPerroAgrega.setVisibility(View.VISIBLE);
+                        btnCambiarImagen.setVisibility(View.VISIBLE);
+                        tvFormularioNombre.setVisibility(View.GONE);
+                        etNombrePerro.setVisibility(View.GONE);
+                        tvFormularioRaza.setVisibility(View.VISIBLE);
+                        spRazaPerro.setVisibility(View.VISIBLE);
+                        tvFormularioColonia.setText("Visto en:");
+                        tvFormularioColonia.setVisibility(View.VISIBLE);
+                        spColonia.setVisibility(View.VISIBLE);
+                        tvFormularioDescripcion.setVisibility(View.VISIBLE);
+                        etDescripcionReporte.setVisibility(View.VISIBLE);
+                        tvFormularioFecha.setText("Visto el :");
+                        tvFormularioFecha.setVisibility(View.VISIBLE);
+                        cvUltimaVista.setVisibility(View.VISIBLE);
+                        tvFormularioNumero.setVisibility(View.VISIBLE);
+                        etTelefonoReporte.setVisibility(View.VISIBLE);
+                        tvFormularioRecompensa.setVisibility(View.GONE);
+                        etRecompensa.setVisibility(View.GONE);
+                        ibGuardarFormulario.setVisibility(View.VISIBLE);
+                        break;
+                    case "3":
+                        tipoReporte = 3;
+                        ivPerroAgrega.setVisibility(View.VISIBLE);
+                        btnCambiarImagen.setVisibility(View.VISIBLE);
+                        tvFormularioNombre.setVisibility(View.GONE);
+                        etNombrePerro.setVisibility(View.GONE);
+                        tvFormularioRaza.setVisibility(View.VISIBLE);
+                        spRazaPerro.setVisibility(View.VISIBLE);
+                        tvFormularioColonia.setText("Rescatado en:");
+                        tvFormularioColonia.setVisibility(View.VISIBLE);
+                        spColonia.setVisibility(View.VISIBLE);
+                        tvFormularioDescripcion.setVisibility(View.VISIBLE);
+                        etDescripcionReporte.setVisibility(View.VISIBLE);
+                        tvFormularioFecha.setText("Fecha de rescate :");
+                        tvFormularioFecha.setVisibility(View.VISIBLE);
+                        cvUltimaVista.setVisibility(View.VISIBLE);
+                        tvFormularioNumero.setVisibility(View.VISIBLE);
+                        etTelefonoReporte.setVisibility(View.VISIBLE);
+                        tvFormularioRecompensa.setVisibility(View.GONE);
+                        etRecompensa.setVisibility(View.GONE);
+                        ibGuardarFormulario.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         spColonia = findViewById(R.id.spColonia);
 
         cvUltimaVista = findViewById(R.id.cvUltimaVista);
+        cvUltimaVista.setMaxDate(new Date().getTime());
         cvUltimaVista.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
