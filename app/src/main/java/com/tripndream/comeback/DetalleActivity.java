@@ -50,7 +50,9 @@ public class DetalleActivity extends AppCompatActivity {
 
         tvTipoReporte = findViewById(R.id.tvTipoReporte);
 
-        reporte.setEstatus(Integer.parseInt(intent.getStringExtra("KEY_ESTATUS")));
+        reporte.setId(intent.getIntExtra("KEY_ID", -1));
+
+        reporte.setEstatus(intent.getIntExtra("KEY_ESTATUS", -1));
         switch (reporte.getEstatus()){
             case 1:
                 tvTipoReporte.setText("Perdido");
@@ -88,6 +90,7 @@ public class DetalleActivity extends AppCompatActivity {
         tvDetalleFecha.setText("Fecha de desaparecido: " + fecha);
 
         tvDetallePerdidoEn = findViewById(R.id.tvDetallePerdidoEn);
+        reporte.setId(intent.getIntExtra("KEY_ID_COLONIA", -1));
         reporte.setColonia(intent.getStringExtra("KEY_COLONIA"));
         tvDetallePerdidoEn.setText("Colonia " + reporte.getColonia());
 
