@@ -1,7 +1,7 @@
 package com.tripndream.comeback.utils;
 
 public class WebService {
-    public static final String HOST = "192.168.100.143";
+    public static final String HOST = "192.168.100.210";
 
     /**************************************** REPORTES **************************************************/
     public static final String URL_PUB_ADD = "http://"+HOST+"/comeback/api/public/publicaciones/addPublicacion";
@@ -15,4 +15,7 @@ public class WebService {
     public static final String URL_USER_LOGIN = "http://"+HOST+"/comeback/api/public/usuarios/login";
     public static final String URL_USER_ENCONTRADOS = "http://"+HOST+"/comeback/api/public/usuarios/getEncontrados";
     public static final String URL_RECOMPENSA = "http://"+HOST+"/comeback/api/public/usuarios/plusOne";
+    public static final String URL_RECOVERY = "http://"+HOST+"/comeback/api/public/usuarios/recovery";
+    public static final String URL_VERIFICAR = "http://"+HOST+"/comeback/api/public/usuarios/verificar";
+    public static final String URL_CAMBIARPASS = "http://"+HOST+"/comeback/api/public/usuarios/cambiarPasswd";
 }

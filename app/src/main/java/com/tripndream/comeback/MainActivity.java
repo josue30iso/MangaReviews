@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -37,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText etCorreoLogin, etPasswdLogin;
     private TextView btnRegistro;
     private Button btnLoginNormal;
+    private Button btnRecovery;
 
     private SharedPreferences sp;
     private String correo;
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnRegistro = findViewById(R.id.btnRegistro);
         btnLoginNormal = findViewById(R.id.btnLoginNormal);
+        btnRecovery = findViewById(R.id.btnRecuperarCuenta);
 
         sp = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
 
@@ -88,19 +89,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void configClickListener() {
 
-        btnRegistro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RegistroActivity.class);
-                startActivity(intent);
-            }
+        btnRegistro.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RegistroActivity.class);
+            startActivity(intent);
         });
 
-        btnLoginNormal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
+        btnLoginNormal.setOnClickListener(v -> login());
+
+        btnRecovery.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RecoveryActivity.class);
+            startActivity(intent);
         });
 
     }

@@ -187,4 +187,10 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
         }
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        consumePerros();
+    }
 }

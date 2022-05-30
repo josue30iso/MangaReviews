@@ -176,4 +176,10 @@ public class EnSuHogarActivity extends AppCompatActivity implements ReporteAdapt
     public void onNothingSelected(AdapterView<?> parent) {
         return;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        consumePerros();
+    }
 }

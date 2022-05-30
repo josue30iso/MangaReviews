@@ -195,4 +195,9 @@ public class PerdidosActivity extends AppCompatActivity implements ReporteAdapte
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        consumePerros();
+    }
 }

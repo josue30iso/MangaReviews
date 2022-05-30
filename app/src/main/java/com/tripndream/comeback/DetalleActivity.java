@@ -55,6 +55,7 @@ public class DetalleActivity extends AppCompatActivity {
     public OkHttpClient client;
 
     private Reporte reporte;
+    private int idReporte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class DetalleActivity extends AppCompatActivity {
         tvTipoReporte = findViewById(R.id.tvTipoReporte);
 
         reporte.setId(intent.getIntExtra("KEY_ID", -1));
+        idReporte = reporte.getId();
         Log.i("ReporteID", String.valueOf(reporte.getId()));
 
         reporte.setEstatus(intent.getIntExtra("KEY_ESTATUS", -1));
@@ -233,6 +235,7 @@ public class DetalleActivity extends AppCompatActivity {
 
     private void editar() {
         intent = new Intent(this, Formulario.class);
+        reporte.setId(idReporte);
         intent.putExtra("modo_edicion", true);
         intent.putExtra("reporte", reporte);
         startActivityForResult(intent, KEY_EDITAR_REPORTE);
@@ -322,7 +325,7 @@ public class DetalleActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK && requestCode == KEY_EDITAR_REPORTE && data != null){
 
-            reporte = (Reporte) data.getSerializableExtra("reporte");
+            this.reporte = (Reporte) data.getSerializableExtra("reporte");
 
             switch (reporte.getEstatus()){
                 case 1:
