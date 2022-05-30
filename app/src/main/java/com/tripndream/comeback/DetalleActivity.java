@@ -11,8 +11,10 @@ import android.os.StrictMode;
 import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -169,6 +171,64 @@ public class DetalleActivity extends AppCompatActivity {
         btnEliminar.setOnClickListener(v -> {
             eliminar();
         });
+        btnEncontrado.setOnClickListener(v -> {
+            encontrado();
+        });
+    }
+
+    private void encontrado(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+// ...Irrelevant code for customizing the buttons and title
+        LayoutInflater inflater = this.getLayoutInflater();
+
+
+        dialogBuilder.setView(inflater.inflate(R.layout.alert_perrito_encontrado, null));
+        AlertDialog alertDialog = dialogBuilder.create();
+
+        alertDialog.show();
+
+        EditText etEmailAyudador = (EditText) alertDialog.findViewById(R.id.etEmailAyudador);
+        Button btnAceptarEncontrado = (Button) alertDialog.findViewById(R.id.btnAceptarEncontrado);
+        Button btnOmitirEncontrado = (Button) alertDialog.findViewById(R.id.btnOmitirEncontrado);
+
+        btnOmitirEncontrado.setOnClickListener( view -> perritoEncontrado());
+
+        btnAceptarEncontrado.setOnClickListener(v -> {
+            if (!etEmailAyudador.getText().equals("")){
+                client = new OkHttpClient();
+                RequestBody formBody = new FormBody.Builder()
+                        .add("correo", etEmailAyudador.getText().toString())
+                        .build();
+
+                Request request = new Request.Builder()
+                        .url(WebService.URL_RECOMPENSA)
+                        .post(formBody)
+                        .build();
+
+                try {
+                    Response responseHTTP = client.newCall(request).execute();
+                    JSONObject response = new JSONObject(responseHTTP.body().string());;
+
+                    boolean success = response.getBoolean("success");
+                    String message = response.getString("message");
+
+                    if (success) {
+                        Log.i("Recompensa enviada", "Yes "+etEmailAyudador.getText().toString());
+                        perritoEncontrado();
+
+                    } else {
+                        DetalleActivity.this.runOnUiThread(() -> Toast.makeText(DetalleActivity.this, message, Toast.LENGTH_SHORT).show());
+                        Log.i("Recompensa enviada", "No "+etEmailAyudador.getText().toString());
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else{
+                Toast.makeText(DetalleActivity.this, "Ingrese un correo u omita", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void editar() {
@@ -220,6 +280,41 @@ public class DetalleActivity extends AppCompatActivity {
                 .setNegativeButton("Cancelar", (dialog, id) -> dialog.dismiss()).show();
     }
 
+    private void perritoEncontrado(){
+        client = new OkHttpClient();
+        RequestBody formBody = new FormBody.Builder()
+                .add("id", String.valueOf(reporte.getId()))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(WebService.URL_ENCONTRADO)
+                .post(formBody)
+                .build();
+
+        try {
+            Response responseHTTP = client.newCall(request).execute();
+            JSONObject response = new JSONObject(responseHTTP.body().string());;
+
+            boolean success = response.getBoolean("success");
+            String message = response.getString("message");
+
+            if (success) {
+                DetalleActivity.this.runOnUiThread(() -> Toast.makeText(DetalleActivity.this, "Reporte actualizado", Toast.LENGTH_SHORT).show());
+                Log.i("Reporte actualizado", "Yes "+String.valueOf(reporte.getId()));
+                Intent intent = new Intent();
+                intent.putExtra("ACTUALIZADO", "actualizado");
+                setResult(RESULT_OK, intent);
+                finish();
+
+            } else {
+                DetalleActivity.this.runOnUiThread(() -> Toast.makeText(DetalleActivity.this, message, Toast.LENGTH_SHORT).show());
+                Log.i("Reporte actualizado", "No "+String.valueOf(reporte.getId()));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
