@@ -332,7 +332,7 @@ public class DetalleActivity extends AppCompatActivity {
                     tvTipoReporte.setText("Perdido");
                     break;
                 case 2:
-                    tvTipoReporte.setText("En su hogar");
+                    tvTipoReporte.setText("Avistado");
                     break;
                 case 3:
                     tvTipoReporte.setText("Nuevo hogar");

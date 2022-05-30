@@ -1,7 +1,7 @@
 package com.tripndream.comeback.utils;
 
 public class WebService {
-    public static final String HOST = "192.168.100.210";
+    public static final String HOST = "192.168.100.143";
 
     /**************************************** REPORTES **************************************************/
     public static final String URL_PUB_ADD = "http://"+HOST+"/comeback/api/public/publicaciones/addPublicacion";

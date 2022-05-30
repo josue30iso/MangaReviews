@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MangaReviews"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AvistamientosActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetalleActivity"
             android:exported="false" />
         <activity

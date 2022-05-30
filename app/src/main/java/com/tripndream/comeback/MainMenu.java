@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
-    ImageButton btnPerdidos, btnReportar, btnEnHogar, btnNuevoHogar, btnTrofeos;
+    ImageButton btnPerdidos, btnReportar, btnEnHogar, btnNuevoHogar, btnTrofeos, btnAvistamientos;
     Button btnCerrarSesion;
 
     SharedPreferences sp;
@@ -32,6 +32,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         btnEnHogar = findViewById(R.id.btnEnHogar);
         btnNuevoHogar = findViewById(R.id.btnNuevoHogar);
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
+        btnAvistamientos = findViewById(R.id.btnAvistamientos);
 
         btnTrofeos.setOnClickListener(this);
         btnReportar.setOnClickListener(this);
@@ -39,6 +40,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         btnEnHogar.setOnClickListener(this);
         btnNuevoHogar.setOnClickListener(this);
         btnCerrarSesion.setOnClickListener(this);
+        btnAvistamientos.setOnClickListener(this);
     }
 
     @Override
@@ -62,6 +64,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 break;
             case R.id.btnPerdidos:
                 intent = new Intent(this, PerdidosActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btnAvistamientos:
+                intent = new Intent(this, AvistamientosActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btnCerrarSesion:
