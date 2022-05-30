@@ -1,19 +1,34 @@
 package com.tripndream.comeback;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.text.Html;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.tripndream.comeback.utils.WebService;
+
+import org.json.JSONObject;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class DetalleActivity extends AppCompatActivity {
 
@@ -35,6 +50,8 @@ public class DetalleActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private Intent intent;
 
+    public OkHttpClient client;
+
     private Reporte reporte;
 
     @Override
@@ -42,6 +59,11 @@ public class DetalleActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle);
+
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         intent = getIntent();
         reporte = new Reporte();
@@ -51,6 +73,7 @@ public class DetalleActivity extends AppCompatActivity {
         tvTipoReporte = findViewById(R.id.tvTipoReporte);
 
         reporte.setId(intent.getIntExtra("KEY_ID", -1));
+        Log.i("ReporteID", String.valueOf(reporte.getId()));
 
         reporte.setEstatus(intent.getIntExtra("KEY_ESTATUS", -1));
 
@@ -77,7 +100,7 @@ public class DetalleActivity extends AppCompatActivity {
         tvDetalleFecha.setText(fecha);
 
         tvDetallePerdidoEn = findViewById(R.id.tvDetallePerdidoEn);
-        reporte.setId(intent.getIntExtra("KEY_ID_COLONIA", -1));
+        reporte.setIdColonia(intent.getIntExtra("KEY_ID_COLONIA", -1));
         reporte.setColonia(intent.getStringExtra("KEY_COLONIA"));
         tvDetallePerdidoEn.setText("Colonia " + reporte.getColonia());
 
@@ -109,9 +132,6 @@ public class DetalleActivity extends AppCompatActivity {
                     btnEditar.setVisibility(View.VISIBLE);
                     btnEliminar.setVisibility(View.VISIBLE);
                     btnEncontrado.setVisibility(View.VISIBLE);
-                    btnEditar.setOnClickListener(v -> {
-                        editar();
-                    });
                 }
                 break;
             case 2:
@@ -122,9 +142,6 @@ public class DetalleActivity extends AppCompatActivity {
                 if(sp.getString("id", "-1").equals(intent.getStringExtra("KEY_USUARIO"))){
                     btnEditar.setVisibility(View.VISIBLE);
                     btnEliminar.setVisibility(View.VISIBLE);
-                    btnEditar.setOnClickListener(v -> {
-                        editar();
-                    });
                 }
                 break;
             case 3:
@@ -135,9 +152,7 @@ public class DetalleActivity extends AppCompatActivity {
                 if(sp.getString("id", "-1").equals(intent.getStringExtra("KEY_USUARIO"))){
                     btnEditar.setVisibility(View.VISIBLE);
                     btnEliminar.setVisibility(View.VISIBLE);
-                    btnEditar.setOnClickListener(v -> {
-                        editar();
-                    });
+
                 }
                 break;
             case 4:
@@ -147,6 +162,13 @@ public class DetalleActivity extends AppCompatActivity {
                 tvLabelRecompensa.setVisibility(View.GONE);
                 break;
         }
+
+        btnEditar.setOnClickListener(v -> {
+            editar();
+        });
+        btnEliminar.setOnClickListener(v -> {
+            eliminar();
+        });
     }
 
     private void editar() {
@@ -155,6 +177,49 @@ public class DetalleActivity extends AppCompatActivity {
         intent.putExtra("reporte", reporte);
         startActivityForResult(intent, KEY_EDITAR_REPORTE);
     }
+
+    private void eliminar() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(DetalleActivity.this, R.style.AlertDialogStyle);
+        alert.setTitle(Html.fromHtml("<font color='#FFD32F2F'>Eliminar reporte</font>"))
+                .setMessage(Html.fromHtml("<font color='#FFD32F2F'>¿Realmente deseas eliminar este reporte?</font>"))
+                .setPositiveButton("Aceptar", (dialog, id) -> {
+                    client = new OkHttpClient();
+                    RequestBody formBody = new FormBody.Builder()
+                            .add("id", String.valueOf(reporte.getId()))
+                            .build();
+
+                    Request request = new Request.Builder()
+                            .url(WebService.URL_PUB_DELETE)
+                            .post(formBody)
+                            .build();
+
+                    try {
+                        Response responseHTTP = client.newCall(request).execute();
+                        JSONObject response = new JSONObject(responseHTTP.body().string());;
+
+                        boolean success = response.getBoolean("success");
+                        String message = response.getString("message");
+
+                        if (success) {
+                            DetalleActivity.this.runOnUiThread(() -> Toast.makeText(DetalleActivity.this, "Reporte Eliminado", Toast.LENGTH_SHORT).show());
+                            Log.i("Reporte eliminado", "Yes "+String.valueOf(reporte.getId()));
+                            Intent intent = new Intent();
+                            intent.putExtra("ELIMINADO", "eliminado");
+                            setResult(RESULT_OK, intent);
+                            finish();
+
+                        } else {
+                            DetalleActivity.this.runOnUiThread(() -> Toast.makeText(DetalleActivity.this, message, Toast.LENGTH_SHORT).show());
+                            Log.i("Reporte eliminado", "No "+String.valueOf(reporte.getId()));
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                })
+                .setNegativeButton("Cancelar", (dialog, id) -> dialog.dismiss()).show();
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

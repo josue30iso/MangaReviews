@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +55,8 @@ public class PerdidosActivity extends AppCompatActivity implements ReporteAdapte
     private static final String KEY_NUMERO = "KEY_NUMERO";
     private static final String KEY_DESCRIPCION = "KEY_DESCRIPCION";
     private static final String KEY_USUARIO = "KEY_USUARIO";
+    private final int KEY_DETALLE_REPORTE = 777;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +173,7 @@ public class PerdidosActivity extends AppCompatActivity implements ReporteAdapte
         intent.putExtra(KEY_DESCRIPCION, reporte.getDescripcion());
         intent.putExtra(KEY_USUARIO, reporte.getUsuario());
 
-        startActivity(intent);
+        startActivityForResult(intent, KEY_DETALLE_REPORTE);
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -180,6 +183,16 @@ public class PerdidosActivity extends AppCompatActivity implements ReporteAdapte
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         return;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == KEY_DETALLE_REPORTE){
+            consumePerros();
+        }
+
     }
 
 }

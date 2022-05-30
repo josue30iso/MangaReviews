@@ -33,6 +33,7 @@ import okhttp3.Response;
 public class ReportesActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, ReporteAdapter.OnReporteClickListener{
 
     private final int KEY_AGREGAR_REPORTE = 666;
+    private final int KEY_DETALLE_REPORTE = 777;
 
     public ArrayList<Reporte> data;
     private RecyclerView rvReportes;
@@ -92,7 +93,7 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
         sp = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
     }
 
-    private void consumePerros() {
+    public void consumePerros() {
 
         RequestBody formBody = new FormBody.Builder()
                 .add("idUsuario", sp.getString("id", "-1"))
@@ -176,7 +177,7 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
         intent.putExtra(KEY_DESCRIPCION, reporte.getDescripcion());
         intent.putExtra(KEY_USUARIO, reporte.getUsuario());
 
-        startActivity(intent);
+        startActivityForResult(intent, KEY_DETALLE_REPORTE);
     }
 
     @Override
@@ -211,5 +212,10 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
             spFiltroTipo.setSelection(0);
             consumePerros();
         }
+
+        if (resultCode == RESULT_OK && requestCode == KEY_DETALLE_REPORTE){
+            consumePerros();
+        }
+
     }
 }
