@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.tripndream.comeback.utils.WebService;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -70,7 +69,7 @@ public class Trofeos extends AppCompatActivity implements View.OnClickListener{
                 .build();
 
         Request request = new Request.Builder()
-                .url(WebService.URL_USER_ENCONTRADOS)
+                .url("http://"+IP.ip+"/comeback/api/public/usuarios/getEncontrados")
                 .post(formBody)
                 .build();
 

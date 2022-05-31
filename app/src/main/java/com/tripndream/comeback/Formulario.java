@@ -33,8 +33,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.tripndream.comeback.utils.WebService;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -258,7 +256,7 @@ public class Formulario extends AppCompatActivity {
 
 
         Log.i("MODO EDICION", ""+modoEdicion);
-        String webService = modoEdicion ? WebService.URL_PUB_EDIT : WebService.URL_PUB_ADD;
+        String webService = modoEdicion ? "http://"+IP.ip+"/comeback/api/public/publicaciones/editPublicacion" : "http://"+IP.ip+"/comeback/api/public/publicaciones/addPublicacion";
 
         Request request = new Request.Builder()
                 .url(webService)
@@ -386,7 +384,7 @@ public class Formulario extends AppCompatActivity {
                 reporte.setImagen(imgPerroB64);
                 reporte.setId(reporte.getId());
                 reporte.setCelular(contacto);
-                reporte.setColonia(colonia);
+                reporte.setColonia(spColonia.getSelectedItem()+"");
                 reporte.setSpRaza(spRazaPerro.getSelectedItemPosition());
                 reporte.setRaza((String) spRazaPerro.getSelectedItem());
                 reporte.setFecha(ultimaVista);

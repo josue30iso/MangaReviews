@@ -15,8 +15,6 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.tripndream.comeback.utils.WebService;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -93,7 +91,7 @@ public class AvistamientosActivity extends AppCompatActivity implements ReporteA
                 .build();
 
         Request request = new Request.Builder()
-                .url(WebService.URL_PUB_LIST)
+                .url("http://"+IP.ip+"/comeback/api/public/publicaciones/listFilter")
                 .post(formBody)
                 .build();
 

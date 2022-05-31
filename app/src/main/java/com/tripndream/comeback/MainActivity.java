@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.tripndream.comeback.utils.WebService;
-
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -118,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         Request request = new Request.Builder()
-                .url(WebService.URL_USER_LOGIN)
+                .url("http://"+IP.ip+"/comeback/api/public/usuarios/login")
                 .post(formBody)
                 .build();
 

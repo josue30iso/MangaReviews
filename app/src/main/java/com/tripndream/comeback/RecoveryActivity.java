@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.tripndream.comeback.utils.WebService;
-
 import org.json.JSONObject;
 
 import okhttp3.FormBody;
@@ -54,13 +52,13 @@ public class RecoveryActivity extends AppCompatActivity {
     private void configMaterials() {
 
         etCorreoCodPass = findViewById(R.id.etCorreoRecovery);
-        btnRecovery = findViewById(R.id.btnActionRecovery);
+        btnRecovery = findViewById(R.id.btnRecovery);
         etPasswdConf = findViewById(R.id.etPasswd);
         etPasswd = findViewById(R.id.etPasswdConf);
         llPasswords = findViewById(R.id.llPasswords);
 
         tvInstruccion = findViewById(R.id.tvIntruccion);
-        tvE = findViewById(R.id.tvE);
+        tvE = findViewById(R.id.tvRecoveryCorreo);
         client = new OkHttpClient();
 
         btnRecovery.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +95,7 @@ public class RecoveryActivity extends AppCompatActivity {
                         .build();
 
                 Request request = new Request.Builder()
-                        .url(WebService.URL_CAMBIARPASS)
+                        .url("http://"+IP.ip+"/comeback/api/public/usuarios/cambiarPasswd")
                         .post(formBody)
                         .build();
 
@@ -144,7 +142,7 @@ public class RecoveryActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url(WebService.URL_VERIFICAR)
+                    .url("http://"+IP.ip+"/comeback/api/public/usuarios/verificar")
                     .post(formBody)
                     .build();
 
@@ -190,7 +188,7 @@ public class RecoveryActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url(WebService.URL_RECOVERY)
+                    .url("http://"+IP.ip+"/comeback/api/public/usuarios/recovery")
                     .post(formBody)
                     .build();
 

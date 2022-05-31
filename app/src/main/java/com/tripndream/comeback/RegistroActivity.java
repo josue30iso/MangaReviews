@@ -9,8 +9,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.tripndream.comeback.utils.WebService;
-
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -92,7 +90,7 @@ public class RegistroActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url(WebService.URL_USER_REGISTER)
+                    .url("http://"+IP.ip+"/comeback/api/public/usuarios/register")
                     .post(formBody)
                     .build();
 

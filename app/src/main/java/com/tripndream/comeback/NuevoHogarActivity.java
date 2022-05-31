@@ -16,8 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tripndream.comeback.utils.WebService;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -92,7 +90,7 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
                 .build();
 
         Request request = new Request.Builder()
-                .url(WebService.URL_PUB_LIST)
+                .url("http://"+IP.ip+"/comeback/api/public/publicaciones/listFilter")
                 .post(formBody)
                 .build();
 

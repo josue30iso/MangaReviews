@@ -22,8 +22,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.tripndream.comeback.utils.WebService;
-
 import org.json.JSONObject;
 
 import okhttp3.FormBody;
@@ -203,7 +201,7 @@ public class DetalleActivity extends AppCompatActivity {
                         .build();
 
                 Request request = new Request.Builder()
-                        .url(WebService.URL_RECOMPENSA)
+                        .url("http://"+IP.ip+"/comeback/api/public/usuarios/plusOne")
                         .post(formBody)
                         .build();
 
@@ -243,16 +241,16 @@ public class DetalleActivity extends AppCompatActivity {
 
     private void eliminar() {
         AlertDialog.Builder alert = new AlertDialog.Builder(DetalleActivity.this, R.style.AlertDialogStyle);
-        alert.setTitle(Html.fromHtml("<font color='#FFD32F2F'>Eliminar reporte</font>"))
-                .setMessage(Html.fromHtml("<font color='#FFD32F2F'>¿Realmente deseas eliminar este reporte?</font>"))
+        alert.setTitle(Html.fromHtml("Eliminar reporte"))
+                .setMessage(Html.fromHtml("¿Realmente deseas eliminar este reporte?"))
                 .setPositiveButton("Aceptar", (dialog, id) -> {
                     client = new OkHttpClient();
                     RequestBody formBody = new FormBody.Builder()
-                            .add("id", String.valueOf(reporte.getId()))
+                            .add("id", String.valueOf(idReporte))
                             .build();
 
                     Request request = new Request.Builder()
-                            .url(WebService.URL_PUB_DELETE)
+                            .url("http://"+IP.ip+"/comeback/api/public/publicaciones/deletePublicacion")
                             .post(formBody)
                             .build();
 
@@ -290,7 +288,7 @@ public class DetalleActivity extends AppCompatActivity {
                 .build();
 
         Request request = new Request.Builder()
-                .url(WebService.URL_ENCONTRADO)
+                .url("http://"+IP.ip+"/comeback/api/public/publicaciones/perroEncontrado")
                 .post(formBody)
                 .build();
 
