@@ -120,7 +120,7 @@ public class RegistroActivity extends AppCompatActivity {
                             updateUI();
 
                         } else {
-                            RegistroActivity.this.runOnUiThread(() -> Toast.makeText(RegistroActivity.this,"Ha ocurrido un error: " + mensaje, Toast.LENGTH_SHORT).show());
+                            RegistroActivity.this.runOnUiThread(() -> Toast.makeText(RegistroActivity.this,"Error: " + mensaje, Toast.LENGTH_SHORT).show());
                         }
 
                     } catch (Exception e) {

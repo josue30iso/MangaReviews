@@ -23,15 +23,10 @@ import okhttp3.Response;
 
 public class RecoveryActivity extends AppCompatActivity {
 
-    private TextView tvInstruccion, tvE;
+    private TextView tvMensajeRecovery, tvMensajeRecoveryFooter;
     private Button btnRecovery;
-    private EditText etCorreoCodPass;
-    private EditText etPasswd;
-    private EditText etPasswdConf;
-    private LinearLayout llPasswords;
+    private EditText etCorreoRecovery, etPasswd, etPasswdConf, etCodigoRecovery;
     public OkHttpClient client;
-
-    private int paso = 1;
     private String correoUsuario = "";
 
     @Override
@@ -44,26 +39,29 @@ public class RecoveryActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
-        configMaterials();
-
-    }
-
-    private void configMaterials() {
-
-        etCorreoCodPass = findViewById(R.id.etCorreoRecovery);
+        tvMensajeRecovery = findViewById(R.id.tvMensajeRecovery);
+        tvMensajeRecoveryFooter = findViewById(R.id.tvMensajeRecoveryFooter);
+        etCodigoRecovery = findViewById(R.id.etCodigoRecovery);
+        etCorreoRecovery = findViewById(R.id.etCorreoRecovery);
         btnRecovery = findViewById(R.id.btnRecovery);
         etPasswdConf = findViewById(R.id.etPasswd);
         etPasswd = findViewById(R.id.etPasswdConf);
-        llPasswords = findViewById(R.id.llPasswords);
 
-        tvInstruccion = findViewById(R.id.tvIntruccion);
-        tvE = findViewById(R.id.tvRecoveryCorreo);
         client = new OkHttpClient();
+
 
         btnRecovery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("Recovery", etCorreoRecovery.getVisibility()+"");
+                if((etCorreoRecovery.getVisibility()+"").equals("0")){
+                    enviarCodigo(etCorreoRecovery.getText().toString().trim());
+                } else if((etCodigoRecovery.getVisibility()+"").equals("0")){
+                    verificarCodigo(etCodigoRecovery.getText().toString().trim());
+                } else if ((etPasswd.getVisibility()+"").equals("0")){
+                    elegirPass(etPasswd.getText().toString().trim(), etPasswdConf.getText().toString().trim());
+                }
+                /*
                 switch (paso) {
                     case 1:
                         recuperar();
@@ -75,69 +73,58 @@ public class RecoveryActivity extends AppCompatActivity {
                         cambiarContraseña();
                         break;
                 }
+                */
             }
         });
 
     }
 
-    private void cambiarContraseña() {
 
-        String passwd = etPasswd.getText().toString().trim();
-        String passwdConf = etPasswdConf.getText().toString().trim();
+    private void enviarCodigo(String correo) {
+        if (!correo.equals("") && isEmailValid(correo)) {
+            RequestBody formBody = new FormBody.Builder()
+                    .add("correo", correo)
+                    .build();
+            Request request = new Request.Builder()
+                    .url("http://"+IP.ip+"/comeback/api/public/usuarios/recovery")
+                    .post(formBody)
+                    .build();
+            try {
+                Response responseHTTP = client.newCall(request).execute();
+                JSONObject response = new JSONObject(responseHTTP.body().string());
 
-        if (!passwd.equals("") && !passwdConf.equals("")) {
+                boolean success = response.getBoolean("success");
+                String message = response.getString("message");
 
-            if (passwd.equals(passwdConf)) {
+                if (success) {
 
-                RequestBody formBody = new FormBody.Builder()
-                        .add("password", passwd)
-                        .add("correo", correoUsuario)
-                        .build();
+                    etCorreoRecovery.setVisibility(View.GONE);
+                    tvMensajeRecoveryFooter.setVisibility(View.GONE);
+                    tvMensajeRecovery.setText("A continuación escriba el código de verificación enviado a "+correo);
+                    correoUsuario = correo;
+                    etCodigoRecovery.setVisibility(View.VISIBLE);
+                    btnRecovery.setText("Verificar Código");
 
-                Request request = new Request.Builder()
-                        .url("http://"+IP.ip+"/comeback/api/public/usuarios/cambiarPasswd")
-                        .post(formBody)
-                        .build();
-
-                try {
-                    Response responseHTTP = client.newCall(request).execute();
-                    JSONObject response = new JSONObject(responseHTTP.body().string());;
-
-                    boolean success = response.getBoolean("success");
-                    String message = response.getString("message");
-
-                    if (success) {
-
-                        Toast.makeText(RecoveryActivity.this, "Contraseña cambiada con exito", Toast.LENGTH_LONG).show();
-                        updateUI();
-
-                    } else {
-                        Toast.makeText(RecoveryActivity.this, "Ha ocurrido un error: " + message, Toast.LENGTH_LONG).show();
-                        Log.e("Error", response.toString());
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(RecoveryActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
                 }
 
-            } else {
-                Toast.makeText(RecoveryActivity.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
         } else {
-            Toast.makeText(RecoveryActivity.this, "Debe llenar todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RecoveryActivity.this, "Debes especificar un correo", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private void verificar() {
+    private void verificarCodigo( String codigoVerificacion) {
 
-        String codigo = etCorreoCodPass.getText().toString().trim();
-
-        if (!codigo.equals("") && codigo.length() == 6) {
+        if (!codigoVerificacion.equals("")) {
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("codigo", codigo)
+                    .add("codigo", codigoVerificacion)
                     .add("correo", correoUsuario)
                     .build();
 
@@ -155,15 +142,14 @@ public class RecoveryActivity extends AppCompatActivity {
 
                 if (success) {
 
-                    paso = 3;
-                    tvInstruccion.setText("Ingrese su nueva contraseña");
-                    btnRecovery.setText("Cambiar contraseña");
-                    etCorreoCodPass.setVisibility(View.GONE);
-                    tvE.setVisibility(View.GONE);
-                    llPasswords.setVisibility(View.VISIBLE);
+                    etCodigoRecovery.setVisibility(View.GONE);
+                    etPasswd.setVisibility(View.VISIBLE);
+                    etPasswdConf.setVisibility(View.VISIBLE);
+                    tvMensajeRecovery.setText("A continuación ingrese su nueva contraseña");
+                    btnRecovery.setText("Recuperar contraseña");
 
                 } else {
-                    Toast.makeText(RecoveryActivity.this, "Ha ocurrido un error: " + message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(RecoveryActivity.this, "Error: " + message, Toast.LENGTH_LONG).show();
                     Log.e("Error", response.toString());
                 }
 
@@ -177,59 +163,49 @@ public class RecoveryActivity extends AppCompatActivity {
 
     }
 
-    private void recuperar() {
+    private void elegirPass(String passwd, String passwdConf) {
+        if (!passwd.equals("") && !passwdConf.equals("")) {
+            if (passwd.equals(passwdConf)) {
+                RequestBody formBody = new FormBody.Builder()
+                        .add("password", passwd)
+                        .add("correo", correoUsuario)
+                        .build();
+                Request request = new Request.Builder()
+                        .url("http://"+IP.ip+"/comeback/api/public/usuarios/cambiarPasswd")
+                        .post(formBody)
+                        .build();
 
-        String correo = etCorreoCodPass.getText().toString().trim();
+                try {
+                    Response responseHTTP = client.newCall(request).execute();
+                    JSONObject response = new JSONObject(responseHTTP.body().string());;
 
-        if (!correo.equals("") && isEmailValid(correo)) {
+                    boolean success = response.getBoolean("success");
+                    String message = response.getString("message");
 
-            RequestBody formBody = new FormBody.Builder()
-                    .add("correo", correo)
-                    .build();
+                    if (success) {
 
-            Request request = new Request.Builder()
-                    .url("http://"+IP.ip+"/comeback/api/public/usuarios/recovery")
-                    .post(formBody)
-                    .build();
+                        Toast.makeText(RecoveryActivity.this, "Contraseña cambiada", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
 
-            try {
-                Response responseHTTP = client.newCall(request).execute();
-                JSONObject response = new JSONObject(responseHTTP.body().string());
-                Log.e("No sirve", response+"");
+                    } else {
+                        Toast.makeText(RecoveryActivity.this, "Error: " + message, Toast.LENGTH_LONG).show();
+                        Log.e("Error", response.toString());
+                    }
 
-                boolean success = response.getBoolean("success");
-                String message = response.getString("message");
-
-                if (success) {
-
-                    correoUsuario = correo;
-                    paso = 2;
-                    tvInstruccion.setText("Te hemos enviado un codigo de verificacion. Ponerlo en el siguiente recuadro para recuperar su cuenta");
-                    btnRecovery.setText("Verificar");
-                    etCorreoCodPass.setText("");
-                    tvE.setText("Codigo verificacion");
-
-                } else {
-                    Toast.makeText(RecoveryActivity.this, "Ha ocurrido un error: " + message, Toast.LENGTH_LONG).show();
-                    Log.e("Error", response.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                Toast.makeText(RecoveryActivity.this, "Las contraseñas deben de coincidir", Toast.LENGTH_SHORT).show();
             }
 
         } else {
-            Toast.makeText(RecoveryActivity.this, "Debes especificar un correo", Toast.LENGTH_LONG).show();
+            Toast.makeText(RecoveryActivity.this, "Ingrese una contraseña", Toast.LENGTH_SHORT).show();
         }
-
-    }
-
-    private void updateUI() {
-
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
 
     }
 

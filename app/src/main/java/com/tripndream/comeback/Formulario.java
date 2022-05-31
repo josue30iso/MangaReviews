@@ -280,7 +280,7 @@ public class Formulario extends AppCompatActivity {
 
             } else {
                 Log.e("Error", String.valueOf(response));
-                Toast.makeText(Formulario.this, "Ha ocurrido un error: " + mensaje, Toast.LENGTH_LONG).show();
+                Toast.makeText(Formulario.this, "Error: " + mensaje, Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException | IOException e) {
