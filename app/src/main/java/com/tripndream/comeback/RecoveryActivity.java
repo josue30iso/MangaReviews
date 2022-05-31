@@ -196,7 +196,8 @@ public class RecoveryActivity extends AppCompatActivity {
 
             try {
                 Response responseHTTP = client.newCall(request).execute();
-                JSONObject response = new JSONObject(responseHTTP.body().string());;
+                JSONObject response = new JSONObject(responseHTTP.body().string());
+                Log.e("No sirve", response+"");
 
                 boolean success = response.getBoolean("success");
                 String message = response.getString("message");

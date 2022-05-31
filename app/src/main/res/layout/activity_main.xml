@@ -97,7 +97,7 @@
         android:text="@string/textLogin"
         android:textColor="#000000"
         android:textSize="12sp"
-        app:backgroundTint="@color/MREnd"
+        app:backgroundTint="@color/BlanquitoBonito"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

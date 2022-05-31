@@ -140,8 +140,8 @@ public class Trofeos extends AppCompatActivity implements View.OnClickListener{
     private void trofeoInfo( String nombreLogro, String mensaje) {
 
         AlertDialog.Builder alert = new AlertDialog.Builder(Trofeos.this, R.style.AlertDialogStyle);
-        alert.setTitle(Html.fromHtml("<font color='#E77FB3'>"+nombreLogro+"</font>"))
-                .setMessage(Html.fromHtml("<font color='#E77FB3'>"+mensaje+"</font>"))
+        alert.setTitle(Html.fromHtml(nombreLogro))
+                .setMessage(Html.fromHtml(mensaje))
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();;
