@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MangaReviews" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Comeback" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/design_default_color_primary_dark</item>
         <item name="colorPrimaryVariant">@color/design_default_color_on_secondary</item>
@@ -16,11 +16,11 @@
 
         <item name="android:listDivider">@color/white</item>
     </style>
-    <style name="splashScreenTheme" parent="Theme.MangaReviews">
+    <style name="splashScreenTheme" parent="Theme.Comeback">
         <item name="android:windowBackground">@drawable/splash_image</item>
     </style>
 
-    <style name="Spinner" parent="Theme.MangaReviews">
+    <style name="Spinner" parent="Theme.Comeback">
         <item name="android:colorBackground">@color/Amarillo</item>
     </style>
 
@@ -50,14 +50,14 @@
         <item name="android:textColor">#1A3A68</item>
     </style>
 
-    <style name="buttons" parent="Theme.MangaReviews">
+    <style name="buttons" parent="Theme.Comeback">
         <item name="colorOnPrimary">#1A3A68</item>
     </style>
-    <style name="Theme.MangaReviews.NoActionBar">
+    <style name="Theme.Comeback.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="Theme.MangaReviews.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="Theme.MangaReviews.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.Comeback.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Comeback.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

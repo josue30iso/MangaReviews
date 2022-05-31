@@ -1,4 +1,4 @@
-package com.tripndream.comeback;
+package com.example.comeback;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -1,4 +1,4 @@
-package com.tripndream.comeback;
+package com.example.comeback;
 
 import android.app.AlertDialog;
 import android.content.Context;

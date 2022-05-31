@@ -1,4 +1,4 @@
-package com.tripndream.comeback;
+package com.example.comeback;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -27,13 +28,14 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdapter.OnReporteClickListener, AdapterView.OnItemSelectedListener{
+public class PerdidosActivity extends AppCompatActivity implements ReporteAdapter.OnReporteClickListener, AdapterView.OnItemSelectedListener{
     public ArrayList<Reporte> data;
-    private RecyclerView rvNuevoHogar;
+    private RecyclerView rvPerdidos;
     private ReporteAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
 
-    private Spinner spFiltroRaza;
+    private Switch swFiltroRecompensa;
+    private Spinner spFiltroRaza, spFiltroPerdido;
     public OkHttpClient client;
     private SharedPreferences sp;
     private Reporte reporteMain;
@@ -57,7 +59,7 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nuevo_hogar);
+        setContentView(R.layout.activity_perdidos);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -67,16 +69,22 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
         data = new ArrayList<>();
         adapter = new ReporteAdapter(data, this);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        rvNuevoHogar = findViewById(R.id.rvNuevoHogar);
-        rvNuevoHogar.setAdapter(adapter);
-        rvNuevoHogar.setLayoutManager(linearLayoutManager);
+        rvPerdidos = findViewById(R.id.rvPerdidos);
+        rvPerdidos.setAdapter(adapter);
+        rvPerdidos.setLayoutManager(linearLayoutManager);
 
         client = new OkHttpClient();
 
-        spFiltroRaza = findViewById(R.id.spFiltroRazaNuevoH);
+        spFiltroRaza = findViewById(R.id.spFiltroRaza);
+        spFiltroPerdido = findViewById(R.id.spFiltroPerdido);
+
         spFiltroRaza.setOnItemSelectedListener(this);
+        spFiltroPerdido.setOnItemSelectedListener(this);
 
         sp = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+
+        swFiltroRecompensa = findViewById(R.id.swFiltroRecompensa);
+        swFiltroRecompensa.setOnCheckedChangeListener((buttonView, isChecked) -> consumePerros());
     }
 
     private void consumePerros() {
@@ -84,9 +92,9 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
         RequestBody formBody = new FormBody.Builder()
                 .add("idUsuario", "-1")
                 .add("raza", String.valueOf(spFiltroRaza.getSelectedItemPosition()))
-                .add("colonia", "-1")
-                .add("tieneRecompensa", "-1")
-                .add("estatus", "3")
+                .add("colonia", String.valueOf(spFiltroPerdido.getSelectedItemPosition()))
+                .add("tieneRecompensa", swFiltroRecompensa.isChecked() ? "1" : "0")
+                .add("estatus", "1")
                 .build();
 
         Request request = new Request.Builder()
@@ -136,7 +144,7 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
                 adapter.notifyDataSetChanged();
 
             } else {
-                NuevoHogarActivity.this.runOnUiThread(() -> Toast.makeText(NuevoHogarActivity.this, message, Toast.LENGTH_LONG).show());
+                PerdidosActivity.this.runOnUiThread(() -> Toast.makeText(PerdidosActivity.this, message, Toast.LENGTH_LONG).show());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,7 +174,6 @@ public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdap
         startActivityForResult(intent, KEY_DETALLE_REPORTE);
     }
 
-    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         consumePerros();
     }

@@ -1,4 +1,4 @@
-package com.tripndream.comeback;
+package com.example.comeback;
 
 public class IP {
     public static String ip = "192.168.100.143";

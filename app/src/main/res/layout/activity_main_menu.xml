@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/menu"
-    tools:context="com.tripndream.comeback.MainMenu">
+    tools:context="com.example.comeback.MainMenu">
 
     <LinearLayout
         android:id="@+id/linearLayout4"

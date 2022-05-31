@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tripndream.comeback">
+    package="com.example.comeback">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -13,42 +13,42 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MangaReviews"
+        android:theme="@style/Theme.Comeback"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".AvistamientosActivity"
+            android:name="com.example.comeback.AvistamientosActivity"
             android:exported="false" />
         <activity
-            android:name=".DetalleActivity"
+            android:name="com.example.comeback.DetalleActivity"
             android:exported="false" />
         <activity
-            android:name=".ReportesActivity"
+            android:name="com.example.comeback.ReportesActivity"
             android:exported="false" />
         <activity
-            android:name=".NuevoHogarActivity"
+            android:name="com.example.comeback.NuevoHogarActivity"
             android:exported="false" />
         <activity
-            android:name=".EnSuHogarActivity"
+            android:name="com.example.comeback.EnSuHogarActivity"
             android:exported="false" />
         <activity
-            android:name=".PerdidosActivity"
+            android:name="com.example.comeback.PerdidosActivity"
             android:exported="false"
             android:label="@string/title_activity_perdidos"
-            android:theme="@style/Theme.MangaReviews.NoActionBar" />
+            android:theme="@style/Theme.Comeback.NoActionBar" />
         <activity
-            android:name=".Formulario"
+            android:name="com.example.comeback.Formulario"
             android:exported="false" />
         <activity
-            android:name=".Trofeos"
+            android:name="com.example.comeback.Trofeos"
             android:exported="false" />
         <activity
-            android:name=".MainMenu"
+            android:name="com.example.comeback.MainMenu"
             android:exported="false" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".RegistroActivity" />
-        <activity android:name=".RecoveryActivity" />
+        <activity android:name="com.example.comeback.MainActivity" />
+        <activity android:name="com.example.comeback.RegistroActivity" />
+        <activity android:name="com.example.comeback.RecoveryActivity" />
         <activity
-            android:name=".SplashScreen"
+            android:name="com.example.comeback.SplashScreen"
             android:theme="@style/splashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

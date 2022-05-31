@@ -1,8 +1,4 @@
-package com.tripndream.comeback;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.example.comeback;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +11,11 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -26,14 +27,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class AvistamientosActivity extends AppCompatActivity implements ReporteAdapter.OnReporteClickListener, AdapterView.OnItemSelectedListener {
-
+public class NuevoHogarActivity extends AppCompatActivity implements ReporteAdapter.OnReporteClickListener, AdapterView.OnItemSelectedListener{
     public ArrayList<Reporte> data;
-    private RecyclerView rvAvistamientos;
+    private RecyclerView rvNuevoHogar;
     private ReporteAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
 
-    private Spinner spFiltroRazaAvistamientos, spFiltroPerdidoAvistamientos;
+    private Spinner spFiltroRaza;
     public OkHttpClient client;
     private SharedPreferences sp;
     private Reporte reporteMain;
@@ -51,11 +51,13 @@ public class AvistamientosActivity extends AppCompatActivity implements ReporteA
     private static final String KEY_NUMERO = "KEY_NUMERO";
     private static final String KEY_DESCRIPCION = "KEY_DESCRIPCION";
     private static final String KEY_USUARIO = "KEY_USUARIO";
+    private final int KEY_DETALLE_REPORTE = 777;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_avistamientos);
+        setContentView(R.layout.activity_nuevo_hogar);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -65,17 +67,14 @@ public class AvistamientosActivity extends AppCompatActivity implements ReporteA
         data = new ArrayList<>();
         adapter = new ReporteAdapter(data, this);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        rvAvistamientos = findViewById(R.id.rvAvistamientos);
-        rvAvistamientos.setAdapter(adapter);
-        rvAvistamientos.setLayoutManager(linearLayoutManager);
+        rvNuevoHogar = findViewById(R.id.rvNuevoHogar);
+        rvNuevoHogar.setAdapter(adapter);
+        rvNuevoHogar.setLayoutManager(linearLayoutManager);
 
         client = new OkHttpClient();
 
-        spFiltroRazaAvistamientos = findViewById(R.id.spFiltroRazaAvistamientos);
-        spFiltroPerdidoAvistamientos = findViewById(R.id.spFiltroPerdidoAvistamientos);
-
-        spFiltroRazaAvistamientos.setOnItemSelectedListener(this);
-        spFiltroPerdidoAvistamientos.setOnItemSelectedListener(this);
+        spFiltroRaza = findViewById(R.id.spFiltroRazaNuevoH);
+        spFiltroRaza.setOnItemSelectedListener(this);
 
         sp = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
     }
@@ -84,10 +83,10 @@ public class AvistamientosActivity extends AppCompatActivity implements ReporteA
 
         RequestBody formBody = new FormBody.Builder()
                 .add("idUsuario", "-1")
-                .add("raza", String.valueOf(spFiltroRazaAvistamientos.getSelectedItemPosition()))
-                .add("colonia", String.valueOf(spFiltroPerdidoAvistamientos.getSelectedItemPosition()))
+                .add("raza", String.valueOf(spFiltroRaza.getSelectedItemPosition()))
+                .add("colonia", "-1")
                 .add("tieneRecompensa", "-1")
-                .add("estatus", "2")
+                .add("estatus", "3")
                 .build();
 
         Request request = new Request.Builder()
@@ -120,7 +119,7 @@ public class AvistamientosActivity extends AppCompatActivity implements ReporteA
                                 reporteObj.getString("foto"),
                                 reporteObj.getString("titulo"),
                                 reporteObj.getInt("raza"),
-                                String.valueOf(spFiltroRazaAvistamientos.getItemAtPosition(reporteObj.getInt("raza"))),
+                                String.valueOf(spFiltroRaza.getItemAtPosition(reporteObj.getInt("raza"))),
                                 reporteObj.getInt("idColonia"),
                                 reporteObj.getString("nombreColonia"),
                                 reporteObj.getString("descripcion"),
@@ -137,7 +136,7 @@ public class AvistamientosActivity extends AppCompatActivity implements ReporteA
                 adapter.notifyDataSetChanged();
 
             } else {
-                AvistamientosActivity.this.runOnUiThread(() -> Toast.makeText(AvistamientosActivity.this, message, Toast.LENGTH_LONG).show());
+                NuevoHogarActivity.this.runOnUiThread(() -> Toast.makeText(NuevoHogarActivity.this, message, Toast.LENGTH_LONG).show());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -164,9 +163,10 @@ public class AvistamientosActivity extends AppCompatActivity implements ReporteA
         intent.putExtra(KEY_DESCRIPCION, reporte.getDescripcion());
         intent.putExtra(KEY_USUARIO, reporte.getUsuario());
 
-        startActivity(intent);
+        startActivityForResult(intent, KEY_DETALLE_REPORTE);
     }
 
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         consumePerros();
     }
@@ -174,6 +174,16 @@ public class AvistamientosActivity extends AppCompatActivity implements ReporteA
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         return;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == KEY_DETALLE_REPORTE){
+            consumePerros();
+        }
+
     }
 
     @Override

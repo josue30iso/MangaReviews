@@ -1,4 +1,8 @@
-package com.tripndream.comeback;
+package com.example.comeback;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,13 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,14 +26,14 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class PerdidosActivity extends AppCompatActivity implements ReporteAdapter.OnReporteClickListener, AdapterView.OnItemSelectedListener{
+public class AvistamientosActivity extends AppCompatActivity implements ReporteAdapter.OnReporteClickListener, AdapterView.OnItemSelectedListener {
+
     public ArrayList<Reporte> data;
-    private RecyclerView rvPerdidos;
+    private RecyclerView rvAvistamientos;
     private ReporteAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
 
-    private Switch swFiltroRecompensa;
-    private Spinner spFiltroRaza, spFiltroPerdido;
+    private Spinner spFiltroRazaAvistamientos, spFiltroPerdidoAvistamientos;
     public OkHttpClient client;
     private SharedPreferences sp;
     private Reporte reporteMain;
@@ -53,13 +51,11 @@ public class PerdidosActivity extends AppCompatActivity implements ReporteAdapte
     private static final String KEY_NUMERO = "KEY_NUMERO";
     private static final String KEY_DESCRIPCION = "KEY_DESCRIPCION";
     private static final String KEY_USUARIO = "KEY_USUARIO";
-    private final int KEY_DETALLE_REPORTE = 777;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_perdidos);
+        setContentView(R.layout.activity_avistamientos);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -69,32 +65,29 @@ public class PerdidosActivity extends AppCompatActivity implements ReporteAdapte
         data = new ArrayList<>();
         adapter = new ReporteAdapter(data, this);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        rvPerdidos = findViewById(R.id.rvPerdidos);
-        rvPerdidos.setAdapter(adapter);
-        rvPerdidos.setLayoutManager(linearLayoutManager);
+        rvAvistamientos = findViewById(R.id.rvAvistamientos);
+        rvAvistamientos.setAdapter(adapter);
+        rvAvistamientos.setLayoutManager(linearLayoutManager);
 
         client = new OkHttpClient();
 
-        spFiltroRaza = findViewById(R.id.spFiltroRaza);
-        spFiltroPerdido = findViewById(R.id.spFiltroPerdido);
+        spFiltroRazaAvistamientos = findViewById(R.id.spFiltroRazaAvistamientos);
+        spFiltroPerdidoAvistamientos = findViewById(R.id.spFiltroPerdidoAvistamientos);
 
-        spFiltroRaza.setOnItemSelectedListener(this);
-        spFiltroPerdido.setOnItemSelectedListener(this);
+        spFiltroRazaAvistamientos.setOnItemSelectedListener(this);
+        spFiltroPerdidoAvistamientos.setOnItemSelectedListener(this);
 
         sp = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
-
-        swFiltroRecompensa = findViewById(R.id.swFiltroRecompensa);
-        swFiltroRecompensa.setOnCheckedChangeListener((buttonView, isChecked) -> consumePerros());
     }
 
     private void consumePerros() {
 
         RequestBody formBody = new FormBody.Builder()
                 .add("idUsuario", "-1")
-                .add("raza", String.valueOf(spFiltroRaza.getSelectedItemPosition()))
-                .add("colonia", String.valueOf(spFiltroPerdido.getSelectedItemPosition()))
-                .add("tieneRecompensa", swFiltroRecompensa.isChecked() ? "1" : "0")
-                .add("estatus", "1")
+                .add("raza", String.valueOf(spFiltroRazaAvistamientos.getSelectedItemPosition()))
+                .add("colonia", String.valueOf(spFiltroPerdidoAvistamientos.getSelectedItemPosition()))
+                .add("tieneRecompensa", "-1")
+                .add("estatus", "2")
                 .build();
 
         Request request = new Request.Builder()
@@ -127,7 +120,7 @@ public class PerdidosActivity extends AppCompatActivity implements ReporteAdapte
                                 reporteObj.getString("foto"),
                                 reporteObj.getString("titulo"),
                                 reporteObj.getInt("raza"),
-                                String.valueOf(spFiltroRaza.getItemAtPosition(reporteObj.getInt("raza"))),
+                                String.valueOf(spFiltroRazaAvistamientos.getItemAtPosition(reporteObj.getInt("raza"))),
                                 reporteObj.getInt("idColonia"),
                                 reporteObj.getString("nombreColonia"),
                                 reporteObj.getString("descripcion"),
@@ -144,7 +137,7 @@ public class PerdidosActivity extends AppCompatActivity implements ReporteAdapte
                 adapter.notifyDataSetChanged();
 
             } else {
-                PerdidosActivity.this.runOnUiThread(() -> Toast.makeText(PerdidosActivity.this, message, Toast.LENGTH_LONG).show());
+                AvistamientosActivity.this.runOnUiThread(() -> Toast.makeText(AvistamientosActivity.this, message, Toast.LENGTH_LONG).show());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -171,7 +164,7 @@ public class PerdidosActivity extends AppCompatActivity implements ReporteAdapte
         intent.putExtra(KEY_DESCRIPCION, reporte.getDescripcion());
         intent.putExtra(KEY_USUARIO, reporte.getUsuario());
 
-        startActivityForResult(intent, KEY_DETALLE_REPORTE);
+        startActivity(intent);
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -181,16 +174,6 @@ public class PerdidosActivity extends AppCompatActivity implements ReporteAdapte
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         return;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK && requestCode == KEY_DETALLE_REPORTE){
-            consumePerros();
-        }
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.tripndream.comeback;
+package com.example.comeback;
 
 import android.Manifest;
 import android.app.Activity;
