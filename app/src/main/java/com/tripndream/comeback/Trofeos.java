@@ -33,7 +33,7 @@ public class Trofeos extends AppCompatActivity implements View.OnClickListener{
     ImageView t1, t2, t3, t4, t5, t6;
     String m1, m2, m3, m4, m5, m6;
     public OkHttpClient client;
-    int encontrados;
+    int encontrados, refugiados;
 
     private SharedPreferences sp;
     @Override
@@ -92,6 +92,21 @@ public class Trofeos extends AppCompatActivity implements View.OnClickListener{
                         if(encontrados>=5){
                             t5.setImageDrawable(getResources().getDrawable(R.drawable.trofeo));
                             m5 = "No puede ser casualidad. ¡Muchas gracias por tu dedicación y haber ayudado a cinco o más peluditos a reencontrarse con su familia!";
+                        }
+                    }
+                }
+
+                refugiados = response.getInt("nRefugiados");
+                Log.d("Encontrados", String.valueOf(response.getInt("nRefugiados")));
+                if(refugiados>=1){
+                    t2.setImageDrawable(getResources().getDrawable(R.drawable.trofeo));
+                    m2 = "Trofeo obtenido por haber refugiado a un peludito en un hogar. ¡Gracias!";
+                    if(refugiados>=3){
+                        t4.setImageDrawable(getResources().getDrawable(R.drawable.trofeo));
+                        m4 = "Trofeo obtenido por haberle encontrado un hogar a tres perritos";
+                        if(refugiados>=5){
+                            t6.setImageDrawable(getResources().getDrawable(R.drawable.trofeo));
+                            m6 = "¡Muchísimas gracias por tu labor de salvar a estos hermosos seres de la calle!";
                         }
                     }
                 }
